@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminManagement\AdminController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Institute\ThemeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -45,4 +46,7 @@ Route::prefix('institute')->name('institute.')->group(function () {
         Route::put('profile', [App\Http\Controllers\Institute\InstituteController::class, 'updateProfile'])->name('profile.update');
         Route::post('logout', [App\Http\Controllers\Institute\Auth\LoginController::class, 'logout'])->name('logout');
     });
+
+    // Theme routes
+    Route::post('/theme/update', [ThemeController::class, 'update'])->name('theme.update');
 });
