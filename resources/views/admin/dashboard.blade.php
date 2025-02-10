@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('admin.layouts.master', ['page_slug' => 'dashboard'])
 @section('title', 'Admin Dashboard')
 @section('content')
     <h1 class="h2 mb-4 text-gray-700">Welcome back, Alex!</h1>

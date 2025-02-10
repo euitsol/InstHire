@@ -75,6 +75,11 @@ body {
     color: var(--color-white);
     border-radius: 0.5rem;
 }
+.sidebar .nav-link.active {
+    background-color: var(--color-primary-light);
+    color: var(--color-white);
+    border-radius: 0.5rem;
+}
 
 .main-content {
     margin-left: 250px;

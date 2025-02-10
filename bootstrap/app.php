@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         [
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'institute' => \App\Http\Middleware\InstituteAuthenticate::class,
         ];
     })
     ->withExceptions(function (Exceptions $exceptions) {

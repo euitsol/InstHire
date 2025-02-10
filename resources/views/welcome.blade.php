@@ -184,479 +184,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JobHub - Student Dashboard</title>
+    <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <style>
         :root {
-            --color-primary: #0f766e;
-            --color-primary-light: #14b8a6;
-            --color-primary-dark: #134e4a;
-            --color-primary-100: #ccfbf1;
-            --color-gray-100: #f3f4f6;
-            --color-gray-200: #e5e7eb;
-            --color-gray-500: #6b7280;
-            --color-gray-600: #4b5563;
-            --color-gray-700: #374151;
-            --color-amber-100: #fef3c7;
-            --color-amber-800: #92400e;
+            --primary-color: #0f766e;
+            --primary-light: #14b8a6;
+            --primary-dark: #134e4a;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --info-color: #0dcaf0;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--color-gray-100);
-        }
-
-        .dropdown-menu {
-            border: none;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--color-gray-100);
-        }
-
-        .dropdown-divider {
-            border-top-color: var(--color-gray-200);
-        }
-
-        .btn-login {
-            background-color: var(--color-primary);
-            color: white;
-            border: none;
-            padding: 0.375rem 1rem;
-            border-radius: 0.375rem;
-            transition: background-color 0.2s ease-in-out;
-        }
-
-        .btn-login:hover {
-            background-color: var(--color-primary-dark);
-            color: white;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
+            background-color: #f0f2f5;
         }
 
         .sidebar {
-            background-color: var(--color-primary);
-            color: var(--color-primary-100);
-            width: 250px;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
-            padding: 20px;
-            overflow-y: auto;
+            background-color: var(--primary-color);
+            color: white;
+            min-height: 100vh;
         }
 
         .sidebar .nav-link {
-            color: var(--color-primary-100);
-            transition: all 0.3s;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.25rem;
+            border-radius: 0.25rem;
         }
 
-        .sidebar .nav-link:hover {
-            background-color: var(--color-primary-dark);
-            border-radius: 0.5rem;
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .main-content {
-            margin-left: 250px;
-        }
-
-        .navbar {
-            background-color: #fff;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-
-        .search-form {
-            background-color: var(--color-gray-100);
-            border-radius: 9999px;
-        }
-
-        .search-form input {
-            border: none;
-            background: transparent;
-        }
-
-        .search-form input:focus {
-            outline: none;
-            box-shadow: none;
+            padding: 2rem;
         }
 
         .card {
             border: none;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            transition: box-shadow 0.3s ease-in-out;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border-radius: 0.5rem;
         }
 
-        .card:hover {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
 
-        .card-title {
-            color: var(--color-primary);
-        }
-
-        .status-badge {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 9999px;
-        }
-
-        .status-badge.review {
-            background-color: var(--color-primary-100);
-            color: var(--color-primary-dark);
-        }
-
-        .status-badge.pending {
-            background-color: var(--color-amber-100);
-            color: var(--color-amber-800);
-        }
-
-        .footer {
-            background-color: var(--color-gray-100);
-            border-top: 1px solid var(--color-gray-200);
-            color: var(--color-gray-500);
-        }
-
-        .footer a {
-            color: var(--color-primary);
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .wizard-step {
-            display: none;
-        }
-
-        .wizard-step.active {
-            display: block;
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
         }
     </style>
 </head>
 
 <body>
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <h2 class="h4 mb-4 ps-2">JobHub</h2>
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-house-door me-2"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-briefcase me-2"></i> Job Listings
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-file-text me-2"></i> Applications
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-person me-2"></i> Profile
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-chat-square-text me-2"></i> Messages
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-bar-chart me-2"></i> Analytics
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- Main Content -->
-        <div class="main-content flex-grow-1">
-            <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-                <div class="container-fluid">
-                    <a class="navbar-brand text-primary fw-bold" href="#">Student Dashboard</a>
-                    <form class="d-flex search-form mx-auto">
-                        <input class="form-control me-2" type="search" placeholder="Search jobs..."
-                            aria-label="Search">
-                        <button class="btn" type="submit"><i class="bi bi-search"></i></button>
-                    </form>
-                    <div class="d-flex align-items-center">
-                        <button class="btn me-2"><i class="bi bi-bell"></i></button>
-                        <button class="btn-login me-3">Login</button>
-                        <div class="dropdown">
-                            <button class="btn p-0" type="button" id="userDropdown" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <img src="https://i.pravatar.cc/150?img=68" alt="User Avatar" class="user-avatar">
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li>
-                                    <h6 class="dropdown-header">Alex Johnson</h6>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <i class="bi bi-house-door me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#adminSubmenu">
+                                <i class="bi bi-person-badge me-2"></i>
+                                Admin Management
+                                <i class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+                            <ul class="nav collapse" id="adminSubmenu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#adminList">
+                                        <i class="bi bi-list-ul me-2"></i>
+                                        Admin List
+                                    </a>
                                 </li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>My
-                                        Profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#createAdmin">
+                                        <i class="bi bi-person-plus me-2"></i>
+                                        Create Admin
+                                    </a>
                                 </li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-briefcase me-2"></i>My
-                                        Applications</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#"><i
-                                            class="bi bi-question-circle me-2"></i>Help Center</a></li>
-                                <li><a class="dropdown-item" href="#"><i
-                                            class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                             </ul>
-                        </div>
-                    </div>
+                        </li>
+                        <!-- Add more menu items here -->
+                    </ul>
                 </div>
             </nav>
 
-            <!-- Content -->
-            <main class="container my-4">
-                <h1 class="h2 mb-4 text-gray-700">Welcome back, Alex!</h1>
-                <div class="row g-4">
-                    <!-- Recent Job Listings -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h2 class="card-title h5 mb-3">
-                                    <i class="bi bi-briefcase me-2"></i>Recent Job Listings
-                                </h2>
-                                <ul class="list-unstyled">
-                                    <li class="mb-2">
-                                        <span class="me-2 text-primary">•</span>
-                                        <a href="#" class="text-decoration-none text-gray-600">Software Developer
-                                            Intern</a>
-                                    </li>
-                                    <li class="mb-2">
-                                        <span class="me-2 text-primary">•</span>
-                                        <a href="#" class="text-decoration-none text-gray-600">Marketing
-                                            Assistant</a>
-                                    </li>
-                                    <li class="mb-2">
-                                        <span class="me-2 text-primary">•</span>
-                                        <a href="#" class="text-decoration-none text-gray-600">Data Analyst</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Admin Management</h1>
+                </div>
 
-                    <!-- Your Applications -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h2 class="card-title h5 mb-3">
-                                    <i class="bi bi-file-text me-2"></i>Your Applications
-                                </h2>
-                                <ul class="list-unstyled">
-                                    <li class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="text-gray-600">Web Designer</span>
-                                        <span class="status-badge review">Under Review</span>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="text-gray-600">Junior Project Manager</span>
-                                        <span class="status-badge pending">Pending</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Upcoming Events -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h2 class="card-title h5 mb-3">
-                                    <i class="bi bi-calendar-event me-2"></i>Upcoming Events
-                                </h2>
-                                <ul class="list-unstyled">
-                                    <li class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="text-gray-600">Career Fair</span>
-                                        <small class="text-gray-500">May 15, 2025</small>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="text-gray-600">Resume Workshop</span>
-                                        <small class="text-gray-500">June 2, 2025</small>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                <!-- Admin List -->
+                <div id="adminList" class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Admin List</h2>
+                        <table id="adminTable" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>john@example.com</td>
+                                    <td>Super Admin</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary me-2"><i class="bi bi-pencil"></i>
+                                            Edit</button>
+                                        <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i>
+                                            Delete</button>
+                                    </td>
+                                </tr>
+                                <!-- Add more rows here -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                <!-- New row for Chart and Wizard -->
-                <div class="row mt-4 g-4">
-                    <!-- Job Application Analytics Chart -->
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h2 class="card-title h5 mb-3">
-                                    <i class="bi bi-bar-chart me-2"></i>Job Application Analytics
-                                </h2>
-                                <canvas id="jobApplicationChart"></canvas>
+                <!-- Create Admin Form -->
+                <div id="createAdmin" class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Create Admin</h2>
+                        <form>
+                            <div class="mb-3">
+                                <label for="adminName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="adminName" required>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Onboarding Wizard -->
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h2 class="card-title h5 mb-3">
-                                    <i class="bi bi-person me-2"></i>Complete Your Profile
-                                </h2>
-                                <div id="onboardingWizard">
-                                    <div class="wizard-step active" data-step="1">
-                                        <h3 class="h6 mb-3">Personal Information</h3>
-                                        <div class="mb-3">
-                                            <label for="fullName" class="form-label">Full Name</label>
-                                            <input type="text" class="form-control" id="fullName"
-                                                name="fullName">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email"
-                                                name="email">
-                                        </div>
-                                    </div>
-                                    <div class="wizard-step" data-step="2">
-                                        <h3 class="h6 mb-3">Education</h3>
-                                        <div class="mb-3">
-                                            <label for="university" class="form-label">University</label>
-                                            <input type="text" class="form-control" id="university"
-                                                name="university">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="degree" class="form-label">Degree</label>
-                                            <select class="form-select" id="degree" name="degree">
-                                                <option value="">Select...</option>
-                                                <option value="Bachelor">Bachelor</option>
-                                                <option value="Master">Master</option>
-                                                <option value="PhD">PhD</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="wizard-step" data-step="3">
-                                        <h3 class="h6 mb-3">Work Experience</h3>
-                                        <div class="mb-3">
-                                            <label for="company" class="form-label">Company</label>
-                                            <input type="text" class="form-control" id="company"
-                                                name="company">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="position" class="form-label">Position</label>
-                                            <input type="text" class="form-control" id="position"
-                                                name="position">
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <button class="btn btn-secondary" id="prevBtn" disabled>Previous</button>
-                                        <button class="btn btn-primary" id="nextBtn">Next</button>
-                                    </div>
-                                </div>
+                            <div class="mb-3">
+                                <label for="adminEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="adminEmail" required>
                             </div>
-                        </div>
+                            <div class="mb-3">
+                                <label for="adminRole" class="form-label">Role</label>
+                                <select class="form-select" id="adminRole" required>
+                                    <option value="">Select Role</option>
+                                    <option value="super_admin">Super Admin</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="moderator">Moderator</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="adminPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="adminPassword" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Admin</button>
+                        </form>
                     </div>
                 </div>
             </main>
-
-            <!-- Footer -->
-            <footer class="footer text-center py-3 mt-4">
-                <div class="container">
-                    <p class="mb-1">&copy; 2025 JobHub. All rights reserved.</p>
-                    <p class="mb-0">
-                        <a href="#" class="me-2">Privacy Policy</a> |
-                        <a href="#" class="ms-2">Terms of Service</a>
-                    </p>
-                </div>
-            </footer>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        // Job Application Chart
-        const ctx = document.getElementById('jobApplicationChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Job Applications',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: 'rgba(15, 118, 110, 0.7)',
-                    borderColor: 'rgba(15, 118, 110, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Onboarding Wizard
-        const wizard = document.getElementById('onboardingWizard');
-        const steps = wizard.querySelectorAll('.wizard-step');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        let currentStep = 0;
-
-        function showStep(stepIndex) {
-            steps.forEach((step, index) => {
-                step.classList.toggle('active', index === stepIndex);
+        $(document).ready(function() {
+            $('#adminTable').DataTable({
+                responsive: true,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search admins...",
+                },
+                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                    '<"row"<"col-sm-12"tr>>' +
+                    '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
             });
-            prevBtn.disabled = stepIndex === 0;
-            nextBtn.textContent = stepIndex === steps.length - 1 ? 'Submit' : 'Next';
-        }
-
-        prevBtn.addEventListener('click', () => {
-            if (currentStep > 0) {
-                currentStep--;
-                showStep(currentStep);
-            }
         });
-
-        nextBtn.addEventListener('click', () => {
-            if (currentStep < steps.length - 1) {
-                currentStep++;
-                showStep(currentStep);
-            } else {
-                // Handle form submission
-                console.log('Form submitted');
-                // You would typically send the form data to your server here
-            }
-        });
-
-        // Initialize the wizard
-        showStep(currentStep);
-
-
-
-
-        // Initialize Bootstrap dropdowns
-        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-        var dropdownList = dropdownElementList.map(function(dropdownToggleEl) {
-            return new bootstrap.Dropdown(dropdownToggleEl)
-        })
     </script>
 </body>
 

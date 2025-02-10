@@ -9,33 +9,25 @@ use App\Traits\AuditColumnsTrait;
 return new class extends Migration
 {
     use SoftDeletes, AuditColumnsTrait;
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('institutes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->boolean('status')->default(1);
-            $table->tinyInteger('gender')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('image')->nullable();
+            $table->date('valid_to');
+            $table->string('responsible_person_name');
+            $table->string('responsible_person_phone');
             $table->string('password');
             $table->rememberToken();
-            $table->timestamps();
             $table->softDeletes();
-            $this->addAdminAuditColumns($table);
+            $table->timestamps();
+            $this->addMorphedAuditColumns($table);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('institutes');
     }
 };
