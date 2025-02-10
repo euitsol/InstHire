@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\AuthBaseModel;
 
-class User extends AuthBaseModel
+class Admin extends AuthBaseModel
 {
     /**
      * The attributes that are mass assignable.
