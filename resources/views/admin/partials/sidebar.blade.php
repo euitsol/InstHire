@@ -7,15 +7,14 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#adminSubmenu">
+            <a class="nav-link {{ $page_slug === 'admin' ? 'active' : 'collapsed' }}" href="#" data-bs-toggle="collapse" data-bs-target="#adminSubmenu" aria-expanded="{{ $page_slug === 'admin' ? 'true' : 'false' }}">
                 <i class="bi bi-person-badge me-2"></i>
                 {{ __('Admin Management') }}
                 <i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul class="nav collapse" id="adminSubmenu">
+            <ul class="collapse {{ $page_slug === 'admin' ? 'show' : '' }}" id="adminSubmenu">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('am.admin.index') }}">
-                        <i class="bi bi-list-ul me-2"></i>
+                    <a class="nav-link {{ $page_slug === 'admin' ? 'active' : '' }}" href="{{ route('am.admin.index') }}">
                         {{__('Admin')}}
                     </a>
                 </li>

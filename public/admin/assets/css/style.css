@@ -65,7 +65,7 @@ body {
     overflow-y: auto;
 }
 
-.sidebar .nav-link {
+.sidebar .nav-link, .sidebar .nav-link:focus {
     color: var(--color-primary-100);
     transition: all 0.3s;
 }
@@ -80,6 +80,18 @@ body {
     color: var(--color-white);
     border-radius: 0.5rem;
 }
+.sidebar .collapse .nav-link:hover{
+    background-color: var(--color-primary-dark);
+    color: var(--color-white);
+    border-radius: 0.5rem;
+}
+
+.sidebar .collapse .nav-link.active{
+    background-color: var(--color-primary-dark);
+    color: var(--color-white);
+    border-radius: 0.5rem;
+}
+
 
 .main-content {
     margin-left: 250px;
