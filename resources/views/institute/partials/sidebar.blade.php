@@ -3,7 +3,7 @@
     <!-- Logo -->
     <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
         <a href="{{ route('institute.dashboard') }}" class="d-flex align-items-center text-decoration-none">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2" width="32" height="32">
+            {{-- <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2" width="32" height="32"> --}}
             <span class="fs-4 fw-semibold text-dark">{{ config('app.name') }}</span>
         </a>
         <button class="btn icon-button d-lg-none" id="closeSidebar">
