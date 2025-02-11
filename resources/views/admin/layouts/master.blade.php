@@ -29,23 +29,29 @@
 </head>
 
 <body>
-    <div class="d-flex">
-        <!-- Sidebar -->
-        @include('admin.partials.sidebar')
 
+
+    <!-- Sidebar Backdrop -->
+    <div class="sidebar-backdrop"></div>
+
+    <!-- Sidebar -->
+    @include('admin.partials.sidebar')
+
+    <!-- Wrapper -->
+    <div class="wrapper">
         <!-- Main Content -->
-        <div class="main-content flex-grow-1">
+        <div class="main-content">
             <!-- Navbar -->
             @include('admin.partials.header')
 
             <!-- Content -->
-            <main class="container my-4">
+            <main class="container-fluid py-4">
                 @yield('content')
             </main>
-
-            <!-- Footer -->
-            @include('admin.partials.footer')
         </div>
+
+        <!-- Footer -->
+        @include('admin.partials.footer')
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @stack('script_links')

@@ -16,6 +16,15 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--color-gray-100);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .dropdown-menu {
@@ -52,6 +61,20 @@ body {
     object-fit: cover;
 }
 
+.sidebar-toggle {
+    display: none;
+    padding: 0.5rem;
+    font-size: 1.8rem;
+    color: var(--color-primary-dark);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.sidebar-toggle:hover {
+    color: var(--color-white);
+}
+
 .sidebar {
     background-color: var(--color-primary);
     color: var(--color-primary-100);
@@ -63,6 +86,8 @@ body {
     z-index: 100;
     padding: 20px;
     overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999;
 }
 
 .sidebar .nav-link, .sidebar .nav-link:focus {
@@ -75,11 +100,13 @@ body {
     color: var(--color-white);
     border-radius: 0.5rem;
 }
+
 .sidebar .nav-link.active {
     background-color: var(--color-primary-light);
     color: var(--color-white);
     border-radius: 0.5rem;
 }
+
 .sidebar .collapse .nav-link:hover{
     background-color: var(--color-primary-dark);
     color: var(--color-white);
@@ -92,9 +119,10 @@ body {
     border-radius: 0.5rem;
 }
 
-
 .main-content {
     margin-left: 250px;
+    transition: margin-left 0.3s ease-in-out;
+    min-height: calc(100vh - 60px); /* Adjust based on your footer height */
 }
 
 .navbar {
@@ -151,6 +179,11 @@ body {
     background-color: var(--color-gray-100);
     border-top: 1px solid var(--color-gray-200);
     color: var(--color-gray-500);
+    padding: 1rem 0;
+    margin-top: auto;
+    height: 60px;
+    margin-left: 250px;
+    transition: margin-left 0.3s ease-in-out;
 }
 
 .footer a {
@@ -168,4 +201,48 @@ body {
 
 .wizard-step.active {
     display: block;
+}
+
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar-toggle {
+        display: block;
+        z-index: 1050;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .footer {
+        margin-left: 0;
+    }
+
+    body.sidebar-open {
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .sidebar-backdrop.show {
+        display: block;
+    }
 }

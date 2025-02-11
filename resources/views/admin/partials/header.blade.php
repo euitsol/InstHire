@@ -1,8 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand text-secondary fw-bold" href="{{ route('admin.dashboard') }}">{{ __('Admin Dashboard') }}</a>
-        <div class="d-flex align-items-center">
+        <!-- Sidebar Toggle Button -->
+        <div class="d-flex align-items-center justify-content-between w-100">
             @if (Auth::guard('admin')->check())
+                <button class="sidebar-toggle">
+                    <i class="bi bi-list"></i>
+                </button>
                 <div class="dropdown">
                     <button class="btn p-0" type="button" id="userDropdown" data-bs-toggle="dropdown"
                         aria-expanded="false">

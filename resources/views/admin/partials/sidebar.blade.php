@@ -1,5 +1,10 @@
 <nav class="sidebar">
-    <h2 class="h4 mb-4 ps-2">JobHub</h2>
+    <div class="d-flex align-items-center justify-content-between">
+        <h2 class="h4 ps-2 m-0">JobHub</h2>
+        <button class="sidebar-toggle text-white">
+            <i class="bi bi-x"></i>
+        </button>
+    </div>
     <ul class="nav flex-column">
         <li class="nav-item mb-2">
             <a href="{{ route('admin.dashboard') }}" class="nav-link {{ $page_slug === 'dashboard' ? 'active' : '' }}">
