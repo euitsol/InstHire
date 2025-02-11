@@ -12,7 +12,7 @@ use Illuminate\Http\RedirectResponse;
 
 class AdminController extends Controller
 {
-    protected $adminService;
+    protected AdminService $adminService;
 
     public function __construct(AdminService $adminService)
     {
@@ -24,7 +24,7 @@ class AdminController extends Controller
      */
     public function index(): View
     {
-        $admins = $this->adminService->getPaginatedAdmins();
+        $admins = $this->adminService->getAdmins();
         return view('admin.admin-management.admin.index', compact('admins'));
     }
 
@@ -43,14 +43,20 @@ class AdminController extends Controller
     {
         try {
             $this->adminService->createAdmin($request->validated());
-            return redirect()
-                ->route('am.admin.index')
-                ->with('success', 'Admin created successfully');
+            session()->flash('success', 'Admin created successfully');
+            return redirect()->route('am.admin.index');
         } catch (\Exception $e) {
-            return back()
-                ->withInput()
-                ->with('error', 'Error creating admin: ' . $e->getMessage());
+            session()->flash('error', 'Something went wrong, please try again');
+            return back()->withInput();
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function show(Admin $admin)
+    {
+            return response()->json($this->adminService->getDetails($admin));
     }
 
     /**
@@ -68,32 +74,26 @@ class AdminController extends Controller
     {
         try {
             $this->adminService->updateAdmin($admin, $request->validated());
-            return redirect()
-                ->route('am.admin.index')
-                ->with('success', 'Admin updated successfully');
+            session()->flash('success','Admin updated successfully');
+            return redirect()->route('am.admin.index');
         } catch (\Exception $e) {
-            return back()
-                ->withInput()
-                ->with('error', 'Error updating admin: ' . $e->getMessage());
+            session()->flash('error', 'Something went wrong, please try again');
+            return back()->withInput();
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Admin $admin): JsonResponse
+    public function destroy(Admin $admin): RedirectResponse
     {
         try {
             $this->adminService->deleteAdmin($admin);
-            return response()->json([
-                'success' => true,
-                'message' => 'Admin deleted successfully'
-            ]);
+            session()->flash('success', 'Admin deleted successfully');
+            return redirect()->route('am.admin.index');
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error deleting admin: ' . $e->getMessage()
-            ], 500);
+            session()->flash('error', 'Something went wrong');
+            return redirect()->route('am.admin.index');
         }
     }
 }

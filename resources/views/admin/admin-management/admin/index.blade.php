@@ -2,41 +2,26 @@
 @section('title', 'Admin Dashboard')
 @section('content')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Admin Management</h1>
+        <h1 class="h2">{{ __('Admin Management') }}</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route('am.admin.create') }}" class="btn btn-sm btn-primary">
-                <i class="bi bi-plus"></i> Add New Admin
+                <i class="bi bi-plus"></i> {{ __('Add New Admin') }}
             </a>
         </div>
     </div>
-
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
     <!-- Admin List -->
     <div id="adminList" class="card mb-4">
         <div class="card-body">
-            <h2 class="card-title mb-4">Admin List</h2>
-            <table id="adminTable" class="table table-striped" style="width:100%">
+            <h2 class="card-title mb-4">{{ __('Admin List') }}</h2>
+            <table id="adminTable" class="table table-striped table-responsive" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>{{ __('Image') }}</th>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Email') }}</th>
+                        <th>{{ __('Phone') }}</th>
+                        <th>{{ __('Status') }}</th>
+                        <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,104 +47,118 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ route('am.admin.edit', $admin) }}" class="btn btn-sm btn-primary me-2">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </a>
-                                <button type="button" class="btn btn-sm btn-danger delete-admin"
-                                        data-id="{{ $admin->id }}" data-name="{{ $admin->name }}">
-                                    <i class="bi bi-trash"></i> Delete
-                                </button>
+                                @include('admin.includes.action_buttons', [
+                                    'menuItems' => [
+                                        [
+                                            'routeName' => 'javascript:void(0)',
+                                            'data-id' => $admin->id,
+                                            'className' => 'btn btn-sm btn-secondary view',
+                                            'icon' => 'bi bi-eye',
+                                            'label' => 'Details',
+                                        ],
+                                        [
+                                            'routeName' => 'am.admin.edit',
+                                            'params' => [$admin->id],
+                                            'className' => 'btn btn-sm btn-primary',
+                                            'icon' => 'bi bi-pencil',
+                                            'label' => 'Edit',
+                                        ],
+
+                                        [
+                                            'routeName' => 'am.admin.destroy',
+                                            'className' => 'btn btn-sm btn-danger',
+                                            'params' => [$admin->id],
+                                            'label' => 'Delete',
+                                            'icon' => 'bi bi-trash',
+                                            'delete' => true,
+                                        ],
+                                    ],
+                                ])
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-
-            <div class="mt-4">
-                {{ $admins->links() }}
-            </div>
         </div>
     </div>
-
-    <!-- Delete Modal -->
-    <div class="modal fade" id="deleteAdminModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete Admin</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete admin: <strong id="adminNameToDelete"></strong>?</p>
-                    <p class="text-danger mb-0">This action cannot be undone.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Admin Details Modal  --}}
+    @include('admin.includes.details_modal', ['modal_title' => 'Admin Details'])
 @endsection
 
 @push('style_links')
-    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.dataTables.min.css" rel="stylesheet">
 @endpush
 
 @push('script_links')
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.min.js"></script>
 @endpush
 
 @push('scripts')
     <script>
         $(document).ready(function() {
+
+            // Datatable
             const table = $('#adminTable').DataTable({
                 responsive: true,
                 language: {
                     search: "_INPUT_",
                     searchPlaceholder: "Search admins...",
                 },
-                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
-                    '<"row"<"col-sm-12"tr>>' +
-                    '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
             });
 
-            let adminIdToDelete = null;
 
-            $('.delete-admin').click(function() {
-                adminIdToDelete = $(this).data('id');
-                const adminName = $(this).data('name');
-                $('#adminNameToDelete').text(adminName);
-                $('#deleteAdminModal').modal('show');
+            // Modal JS
+            $('.view').on('click', function() {
+                let id = $(this).data('id');
+                let url = ("{{ route('am.admin.show', ['id']) }}");
+                let _url = url.replace('id', id);
+                $.ajax({
+                    url: _url,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                        var result = `
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th class="text-nowrap">Name</th>
+                                        <th>:</th>
+                                        <td>${data.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Image</th>
+                                        <th>:</th>
+                                        <td>
+                                           ${data.image}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Email</th>
+                                        <th>:</th>
+                                        <td>${data.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Created Date</th>
+                                        <th>:</th>
+                                        <td>${data.creating_time}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Updated Date</th>
+                                        <th>:</th>
+                                        <td>${data.updating_time}</td>
+                                    </tr>
+                                </table>
+                                `;
+                        $('.modal_data').html(result);
+                        $('.view_modal').modal('show');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching admin data:', error);
+                    }
+                });
             });
-
-            $('#confirmDelete').click(function() {
-                if (adminIdToDelete) {
-                    $.ajax({
-                        url: `/admin/${adminIdToDelete}`,
-                        type: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                location.reload();
-                            } else {
-                                alert('Error deleting admin');
-                            }
-                        },
-                        error: function(xhr) {
-                            alert('Error: ' + xhr.responseJSON.message);
-                        }
-                    });
-                }
-            });
-
-            // Auto close alerts after 5 seconds
-            setTimeout(function() {
-                $('.alert').alert('close');
-            }, 5000);
         });
     </script>
 @endpush

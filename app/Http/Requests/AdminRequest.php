@@ -22,10 +22,6 @@ class AdminRequest extends FormRequest
                 'email',
                 Rule::unique('admins')->ignore($this->route('admin')),
             ],
-            'phone' => ['nullable', 'string', 'max:20'],
-            'gender' => ['nullable', 'integer', 'in:1,2'],
-            'status' => ['required', 'boolean'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ];
 
         if ($this->isMethod('POST')) {
@@ -45,11 +41,6 @@ class AdminRequest extends FormRequest
             'email.unique' => 'This email is already registered.',
             'password.required' => 'The password field is required.',
             'password.confirmed' => 'The password confirmation does not match.',
-            'image.image' => 'The file must be an image.',
-            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
-            'image.max' => 'The image may not be greater than 2MB.',
-            'gender.in' => 'Please select a valid gender.',
-            'status.required' => 'The status field is required.',
         ];
     }
 }

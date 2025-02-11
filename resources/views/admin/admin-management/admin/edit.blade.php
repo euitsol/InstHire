@@ -1,120 +1,43 @@
 @extends('admin.layouts.master', ['page_slug' => 'admin'])
-
+@section('title', 'Edit Admin')
 @section('content')
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Edit Admin: {{ $admin->name }}</h5>
+            <div id="createAdmin" class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="card-title">{{ __('Edit Admin') }}</h2>
+                    @include('admin.includes.button', [
+                            'routeName' => 'am.admin.index',
+                            'label' => 'Back',
+                        ])
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('am.admin.update', $admin) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
+
+                    <form action="{{ route('am.admin.update', $admin->id) }}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Full Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                                           value="{{ old('name', $admin->name) }}" required>
-                                    @error('name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Email Address <span class="text-danger">*</span></label>
-                                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                                           value="{{ old('email', $admin->email) }}" required>
-                                    @error('email')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
+                        @csrf
+                        <div class="mb-3">
+                            <label class="form-label">{{ __('Name') }}</label>
+                            <input type="text" value="{{ $admin->name }}" class="form-control" name="name" required>
+                            @include('alerts.feedback', ['field' => 'name'])
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Password</label>
-                                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror">
-                                    <small class="text-muted">Leave blank to keep current password</small>
-                                    @error('password')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Confirm Password</label>
-                                    <input type="password" name="password_confirmation" class="form-control">
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ __('Email') }}</label>
+                            <input type="email" value="{{ $admin->email }}" class="form-control" name="email" required>
+                            @include('alerts.feedback', ['field' => 'email'])
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Phone Number</label>
-                                    <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror"
-                                           value="{{ old('phone', $admin->phone) }}">
-                                    @error('phone')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Gender</label>
-                                    <select name="gender" class="form-control @error('gender') is-invalid @enderror">
-                                        <option value="">Select Gender</option>
-                                        <option value="1" {{ old('gender', $admin->gender) == 1 ? 'selected' : '' }}>Male</option>
-                                        <option value="2" {{ old('gender', $admin->gender) == 2 ? 'selected' : '' }}>Female</option>
-                                    </select>
-                                    @error('gender')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ __('Password') }}</label>
+                            <input type="password" class="form-control" name="password">
+                            @include('alerts.feedback', ['field' => 'password'])
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Status <span class="text-danger">*</span></label>
-                                    <select name="status" class="form-control @error('status') is-invalid @enderror" required>
-                                        <option value="1" {{ old('status', $admin->status) == 1 ? 'selected' : '' }}>Active</option>
-                                        <option value="0" {{ old('status', $admin->status) == 0 ? 'selected' : '' }}>Inactive</option>
-                                    </select>
-                                    @error('status')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label>Profile Image</label>
-                                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
-                                           accept="image/*">
-                                    @error('image')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    @if($admin->image)
-                                        <div class="mt-2">
-                                            <img src="{{ asset('storage/' . $admin->image) }}" alt="Profile Image"
-                                                 class="img-thumbnail" style="max-width: 100px;">
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">{{ __('Confirm Password') }}</label>
+                            <input type="password" class="form-control" name="password_confirmation">
+                            @include('alerts.feedback', ['field' => 'password_confirmation'])
                         </div>
-
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-primary px-4">Update Admin</button>
-                            <a href="{{ route('am.admin.index') }}" class="btn btn-secondary">Cancel</a>
-                        </div>
+                        <button type="submit" class="btn btn-primary float-end">{{ __('Update Admin') }}</button>
                     </form>
                 </div>
             </div>

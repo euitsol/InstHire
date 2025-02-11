@@ -5,16 +5,26 @@ namespace App\Services;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class AdminService
 {
     /**
-     * Get paginated list of admins
+     * Get list of admins
      */
-    public function getPaginatedAdmins(int $perPage = 10): LengthAwarePaginator
+    public function getAdmins(): Collection
     {
-        return Admin::latest()->paginate($perPage);
+        return Admin::latest()->get();
+    }
+
+
+    public function getDetails(Admin $admin): Admin
+    {
+       $admin->image = $admin->image ? '<img src="'. asset('storage/' . $admin->image) .' alt="Profile"
+            class="rounded-circle" width="40" height="40">' : '<div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+            style="width: 40px; height: 40px;">'. strtoupper(substr($admin->name, 0, 1)).'</div>';
+       $admin->creating_time = date('Y-m-d H:i:s', strtotime($admin->created_at));
+       $admin->updating_time = $admin->updated_at ? date('Y-m-d H:i:s', strtotime($admin->updated_at)) : null;
+       return $admin;
     }
 
     /**
