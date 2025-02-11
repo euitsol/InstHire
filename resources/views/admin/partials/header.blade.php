@@ -3,7 +3,6 @@
         <a class="navbar-brand text-secondary fw-bold" href="{{ route('admin.dashboard') }}">{{ __('Admin Dashboard') }}</a>
         <div class="d-flex align-items-center">
             @if (Auth::guard('admin')->check())
-                <button class="btn me-2"><i class="bi bi-bell"></i></button>
                 <div class="dropdown">
                     <button class="btn p-0" type="button" id="userDropdown" data-bs-toggle="dropdown"
                         aria-expanded="false">
