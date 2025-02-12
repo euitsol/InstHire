@@ -12,11 +12,6 @@ class BaseModel extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_DEACTIVE = 2;
 
-    // Gender constants
-    const GENDER_MALE = 1;
-    const GENDER_FEMALE = 2;
-    const GENDER_OTHERS = 3;
-
     protected $appends = [
         'status_label',
         'status_badge_color',

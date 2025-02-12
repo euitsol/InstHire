@@ -3,95 +3,127 @@
 @section('content')
     <div class="card mb-4">
         <div class="card-body">
-            <div class="d-flex align-items-center justify-content-between">
-                <h2 class="card-title mb-4">{{ __('Subscription List') }}</h2>
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h2 class="card-title mb-0">{{ __('Subscription List') }}</h2>
                 <a href="{{ route('sm.subscription.create') }}" class="btn btn-sm btn-primary">
                     <i class="bi bi-plus"></i> {{ __('Add New Subscription') }}
                 </a>
             </div>
 
-            <table id="subscriptionTable" class="table table-striped table-responsive" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>{{ __('Image') }}</th>
-                        <th>{{ __('Title') }}</th>
-                        <th>{{ __('Price') }}</th>
-                        <th>{{ __('Validity') }}</th>
-                        <th>{{ __('Status') }}</th>
-                        <th>{{ __('Actions') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($subscriptions as $subscription)
-                        <tr>
-                            <td>
+            <div class="row g-4">
+                @foreach ($subscriptions as $subscription)
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 subscription-card">
+                            <div class="position-relative">
                                 @if ($subscription->image)
-                                    <img src="{{ asset('storage/' . $subscription->image) }}" alt="Profile"
-                                        class="rounded-circle" width="40" height="40">
+                                    <img src="{{ $subscription->image }}" class="card-img-top subscription-image" alt="{{ $subscription->title }}">
                                 @else
-                                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                                        style="width: 40px; height: 40px;">
-                                        {{ strtoupper(substr($subscription->name, 0, 1)) }}
+                                    <div class="card-img-top subscription-image-placeholder d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-box-seam text-muted"></i>
                                     </div>
                                 @endif
-                            </td>
-                            <td>{{ $subscription->title }}</td>
-                            <td>{{ number_format($subscription->price, 2) }} BDT</td>
-                            <td>{{ $subscription->validity }}</td>
-                            <td>
-                                <span class="{{ $subscription->status_badge_color }}">
-                                    {{ $subscription->status_label }}
-                                </span>
-                            </td>
-                            <td>
-                                @include('admin.includes.action_buttons', [
-                                    'menuItems' => [
-                                        [
-                                            'routeName' => 'javascript:void(0)',
-                                            'data-id' => $subscription->id,
-                                            'className' => 'btn-secondary view',
-                                            'icon' => 'bi bi-eye',
-                                            'label' => 'Details',
+                                <div class="position-absolute top-0 start-0 m-3">
+                                    <span class="badge {{ $subscription->status_badge_color }} rounded-pill">
+                                        {{ $subscription->status_label }}
+                                    </span>
+                                </div>
+                                <div class="position-absolute bottom-0 start-0 w-100 price-banner">
+                                    <h4 class="text-white mb-0 px-3 py-2">{{ number_format($subscription->price, 2) }} <small>BDT</small></h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title mb-0">{{ $subscription->title }}</h5>
+                                    <span class="badge bg-info rounded-pill">{{ $subscription->validity }} Days</span>
+                                </div>
+                                @if($subscription->description)
+                                    <p class="card-text text-muted mb-3">{{ Str::limit($subscription->description, 100) }}</p>
+                                @endif
+                                <div class="action-buttons">
+                                    @include('admin.includes.action_buttons', [
+                                        'menuItems' => [
+                                            [
+                                                'routeName' => 'javascript:void(0)',
+                                                'data-id' => $subscription->id,
+                                                'className' => 'btn-secondary view',
+                                                'icon' => 'bi bi-eye',
+                                                'label' => 'Details',
+                                            ],
+                                            [
+                                                'routeName' => 'sm.subscription.status',
+                                                'className' => $subscription->status_btn_color,
+                                                'params' => [$subscription->id],
+                                                'label' => $subscription->status_btn_label,
+                                                'icon' => 'bi bi-power',
+                                            ],
+                                            [
+                                                'routeName' => 'sm.subscription.edit',
+                                                'params' => [$subscription->id],
+                                                'className' => 'btn-primary',
+                                                'icon' => 'bi bi-pencil',
+                                                'label' => 'Edit',
+                                            ],
+                                            [
+                                                'routeName' => 'sm.subscription.destroy',
+                                                'className' => 'btn-danger',
+                                                'params' => [$subscription->id],
+                                                'label' => 'Delete',
+                                                'icon' => 'bi bi-trash',
+                                                'delete' => true,
+                                            ],
                                         ],
-                                        [
-                                            'routeName' => 'sm.subscription.status',
-                                            'className' => $subscription->status_btn_color,
-                                            'params' => [$subscription->id],
-                                            'label' => $subscription->status_btn_label,
-                                            'icon' => 'bi bi-power',
-                                        ],
-                                        [
-                                            'routeName' => 'sm.subscription.edit',
-                                            'params' => [$subscription->id],
-                                            'className' => 'btn-primary',
-                                            'icon' => 'bi bi-pencil',
-                                            'label' => 'Edit',
-                                        ],
-                                
-                                        [
-                                            'routeName' => 'sm.subscription.destroy',
-                                            'className' => 'btn-danger',
-                                            'params' => [$subscription->id],
-                                            'label' => 'Delete',
-                                            'icon' => 'bi bi-trash',
-                                            'delete' => true,
-                                        ],
-                                    ],
-                                ])
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                    ])
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
-    {{-- Subscription Details Modal  --}}
-    @include('admin.includes.details_modal', ['modal_title' => 'Subscription Details'])
 @endsection
 
+{{-- Subscription Details Modal  --}}
+@include('admin.includes.details_modal', ['modal_title' => 'Subscription Details'])
+
 @push('style_links')
-    <link href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.dataTables.min.css" rel="stylesheet">
+    <style>
+        .subscription-card {
+            transition: transform 0.2s;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .subscription-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .subscription-image, .subscription-image-placeholder {
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+        }
+        .subscription-image-placeholder i {
+            font-size: 3rem;
+        }
+        .price-banner {
+            background: linear-gradient(to right, rgba(40,167,69,0.9), rgba(32,201,151,0.9));
+            backdrop-filter: blur(5px);
+        }
+        .action-buttons {
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding-top: 1rem;
+            margin-top: auto;
+        }
+        .card-title {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .card-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
 @endpush
 
 @push('script_links')
@@ -102,93 +134,58 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-
-            // Datatable
-            const table = $('#subscriptionTable').DataTable({
-                responsive: true,
-                language: {
-                    search: "_INPUT_",
-                    searchPlaceholder: "Search subscriptions...",
-                },
-            });
-
-
             // Modal JS
             $('.view').on('click', function() {
                 let id = $(this).data('id');
-                let url = ("{{ route('sm.subscription.show', ['id']) }}");
-                let _url = url.replace('id', id);
                 $.ajax({
-                    url: _url,
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        console.log(data);
-                        var result = `
-                                <table class="table table-striped">
-                                    <tr>
-                                        <th class="text-nowrap">Image</th>
-                                        <th>:</th>
-                                        <td>`;
-                        if (data.image) {
-                            result += `<img src="${data.modify_image}" alt="Profile"
-                                                class="rounded-circle" width="40" height="40">`;
-                        } else {
-                            result += `<div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                            style="width: 40px; height: 40px;">${data.modify_image}</div>`;
-                        }
-                        result += `
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Title</th>
-                                        <th>:</th>
-                                        <td>${data.title}</td>
-                                    </tr>
+                    url: window.AppConfig.urls.subscription.show.replace(':id', id),
+                    type: "GET",
+                    success: function(response) {
+                        let subscription = response;
+                        let modalBody = $('.view_modal .modal_data');
 
-                                    <tr>
-                                        <th class="text-nowrap">Slug</th>
-                                        <th>:</th>
-                                        <td>${data.slug}</td>
-                                    </tr>
+                        // Build the details HTML
+                        let html = `
+                            <div class="row">
+                                <div class="col-md-4">
+                                    ${subscription.image ?
+                                        `<img src="${subscription.image}" alt="${subscription.title}" class="img-fluid rounded mb-3">` :
+                                        `<div class="bg-light rounded mb-3 d-flex align-items-center justify-content-center" style="height: 200px">
+                                            <i class="bi bi-image text-muted display-1"></i>
+                                        </div>`
+                                    }
+                                </div>
+                                <div class="col-md-8">
+                                    <table class="table">
+                                        <tr>
+                                            <th width="150">Title</th>
+                                            <td>${subscription.title}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Price</th>
+                                            <td>${subscription.price} BDT</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Validity</th>
+                                            <td>${subscription.validity} Days</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status</th>
+                                            <td><span class="${subscription.status_badge_color}">${subscription.status_label}</span></td>
+                                        </tr>
+                                        ${subscription.description ?
+                                            `<tr>
+                                                <th>Description</th>
+                                                <td>${subscription.description}</td>
+                                            </tr>` : ''
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        `;
 
-                                    <tr>
-                                        <th class="text-nowrap">Price</th>
-                                        <th>:</th>
-                                        <td>${data.price}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Validity</th>
-                                        <th>:</th>
-                                        <td>${data.validity}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Status</th>
-                                        <th>:</th>
-                                        <td><span class="${data.status_badge_color}">${data.status_label}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Description</th>
-                                        <th>:</th>
-                                        <td>${data.description}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Created Date</th>
-                                        <th>:</th>
-                                        <td>${data.creating_time}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-nowrap">Updated Date</th>
-                                        <th>:</th>
-                                        <td>${data.updating_time}</td>
-                                    </tr>
-                                </table>
-                                `;
-                        $('.modal_data').html(result);
+                        modalBody.html(html);
                         $('.view_modal').modal('show');
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching subscription data:', error);
                     }
                 });
             });

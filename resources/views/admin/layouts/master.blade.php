@@ -26,6 +26,15 @@
             @endif
         });
     </script>
+    <script>
+        window.AppConfig = {
+            urls: {
+                subscription:{
+                    show: @json(route('sm.subscription.show', ':id')),
+                }
+            }
+        }
+    </script>
 </head>
 
 <body>

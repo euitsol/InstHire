@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SubscriptionService
 {
@@ -28,7 +30,6 @@ class SubscriptionService
     {
         $subscription->creating_time = date('Y-m-d H:i:s', strtotime($subscription->created_at));
         $subscription->updating_time = $subscription->updated_at ? date('Y-m-d H:i:s', strtotime($subscription->updated_at)) : null;
-        $subscription->status_labels = Subscription::getStatusLabels();
         return $subscription;
     }
 
@@ -37,6 +38,11 @@ class SubscriptionService
      */
     public function create(array $data): Subscription
     {
+        $data['slug'] = Str::slug($data['title']);
+        if (isset($data['image'])) {
+            $data['image'] = $this->uploadImage($data['image']);
+        }
+
         return Subscription::create($data);
     }
 
@@ -45,6 +51,14 @@ class SubscriptionService
      */
     public function update(Subscription $subscription, array $data): bool
     {
+        if (isset($data['image'])) {
+            // Delete old image if exists
+            if ($subscription->image) {
+                $this->deleteImage($subscription->image);
+            } else {
+                $data['image'] = $this->uploadImage($data['image']);
+            }
+        }
         return $subscription->update($data);
     }
 
@@ -59,8 +73,27 @@ class SubscriptionService
     /**
      * Force delete subscription
      */
-    public function forceDeleteAdmin(Subscription $subscription): ?bool
+    public function forceDelete(Subscription $subscription): ?bool
     {
+        if ($subscription->image) {
+            $this->deleteImage($subscription->image);
+        }
         return $subscription->forceDelete();
+    }
+
+    protected function uploadImage($image): string
+    {
+        $path = $image->store('subscriptions', 'public');
+        return $path;
+    }
+
+    /**
+     * Delete image from storage
+     */
+    protected function deleteImage(?string $path): void
+    {
+        if ($path) {
+            Storage::disk('public')->delete($path);
+        }
     }
 }

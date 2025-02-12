@@ -47,13 +47,14 @@ class SubscriptionController extends Controller
             session()->flash('success', 'Subscription created successfully');
             return redirect()->route('sm.subscription.index');
         } catch (\Exception $e) {
-            session()->flash('error', 'Something went wrong, please try again');
+            dd('Something went wrong, please try again'. $e->getMessage());
+            session()->flash('error', 'Something went wrong, please try again'. $e->getMessage());
             return back()->withInput();
         }
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display the specified resource.
      */
     public function show(Subscription $subscription): JsonResponse
     {
