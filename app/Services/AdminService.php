@@ -57,9 +57,6 @@ class AdminService
             }
             $data['image'] = $this->uploadImage($data['image']);
         }
-        $data['phone'] = $data['phone'] ? $data['phone'] : null;
-        $data['gender'] = $data['gender'] ? $data['gender'] : null;
-        $data['name'] = $data['name'];
         return $admin->update($data);
     }
 
