@@ -35,6 +35,15 @@
             }
         }
     </script>
+    <script>
+        const urls = {
+            subscription: {
+                details: "{{ route('sm.subscription.show', ['subscription' => ':id']) }}"
+            },
+            instituteSubscription: {
+            }
+        };
+    </script>
 </head>
 
 <body>

@@ -39,9 +39,17 @@
             </a>
             <ul class="collapse {{ $page_slug === 'subscription' ? 'show' : '' }}" id="subsSubmenu">
                 <li class="nav-item">
-                    <a class="nav-link {{ $page_slug === 'subscription' ? 'active' : '' }}"
+                    <a class="nav-link {{ request()->routeIs('sm.subscription.*') ? 'active' : '' }}"
                         href="{{ route('sm.subscription.index') }}">
-                        {{ __('Subscription') }}
+                        <i class="bi bi-tag me-2"></i>
+                        <span>{{ __('Subscriptions') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('sm.institute-subscription.*') ? 'active' : '' }}"
+                        href="{{ route('sm.institute-subscription.index') }}">
+                        <i class="bi bi-building me-2"></i>
+                        <span>{{ __('Institute Subscriptions') }}</span>
                     </a>
                 </li>
             </ul>

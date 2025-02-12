@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Auth\AdminResetPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\SubscriptionManagement\SubscriptionController;
+use App\Http\Controllers\Admin\SubscriptionManagement\InstituteSubscriptionController;
 use App\Http\Controllers\Institute\ThemeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::group(['as' => 'sm.', 'prefix' => 'subscription-management'], function () {
         Route::resource('subscription', SubscriptionController::class);
         Route::get('subscription/status/{subscription}', [SubscriptionController::class, 'status'])->name('subscription.status');
+        Route::resource('institute-subscription', InstituteSubscriptionController::class);
     });
 });
 
