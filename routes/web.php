@@ -38,6 +38,8 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::group(['as' => 'am.', 'prefix' => 'admin-management'], function () {
         Route::resource('admin', AdminController::class);
         Route::get('admin/status/{admin}', [AdminController::class, 'status'])->name('admin.status');
+        Route::get('admin/profile/details', [AdminController::class, 'profile'])->name('admin.profile');
+        Route::put('admin/profile/update', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
     });
 });
 

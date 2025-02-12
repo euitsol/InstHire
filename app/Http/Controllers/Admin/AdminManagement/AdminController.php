@@ -9,6 +9,8 @@ use App\Services\AdminService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
@@ -16,6 +18,7 @@ class AdminController extends Controller
 
     public function __construct(AdminService $adminService)
     {
+        $this->middleware('auth:admin');
         $this->adminService = $adminService;
     }
 
@@ -56,7 +59,7 @@ class AdminController extends Controller
      */
     public function show(Admin $admin)
     {
-            return response()->json($this->adminService->getDetails($admin));
+        return response()->json($this->adminService->getDetails($admin));
     }
 
     /**
@@ -74,7 +77,7 @@ class AdminController extends Controller
     {
         try {
             $this->adminService->updateAdmin($admin, $request->validated());
-            session()->flash('success','Admin updated successfully');
+            session()->flash('success', 'Admin updated successfully');
             return redirect()->route('am.admin.index');
         } catch (\Exception $e) {
             session()->flash('error', 'Something went wrong, please try again');
@@ -93,6 +96,43 @@ class AdminController extends Controller
             return redirect()->route('am.admin.index');
         } catch (\Exception $e) {
             session()->flash('error', 'Something went wrong');
+            return redirect()->route('am.admin.index');
+        }
+    }
+
+    /**
+     * Display the admin profile view.
+     */
+
+    public function profile()
+    {
+        $admin = $this->adminService->getDetails(Auth::guard('admin')->user());
+        return view('admin.admin-management.admin.profile', compact('admin'));
+    }
+
+    public function updateProfile(AdminRequest $request): RedirectResponse
+    {
+        try {
+            $this->adminService->updateAdmin(Auth::guard('admin')->user(), $request->validated());
+            session()->flash('success', 'Profile updated successfully');
+            return Redirect::route('am.admin.profile');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Something went wrong, please try again');
+            return back()->withInput();
+        }
+    }
+
+    /**
+     * Update the admin profile.
+     */
+    public function status(Admin $admin): RedirectResponse
+    {
+        try {
+            $this->adminService->statusChange($admin);
+            session()->flash('success', 'Admin status updated successfully');
+            return redirect()->route('am.admin.index');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Something went wrong, please try again');
             return redirect()->route('am.admin.index');
         }
     }

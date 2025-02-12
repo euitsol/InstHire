@@ -1,18 +1,16 @@
 @extends('admin.layouts.master', ['page_slug' => 'admin'])
 @section('title', 'Admin Dashboard')
 @section('content')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">{{ __('Admin Management') }}</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route('am.admin.create') }}" class="btn btn-sm btn-primary">
-                <i class="bi bi-plus"></i> {{ __('Add New Admin') }}
-            </a>
-        </div>
-    </div>
     <!-- Admin List -->
     <div id="adminList" class="card mb-4">
         <div class="card-body">
-            <h2 class="card-title mb-4">{{ __('Admin List') }}</h2>
+            <div class="d-flex align-items-center justify-content-between">
+                <h2 class="card-title mb-4">{{ __('Admin List') }}</h2>
+                <a href="{{ route('am.admin.create') }}" class="btn btn-sm btn-primary">
+                    <i class="bi bi-plus"></i> {{ __('Add New Admin') }}
+                </a>
+            </div>
+
             <table id="adminTable" class="table table-striped table-responsive" style="width:100%">
                 <thead>
                     <tr>
@@ -25,15 +23,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($admins as $admin)
+                    @foreach ($admins as $admin)
                         <tr>
                             <td>
-                                @if($admin->image)
-                                    <img src="{{ asset('storage/' . $admin->image) }}" alt="Profile"
-                                         class="rounded-circle" width="40" height="40">
+                                @if ($admin->image)
+                                    <img src="{{ asset('storage/' . $admin->image) }}" alt="Profile" class="rounded-circle"
+                                        width="40" height="40">
                                 @else
                                     <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                                         style="width: 40px; height: 40px;">
+                                        style="width: 40px; height: 40px;">
                                         {{ strtoupper(substr($admin->name, 0, 1)) }}
                                     </div>
                                 @endif
@@ -42,8 +40,8 @@
                             <td>{{ $admin->email }}</td>
                             <td>{{ $admin->phone ?? 'N/A' }}</td>
                             <td>
-                                <span class="badge bg-{{ $admin->status ? 'success' : 'danger' }}">
-                                    {{ $admin->status ? 'Active' : 'Inactive' }}
+                                <span class="{{ $admin->status_badge_color }}">
+                                    {{ $admin->status_label }}
                                 </span>
                             </td>
                             <td>
@@ -52,21 +50,28 @@
                                         [
                                             'routeName' => 'javascript:void(0)',
                                             'data-id' => $admin->id,
-                                            'className' => 'btn btn-sm btn-secondary view',
+                                            'className' => 'btn-secondary view',
                                             'icon' => 'bi bi-eye',
                                             'label' => 'Details',
                                         ],
                                         [
+                                            'routeName' => 'am.admin.status',
+                                            'className' => $admin->status_btn_color,
+                                            'params' => [$admin->id],
+                                            'label' => $admin->status_btn_label,
+                                            'icon' => 'bi bi-power',
+                                        ],
+                                        [
                                             'routeName' => 'am.admin.edit',
                                             'params' => [$admin->id],
-                                            'className' => 'btn btn-sm btn-primary',
+                                            'className' => 'btn-primary',
                                             'icon' => 'bi bi-pencil',
                                             'label' => 'Edit',
                                         ],
-
+                                
                                         [
                                             'routeName' => 'am.admin.destroy',
-                                            'className' => 'btn btn-sm btn-danger',
+                                            'className' => 'btn-danger',
                                             'params' => [$admin->id],
                                             'label' => 'Delete',
                                             'icon' => 'bi bi-trash',
@@ -130,14 +135,31 @@
                                     <tr>
                                         <th class="text-nowrap">Image</th>
                                         <th>:</th>
-                                        <td>
-                                           ${data.image}
+                                        <td>`;
+                        if (data.image) {
+                            result += `<img src="${data.modify_image}" alt="Profile"
+                                                class="rounded-circle" width="40" height="40">`;
+                        } else {
+                            result += `<div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;">${data.modify_image}</div>`;
+                        }
+                        result += `
                                         </td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Email</th>
                                         <th>:</th>
                                         <td>${data.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Gender</th>
+                                        <th>:</th>
+                                        <td><span class="${data.gender_badge_color}">${data.gender_label}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Status</th>
+                                        <th>:</th>
+                                        <td><span class="${data.status_badge_color}">${data.status_label}</span></td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Created Date</th>

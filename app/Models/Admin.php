@@ -10,7 +10,6 @@ class Admin extends AuthBaseModel
 {
 
 
-
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new AdminResetPasswordNotification($token));
@@ -25,6 +24,10 @@ class Admin extends AuthBaseModel
         'name',
         'email',
         'password',
+        'image',
+        'phone',
+        'gender',
+        'status'
     ];
 
     /**

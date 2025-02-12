@@ -16,15 +16,21 @@ class AdminService
         return Admin::latest()->get();
     }
 
+    public function statusChange(Admin $admin): bool
+    {
+        $admin->status = $admin->status == Admin::STATUS_ACTIVE ? Admin::STATUS_DEACTIVE : Admin::STATUS_ACTIVE;
+        return $admin->save();
+    }
+
 
     public function getDetails(Admin $admin): Admin
     {
-       $admin->image = $admin->image ? '<img src="'. asset('storage/' . $admin->image) .' alt="Profile"
-            class="rounded-circle" width="40" height="40">' : '<div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-            style="width: 40px; height: 40px;">'. strtoupper(substr($admin->name, 0, 1)).'</div>';
-       $admin->creating_time = date('Y-m-d H:i:s', strtotime($admin->created_at));
-       $admin->updating_time = $admin->updated_at ? date('Y-m-d H:i:s', strtotime($admin->updated_at)) : null;
-       return $admin;
+        $admin->modify_image = $admin->image ? asset('storage/' . $admin->image) : strtoupper(substr($admin->name, 0, 1));
+        $admin->creating_time = date('Y-m-d H:i:s', strtotime($admin->created_at));
+        $admin->updating_time = $admin->updated_at ? date('Y-m-d H:i:s', strtotime($admin->updated_at)) : null;
+        $admin->status_labels = Admin::getStatusLabels();
+        $admin->gender_labels = Admin::getGenderLabels();
+        return $admin;
     }
 
     /**
@@ -51,7 +57,9 @@ class AdminService
             }
             $data['image'] = $this->uploadImage($data['image']);
         }
-
+        $data['phone'] = $data['phone'] ? $data['phone'] : null;
+        $data['gender'] = $data['gender'] ? $data['gender'] : null;
+        $data['name'] = $data['name'];
         return $admin->update($data);
     }
 
