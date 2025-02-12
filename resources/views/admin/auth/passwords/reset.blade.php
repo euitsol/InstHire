@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('Admin Login') }}</title>
+    <title>{{ __('Admin Password Reset') }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin/assets/css/admin_login.css') }}">
@@ -38,29 +38,37 @@
                 <div class="login-container">
                     <div class="login-header">
                         <h1>{{ config('app.name') }}</h1>
-                        <p>{{ __('Welcome back! Please login to your account') }}</p>
+                        <p>{{ __('Enter your new password to reset your password') }}</p>
                     </div>
-                    <form action="{{ route('admin.login') }}" method="POST">
+                    <form action="{{ route('admin.reset.request') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="token" value="{{ $token }}">
                         <div class="form-floating mb-3">
-                            <input type="email" name="email" class="form-control" id="email" placeholder="Email"
-                                required>
+                            <input type="email" value="{{ $email ?? old('email') }}" name="email"
+                                class="form-control" id="email" placeholder="Email" required>
                             <label for="email">{{ __('Email address') }}</label>
                             @include('alerts.feedback', ['field' => 'email'])
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" name="password" class="form-control" id="password"
-                                placeholder="Password" required>
-                            <label for="password">{{ __('Password') }}</label>
+                            <input type="password" value="{{ old('password') }}" name="password" class="form-control"
+                                id="password" placeholder="New Password" required>
+                            <label for="email">{{ __('New Password') }}</label>
                             @include('alerts.feedback', ['field' => 'password'])
                         </div>
-                        <button type="submit" class="btn btn-login">{{ __('Log In') }}</button>
+                        <div class="form-floating mb-3">
+                            <input type="password" value="{{ old('password_confirmation') }}"
+                                name="password_confirmation" class="form-control" id="con_password"
+                                placeholder="Confirm Password" required>
+                            <label for="con_password">{{ __('Confirm Password') }}</label>
+                            @include('alerts.feedback', ['field' => 'password_confirmation'])
+                        </div>
+                        <button type="submit" class="btn btn-login">{{ __('Reset Password') }}</button>
                     </form>
                     <div class="divider">
                         <span>{{ __('or') }}</span>
                     </div>
                     <div class="forgot-password">
-                        <a href="{{ route('admin.forgot') }}">{{ __('Forgot your password?') }}</a>
+                        <a href="{{ route('admin.login') }}">{{ __('Login') }}</a>
                     </div>
                 </div>
             </div>

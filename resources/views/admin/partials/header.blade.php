@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
     <div class="container-fluid">
         <!-- Sidebar Toggle Button -->
-        <div class="d-flex align-items-center justify-content-between w-100">
+        <div class="d-flex align-items-center justify-content-end w-100">
             @if (Auth::guard('admin')->check())
                 <button class="sidebar-toggle">
                     <i class="bi bi-list"></i>

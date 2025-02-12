@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminManagement\AdminController;
+use App\Http\Controllers\Admin\Auth\AdminForgotPasswordController;
+use App\Http\Controllers\Admin\Auth\AdminResetPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Institute\ThemeController;
@@ -9,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes();
 
@@ -20,6 +22,14 @@ Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')-
     Route::get('/login', 'login')->name('login');
     Route::post('/login', 'loginCheck')->name('login');
     Route::post('/logout', 'logout')->name('logout');
+});
+Route::controller(AdminForgotPasswordController::class)->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/password/forgot', 'showLinkRequestForm')->name('forgot');
+    Route::post('/password/forgot/request', 'sendResetLinkEmail')->name('forgot.request');
+});
+Route::controller(AdminResetPasswordController::class)->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/password/reset/{token}', 'showResetForm')->name('reset');
+    Route::post('/password/reset', 'reset')->name('reset.request');
 });
 
 // Admin Dashboard Routes

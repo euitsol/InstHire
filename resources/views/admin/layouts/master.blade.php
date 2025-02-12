@@ -31,16 +31,20 @@
 <body>
 
 
-    <!-- Sidebar Backdrop -->
-    <div class="sidebar-backdrop"></div>
+    @auth
+        <!-- Sidebar Backdrop -->
+        <div class="sidebar-backdrop"></div>
 
-    <!-- Sidebar -->
-    @include('admin.partials.sidebar')
+        <!-- Sidebar -->
+        @include('admin.partials.sidebar')
+    @endauth
 
     <!-- Wrapper -->
     <div class="wrapper">
         <!-- Main Content -->
-        <div class="main-content">
+        @auth
+            <div class="main-content">
+            @endauth
             <!-- Navbar -->
             @include('admin.partials.header')
 
@@ -48,8 +52,9 @@
             <main class="container-fluid py-4">
                 @yield('content')
             </main>
-        </div>
-
+            @auth
+            </div>
+        @endauth
         <!-- Footer -->
         @include('admin.partials.footer')
     </div>

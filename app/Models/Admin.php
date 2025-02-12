@@ -3,9 +3,19 @@
 namespace App\Models;
 
 use App\Models\AuthBaseModel;
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Notifications\AdminResetPasswordNotification;
 
 class Admin extends AuthBaseModel
 {
+
+
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new AdminResetPasswordNotification($token));
+    }
+
     /**
      * The attributes that are mass assignable.
      *
