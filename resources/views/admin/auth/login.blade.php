@@ -28,44 +28,47 @@
 </head>
 
 <body>
-    <div class="container position-relative">
-        <a href="{{ route('welcome') }}" class="btn btn-back">
-            <i class="fas fa-arrow-left"></i>
-            <span>{{ __('Back to Home') }}</span>
-        </a>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="login-container">
-                    <div class="login-header">
-                        <h1>{{ config('app.name') }}</h1>
-                        <p>{{ __('Welcome back! Please login to your account') }}</p>
-                    </div>
-                    <form action="{{ route('admin.login') }}" method="POST">
-                        @csrf
-                        <div class="form-floating mb-3">
-                            <input type="email" name="email" class="form-control" id="email" placeholder="Email"
-                                required>
-                            <label for="email">{{ __('Email address') }}</label>
-                            @include('alerts.feedback', ['field' => 'email'])
+    <div class="main_section">
+        <div class="container position-relative">
+            <a href="{{ route('welcome') }}" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i>
+                <span>{{ __('Back to Home') }}</span>
+            </a>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="login-container">
+                        <div class="login-header">
+                            <h1>{{ config('app.name') }}</h1>
+                            <p>{{ __('Welcome back! Please login to your account') }}</p>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" name="password" class="form-control" id="password"
-                                placeholder="Password" required>
-                            <label for="password">{{ __('Password') }}</label>
-                            @include('alerts.feedback', ['field' => 'password'])
+                        <form action="{{ route('admin.login') }}" method="POST">
+                            @csrf
+                            <div class="form-floating mb-3">
+                                <input type="email" name="email" class="form-control" id="email"
+                                    placeholder="Email" required>
+                                <label for="email">{{ __('Email address') }}</label>
+                                @include('alerts.feedback', ['field' => 'email'])
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" name="password" class="form-control" id="password"
+                                    placeholder="Password" required>
+                                <label for="password">{{ __('Password') }}</label>
+                                @include('alerts.feedback', ['field' => 'password'])
+                            </div>
+                            <button type="submit" class="btn btn-login">{{ __('Log In') }}</button>
+                        </form>
+                        <div class="divider">
+                            <span>{{ __('or') }}</span>
                         </div>
-                        <button type="submit" class="btn btn-login">{{ __('Log In') }}</button>
-                    </form>
-                    <div class="divider">
-                        <span>{{ __('or') }}</span>
-                    </div>
-                    <div class="forgot-password">
-                        <a href="{{ route('admin.forgot') }}">{{ __('Forgot your password?') }}</a>
+                        <div class="forgot-password">
+                            <a href="{{ route('admin.forgot') }}">{{ __('Forgot your password?') }}</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

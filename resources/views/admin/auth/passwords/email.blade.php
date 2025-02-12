@@ -28,33 +28,35 @@
 </head>
 
 <body>
-    <div class="container position-relative">
-        <a href="{{ route('welcome') }}" class="btn btn-back">
-            <i class="fas fa-arrow-left"></i>
-            <span>{{ __('Back to Home') }}</span>
-        </a>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="login-container">
-                    <div class="login-header">
-                        <h1>{{ config('app.name') }}</h1>
-                        <p>{{ __('Enter your email address to reset your password') }}</p>
-                    </div>
-                    <form action="{{ route('admin.forgot.request') }}" method="POST">
-                        @csrf
-                        <div class="form-floating mb-3">
-                            <input type="email" name="email" class="form-control" id="email" placeholder="Email"
-                                required>
-                            <label for="email">{{ __('Email address') }}</label>
-                            @include('alerts.feedback', ['field' => 'email'])
+    <div class="main_section">
+        <div class="container position-relative">
+            <a href="{{ route('welcome') }}" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i>
+                <span>{{ __('Back to Home') }}</span>
+            </a>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="login-container">
+                        <div class="login-header">
+                            <h1>{{ config('app.name') }}</h1>
+                            <p>{{ __('Enter your email address to reset your password') }}</p>
                         </div>
-                        <button type="submit" class="btn btn-login">{{ __('Send Password Reset Link') }}</button>
-                    </form>
-                    <div class="divider">
-                        <span>{{ __('or') }}</span>
-                    </div>
-                    <div class="forgot-password">
-                        <a href="{{ route('admin.login') }}">{{ __('Login') }}</a>
+                        <form action="{{ route('admin.forgot.request') }}" method="POST">
+                            @csrf
+                            <div class="form-floating mb-3">
+                                <input type="email" name="email" class="form-control" id="email"
+                                    placeholder="Email" required>
+                                <label for="email">{{ __('Email address') }}</label>
+                                @include('alerts.feedback', ['field' => 'email'])
+                            </div>
+                            <button type="submit" class="btn btn-login">{{ __('Send Password Reset Link') }}</button>
+                        </form>
+                        <div class="divider">
+                            <span>{{ __('or') }}</span>
+                        </div>
+                        <div class="forgot-password">
+                            <a href="{{ route('admin.login') }}">{{ __('Login') }}</a>
+                        </div>
                     </div>
                 </div>
             </div>

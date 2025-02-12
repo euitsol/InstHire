@@ -4,7 +4,7 @@
     --primary-light: #2AA99A;
 }
 
-body {
+.main_section {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     height: 100vh;
     display: flex;

@@ -28,47 +28,49 @@
 </head>
 
 <body>
-    <div class="container position-relative">
-        <a href="{{ route('welcome') }}" class="btn btn-back">
-            <i class="fas fa-arrow-left"></i>
-            <span>{{ __('Back to Home') }}</span>
-        </a>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="login-container">
-                    <div class="login-header">
-                        <h1>{{ config('app.name') }}</h1>
-                        <p>{{ __('Enter your new password to reset your password') }}</p>
-                    </div>
-                    <form action="{{ route('admin.reset.request') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="token" value="{{ $token }}">
-                        <div class="form-floating mb-3">
-                            <input type="email" value="{{ $email ?? old('email') }}" name="email"
-                                class="form-control" id="email" placeholder="Email" required>
-                            <label for="email">{{ __('Email address') }}</label>
-                            @include('alerts.feedback', ['field' => 'email'])
+    <div class="main_section">
+        <div class="container position-relative">
+            <a href="{{ route('welcome') }}" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i>
+                <span>{{ __('Back to Home') }}</span>
+            </a>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="login-container">
+                        <div class="login-header">
+                            <h1>{{ config('app.name') }}</h1>
+                            <p>{{ __('Enter your new password to reset your password') }}</p>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" value="{{ old('password') }}" name="password" class="form-control"
-                                id="password" placeholder="New Password" required>
-                            <label for="email">{{ __('New Password') }}</label>
-                            @include('alerts.feedback', ['field' => 'password'])
+                        <form action="{{ route('admin.reset.request') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="token" value="{{ $token }}">
+                            <div class="form-floating mb-3">
+                                <input type="email" value="{{ $email ?? old('email') }}" name="email"
+                                    class="form-control" id="email" placeholder="Email" required>
+                                <label for="email">{{ __('Email address') }}</label>
+                                @include('alerts.feedback', ['field' => 'email'])
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" value="{{ old('password') }}" name="password"
+                                    class="form-control" id="password" placeholder="New Password" required>
+                                <label for="email">{{ __('New Password') }}</label>
+                                @include('alerts.feedback', ['field' => 'password'])
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" value="{{ old('password_confirmation') }}"
+                                    name="password_confirmation" class="form-control" id="con_password"
+                                    placeholder="Confirm Password" required>
+                                <label for="con_password">{{ __('Confirm Password') }}</label>
+                                @include('alerts.feedback', ['field' => 'password_confirmation'])
+                            </div>
+                            <button type="submit" class="btn btn-login">{{ __('Reset Password') }}</button>
+                        </form>
+                        <div class="divider">
+                            <span>{{ __('or') }}</span>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" value="{{ old('password_confirmation') }}"
-                                name="password_confirmation" class="form-control" id="con_password"
-                                placeholder="Confirm Password" required>
-                            <label for="con_password">{{ __('Confirm Password') }}</label>
-                            @include('alerts.feedback', ['field' => 'password_confirmation'])
+                        <div class="forgot-password">
+                            <a href="{{ route('admin.login') }}">{{ __('Login') }}</a>
                         </div>
-                        <button type="submit" class="btn btn-login">{{ __('Reset Password') }}</button>
-                    </form>
-                    <div class="divider">
-                        <span>{{ __('or') }}</span>
-                    </div>
-                    <div class="forgot-password">
-                        <a href="{{ route('admin.login') }}">{{ __('Login') }}</a>
                     </div>
                 </div>
             </div>
