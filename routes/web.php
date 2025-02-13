@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Auth\AdminResetPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\JobCategoryController;
+use App\Http\Controllers\Admin\PaymentManagement\PaymentController;
 use App\Http\Controllers\Admin\SubscriptionManagement\SubscriptionController;
 use App\Http\Controllers\Admin\SubscriptionManagement\InstituteSubscriptionController;
 use App\Http\Controllers\Institute\ThemeController;
@@ -49,6 +50,10 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::resource('subscription', SubscriptionController::class);
         Route::get('subscription/status/{subscription}', [SubscriptionController::class, 'status'])->name('subscription.status');
         Route::resource('institute-subscription', InstituteSubscriptionController::class);
+    });
+
+    Route::group(['as' => 'pm.', 'prefix' => 'payment-management'], function () {
+        Route::resource('payment', PaymentController::class)->only(['index']);
     });
 
     Route::group(['as' => 'jc.', 'prefix' => 'job-category'], function () {

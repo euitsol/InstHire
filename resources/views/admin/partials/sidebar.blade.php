@@ -70,5 +70,23 @@
                 </li>
             </ul>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link {{ $page_slug === 'payment' ? 'active' : 'collapsed' }}" href="#"
+                data-bs-toggle="collapse" data-bs-target="#paymentSubmenu"
+                aria-expanded="{{ $page_slug === 'payment' ? 'true' : 'false' }}">
+                <i class="bi bi-credit-card me-2"></i>
+                {{ __('Payment Management') }}
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul class="collapse {{ $page_slug === 'payment' ? 'show' : '' }}" id="paymentSubmenu">
+                <li class="nav-item">
+                    <a class="nav-link {{ $page_slug === 'payment' ? 'active' : '' }}"
+                        href="{{ route('pm.payment.index') }}">
+                        {{ __('Payments') }}
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 </nav>
