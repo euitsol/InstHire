@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Auth\AdminForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminResetPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\JobCategoryController;
 use App\Http\Controllers\Admin\SubscriptionManagement\SubscriptionController;
 use App\Http\Controllers\Admin\SubscriptionManagement\InstituteSubscriptionController;
 use App\Http\Controllers\Institute\ThemeController;
@@ -48,6 +49,11 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::resource('subscription', SubscriptionController::class);
         Route::get('subscription/status/{subscription}', [SubscriptionController::class, 'status'])->name('subscription.status');
         Route::resource('institute-subscription', InstituteSubscriptionController::class);
+    });
+
+    Route::group(['as' => 'jc.', 'prefix' => 'job-category'], function () {
+        Route::resource('job-category', JobCategoryController::class);
+        Route::get('job-category/status/{jobCategory}', [JobCategoryController::class, 'status'])->name('job-category.status');
     });
 });
 

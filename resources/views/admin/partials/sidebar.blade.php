@@ -54,5 +54,24 @@
                 </li>
             </ul>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link {{ $page_slug === 'job-category' ? 'active' : 'collapsed' }}" href="#"
+                data-bs-toggle="collapse" data-bs-target="#jobCategorySubmenu"
+                aria-expanded="{{ $page_slug === 'job-category' ? 'true' : 'false' }}">
+                <i class="bi bi-briefcase me-2"></i>
+                {{ __('Job Management') }}
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul class="collapse {{ $page_slug === 'job-category' ? 'show' : '' }}" id="jobCategorySubmenu">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('jc.job-category.*') ? 'active' : '' }}"
+                        href="{{ route('jc.job-category.index') }}">
+                        <i class="bi bi-tags me-2"></i>
+                        <span>{{ __('Job Categories') }}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 </nav>

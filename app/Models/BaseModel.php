@@ -9,8 +9,8 @@ class BaseModel extends Model
 
 
     // Status constants
-    const STATUS_ACTIVE = 1;
-    const STATUS_DEACTIVE = 2;
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_DEACTIVE = 2;
 
     protected $appends = [
         'status_label',

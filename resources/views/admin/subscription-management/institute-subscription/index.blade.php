@@ -14,7 +14,7 @@
                             ])
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-hover align-middle">
+                            <table class="table table-responsive table-striped" id="instituteSubscriptionTable">
                                 <thead class="text-center bg-light">
                                     <tr>
                                         <th width="5%">{{ __('#SL') }}</th>
@@ -40,18 +40,26 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <div class="d-flex justify-content-center gap-2">
-                                                    @include('admin.includes.button', [
-                                                        'routeName' => 'sm.institute-subscription.show',
-                                                        'label' => 'View',
-                                                        'params' => [$item->id],
-                                                    ])
-                                                    @include('admin.includes.button', [
-                                                        'routeName' => 'sm.institute-subscription.edit',
-                                                        'label' => 'Edit',
-                                                        'params' => [$item->id],
-                                                    ])
-                                                </div>
+                                                @include('admin.includes.action_buttons', [
+                                                    'menuItems' => [
+                                                        [
+                                                            'routeName' => 'sm.institute-subscription.show',
+                                                            'params' => [$item->id],
+                                                            'className' => 'btn-secondary',
+                                                            'icon' => 'bi bi-eye',
+                                                            'label' => 'Details',
+                                                        ],
+
+                                                        [
+                                                            'routeName' => 'sm.institute-subscription.edit',
+                                                            'params' => [$item->id],
+                                                            'className' => 'btn-primary',
+                                                            'icon' => 'bi bi-pencil',
+                                                            'label' => 'Edit',
+                                                        ],
+
+                                                    ]
+                                                ])
                                             </td>
                                         </tr>
                                     @endforeach
@@ -64,3 +72,24 @@
         </div>
     </div>
 @endsection
+@push('style_links')
+    <link href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/3.0.4/css/responsive.dataTables.min.css" rel="stylesheet">
+@endpush
+
+@push('scripts')
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Datatable
+            const table = $('#instituteSubscriptionTable').DataTable({
+                responsive: true,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search institute subscriptions...",
+                },
+            });
+        });
+    </script>
+@endpush
