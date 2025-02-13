@@ -39,7 +39,11 @@
                                 <input type="password" class="form-control" name="password_confirmation">
                                 @include('alerts.feedback', ['field' => 'password_confirmation'])
                             </div>
-                            <button type="submit" class="btn btn-primary float-end">{{ __('Update Admin') }}</button>
+                            <div class="mt-4 text-end">
+                                <button type="submit" class="btn btn-primary px-4">
+                                    <i class="bi bi-check-circle me-1"></i> {{ __('Update Admin') }}
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

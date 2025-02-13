@@ -29,7 +29,11 @@
                                     required>
                                 @include('alerts.feedback', ['field' => 'slug'])
                             </div>
-                            <button type="submit" class="btn btn-primary float-end">{{ __('Create Job Category') }}</button>
+                            <div class="mt-4 text-end">
+                                <button type="submit" class="btn btn-primary px-4">
+                                    <i class="bi bi-check-circle me-1"></i> {{ __('Create Job Category') }}
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

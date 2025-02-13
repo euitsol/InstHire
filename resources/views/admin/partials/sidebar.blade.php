@@ -30,26 +30,24 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link {{ $page_slug === 'subscription' ? 'active' : 'collapsed' }}" href="#"
+            <a class="nav-link {{ $page_slug === 'subscription' || $page_slug === 'institute-subscription' ? 'active' : 'collapsed' }}" href="#"
                 data-bs-toggle="collapse" data-bs-target="#subsSubmenu"
-                aria-expanded="{{ $page_slug === 'subscription' ? 'true' : 'false' }}">
+                aria-expanded="{{ $page_slug === 'subscription' || $page_slug === 'institute-subscription' ? 'true' : 'false' }}">
                 <i class="bi bi-person-badge me-2"></i>
                 {{ __('Subscription Management') }}
                 <i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul class="collapse {{ $page_slug === 'subscription' ? 'show' : '' }}" id="subsSubmenu">
+            <ul class="collapse {{ $page_slug === 'subscription' || $page_slug === 'institute-subscription' ? 'show' : '' }}" id="subsSubmenu">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('sm.subscription.*') ? 'active' : '' }}"
+                    <a class="nav-link {{ $page_slug === 'subscription' ? 'active' : '' }}"
                         href="{{ route('sm.subscription.index') }}">
-                        <i class="bi bi-tag me-2"></i>
-                        <span>{{ __('Subscriptions') }}</span>
+                        {{ __('Subscriptions') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('sm.institute-subscription.*') ? 'active' : '' }}"
+                    <a class="nav-link {{ $page_slug === 'institute-subscription' ? 'active' : '' }}"
                         href="{{ route('sm.institute-subscription.index') }}">
-                        <i class="bi bi-building me-2"></i>
-                        <span>{{ __('Institute Subscriptions') }}</span>
+                        {{ __('Institute Subscriptions') }}
                     </a>
                 </li>
             </ul>
@@ -65,10 +63,9 @@
             </a>
             <ul class="collapse {{ $page_slug === 'job-category' ? 'show' : '' }}" id="jobCategorySubmenu">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('jc.job-category.*') ? 'active' : '' }}"
+                    <a class="nav-link {{ $page_slug === 'job-category' ? 'active' : '' }}"
                         href="{{ route('jc.job-category.index') }}">
-                        <i class="bi bi-tags me-2"></i>
-                        <span>{{ __('Job Categories') }}</span>
+                        {{ __('Job Categories') }}
                     </a>
                 </li>
             </ul>
