@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -173,4 +173,212 @@
             </div>
         </div>
     </body>
+</html> --}}
+
+
+
+{{-- My Custom Dashboard  --}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0f766e;
+            --primary-light: #14b8a6;
+            --primary-dark: #134e4a;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --info-color: #0dcaf0;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        .sidebar {
+            background-color: var(--primary-color);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.25rem;
+            border-radius: 0.25rem;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-content {
+            padding: 2rem;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border-radius: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <i class="bi bi-house-door me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#adminSubmenu">
+                                <i class="bi bi-person-badge me-2"></i>
+                                Admin Management
+                                <i class="bi bi-chevron-down ms-auto"></i>
+                            </a>
+                            <ul class="nav collapse" id="adminSubmenu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#adminList">
+                                        <i class="bi bi-list-ul me-2"></i>
+                                        Admin List
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#createAdmin">
+                                        <i class="bi bi-person-plus me-2"></i>
+                                        Create Admin
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Add more menu items here -->
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Admin Management</h1>
+                </div>
+
+                <!-- Admin List -->
+                <div id="adminList" class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Admin List</h2>
+                        <table id="adminTable" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>john@example.com</td>
+                                    <td>Super Admin</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary me-2"><i class="bi bi-pencil"></i>
+                                            Edit</button>
+                                        <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i>
+                                            Delete</button>
+                                    </td>
+                                </tr>
+                                <!-- Add more rows here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Create Admin Form -->
+                <div id="createAdmin" class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Create Admin</h2>
+                        <form>
+                            <div class="mb-3">
+                                <label for="adminName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="adminName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="adminEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="adminEmail" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="adminRole" class="form-label">Role</label>
+                                <select class="form-select" id="adminRole" required>
+                                    <option value="">Select Role</option>
+                                    <option value="super_admin">Super Admin</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="moderator">Moderator</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="adminPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="adminPassword" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Admin</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#adminTable').DataTable({
+                responsive: true,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search admins...",
+                },
+                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                    '<"row"<"col-sm-12"tr>>' +
+                    '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            });
+        });
+    </script>
+</body>
+
 </html>
