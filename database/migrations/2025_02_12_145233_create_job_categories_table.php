@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\BaseModel;
+use App\Models\JobCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255)->unique();
             $table->string('slug', 255)->unique();
-            $table->tinyInteger('status')->default(BaseModel::STATUS_ACTIVE);
+            $table->tinyInteger('status')->default(JobCategory::STATUS_ACTIVE)->comment(JobCategory::STATUS_ACTIVE.' = active, '.JobCategory::STATUS_DEACTIVE.' = inactive');
             $table->timestamps();
             $table->softDeletes();
             $this->addMorphedAuditColumns($table);

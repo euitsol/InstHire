@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->boolean('status')->default(Employee::STATUS_PENDING)->comment(Employee::STATUS_PENDING.' = pending, '.Employee::STATUS_ACCEPTED.' = verified, '.Employee::STATUS_DECLINED.' = declined');
+            $table->tinyInteger('status')->default(Employee::STATUS_PENDING)->comment(Employee::STATUS_PENDING.' = pending, '.Employee::STATUS_ACCEPTED.' = verified, '.Employee::STATUS_DECLINED.' = declined');
             $table->unsignedBigInteger('verifier_id')->nullable();
             $table->string('verifier_type')->nullable();
             $table->unsignedBigInteger('verified_by_id')->nullable();

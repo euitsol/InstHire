@@ -47,6 +47,24 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link {{ $page_slug === 'institute' ? 'active' : 'collapsed' }}" href="#"
+                data-bs-toggle="collapse" data-bs-target="#instituteSubmenu"
+                aria-expanded="{{ $page_slug === 'institute' ? 'true' : 'false' }}">
+                <i class="bi bi-person-badge me-2"></i>
+                {{ __('Institute Management') }}
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul class="collapse {{ $page_slug === 'institute' ? 'show' : '' }}" id="instituteSubmenu">
+                <li class="nav-item">
+                    <a class="nav-link {{ $page_slug === 'institute' ? 'active' : '' }}"
+                        href="{{ route('im.institute.index') }}">
+                        {{ __('Institute') }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link {{ $page_slug === 'subscription' || $page_slug === 'institute-subscription' ? 'active' : 'collapsed' }}" href="#"
                 data-bs-toggle="collapse" data-bs-target="#subsSubmenu"
                 aria-expanded="{{ $page_slug === 'subscription' || $page_slug === 'institute-subscription' ? 'true' : 'false' }}">
