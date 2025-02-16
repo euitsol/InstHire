@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\JobCategoryController;
 use App\Http\Controllers\Admin\PaymentManagement\PaymentController;
 use App\Http\Controllers\Admin\SubscriptionManagement\SubscriptionController;
 use App\Http\Controllers\Admin\SubscriptionManagement\InstituteSubscriptionController;
+use App\Http\Controllers\Admin\EmployeeManagement\EmployeeController;
 use App\Http\Controllers\Institute\ThemeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,13 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('admin/status/{admin}', [AdminController::class, 'status'])->name('admin.status');
         Route::get('admin/profile/details', [AdminController::class, 'profile'])->name('admin.profile');
         Route::put('admin/profile/update', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
+    });
+
+    Route::group(['as' => 'em.', 'prefix' => 'employee-management'], function () {
+        Route::resource('employee', EmployeeController::class);
+        Route::get('employee/status/{employee}/{status}', [EmployeeController::class, 'status'])->name('employee.status');
+        Route::get('employee/profile/{employee}', [EmployeeController::class, 'profile'])->name('employee.profile');
+        Route::put('employee/profile/update/{employee}', [EmployeeController::class, 'updateProfile'])->name('employee.profile.update');
     });
 
     Route::group(['as' => 'sm.', 'prefix' => 'subscription-management'], function () {

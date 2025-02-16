@@ -5,36 +5,23 @@ namespace App\Services;
 use App\Models\Institute;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 class InstituteService
 {
+    public function getInstitutes(): Collection
+    {
+        return Institute::latest()->get();
+    }
     public function store($data)
     {
-        return Institute::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'valid_to' => Carbon::now()->addMonths(1), // Default 1 month validity
-            'responsible_person_name' => $data['responsible_person_name'],
-            'responsible_person_phone' => $data['responsible_person_phone'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $data['valid_to'] = Carbon::now()->addMonths(1);
+        return Institute::create($data);
     }
 
     public function update($institute, $data)
     {
-        $updateData = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'valid_to' => $data['valid_to'],
-            'responsible_person_name' => $data['responsible_person_name'],
-            'responsible_person_phone' => $data['responsible_person_phone'],
-        ];
-
-        if (isset($data['password'])) {
-            $updateData['password'] = Hash::make($data['password']);
-        }
-
-        $institute->update($updateData);
+        $institute->update($data);
         return $institute;
     }
 }
