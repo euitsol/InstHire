@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Admin;
+use App\Models\Employee;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,20 +15,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('phone')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->boolean('status')->default(Admin::STATUS_ACTIVE)->comment(Admin::STATUS_ACTIVE.' = active, '.Admin::STATUS_DEACTIVE.' = deactive');
+            $table->tinyInteger('status')->default(Employee::STATUS_PENDING)->comment(Employee::STATUS_PENDING.' = pending, '.Employee::STATUS_ACCEPTED.' = verified, '.Employee::STATUS_DECLINED.' = declined');
+            $table->unsignedBigInteger('verifier_id')->nullable();
+            $table->string('verifier_type')->nullable();
+            $table->unsignedBigInteger('verified_by_id')->nullable();
+            $table->string('verified_by_type')->nullable();
             $table->tinyInteger('gender')->nullable();
-            $table->string('phone')->nullable();
             $table->string('image')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-            $this->addAdminAuditColumns($table);
+            $this->addMorphedAuditColumns($table);
         });
     }
 
@@ -37,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('employees');
     }
 };

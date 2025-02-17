@@ -38,14 +38,6 @@ class Payment extends BaseModel
     }
 
     /**
-     * Get the formatted amount.
-     */
-    public function getFormattedAmountAttribute(): string
-    {
-        return '৳' . number_format($this->amount, 2);
-    }
-
-    /**
      * Get the status label.
      */
     public function getStatusLabelAttribute(): string

@@ -41,7 +41,6 @@ class AdminService
         if (isset($data['image'])) {
             $data['image'] = $this->uploadImage($data['image']);
         }
-
         return Admin::create($data);
     }
 
@@ -57,6 +56,7 @@ class AdminService
             }
             $data['image'] = $this->uploadImage($data['image']);
         }
+        $data['password'] = !empty($data['password']) ? $data['password']: $admin->password;
         return $admin->update($data);
     }
 

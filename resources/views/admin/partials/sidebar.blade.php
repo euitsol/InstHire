@@ -28,6 +28,41 @@
                 </li>
             </ul>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {{ $page_slug === 'employee' ? 'active' : 'collapsed' }}" href="#"
+                data-bs-toggle="collapse" data-bs-target="#employeeSubmenu"
+                aria-expanded="{{ $page_slug === 'employee' ? 'true' : 'false' }}">
+                <i class="bi bi-person-badge me-2"></i>
+                {{ __('Employee Management') }}
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul class="collapse {{ $page_slug === 'employee' ? 'show' : '' }}" id="employeeSubmenu">
+                <li class="nav-item">
+                    <a class="nav-link {{ $page_slug === 'employee' ? 'active' : '' }}"
+                        href="{{ route('em.employee.index') }}">
+                        {{ __('Employee') }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link {{ $page_slug === 'institute' ? 'active' : 'collapsed' }}" href="#"
+                data-bs-toggle="collapse" data-bs-target="#instituteSubmenu"
+                aria-expanded="{{ $page_slug === 'institute' ? 'true' : 'false' }}">
+                <i class="bi bi-person-badge me-2"></i>
+                {{ __('Institute Management') }}
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul class="collapse {{ $page_slug === 'institute' ? 'show' : '' }}" id="instituteSubmenu">
+                <li class="nav-item">
+                    <a class="nav-link {{ $page_slug === 'institute' ? 'active' : '' }}"
+                        href="{{ route('im.institute.index') }}">
+                        {{ __('Institute') }}
+                    </a>
+                </li>
+            </ul>
+        </li>
 
         <li class="nav-item">
             <a class="nav-link {{ $page_slug === 'subscription' || $page_slug === 'institute-subscription' ? 'active' : 'collapsed' }}" href="#"
