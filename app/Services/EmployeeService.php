@@ -25,11 +25,11 @@ class EmployeeService
 
     public function getDetails(Employee $employee): Employee
     {
-        $employee->modify_image = $employee->image ? asset('storage/' . $employee->image) : strtoupper(substr($employee->name, 0, 1));
-        $employee->creating_time = date('Y-m-d H:i:s', strtotime($employee->created_at));
-        $employee->updating_time = $employee->updated_at ? date('Y-m-d H:i:s', strtotime($employee->updated_at)) : null;
-        $employee->status_labels = Employee::getStatusLabels();
-        $employee->gender_labels = Employee::getGenderLabels();
+        // $employee->modify_image = $employee->image ? asset('storage/' . $employee->image) : strtoupper(substr($employee->name, 0, 1));
+        // $employee->creating_time = date('Y-m-d H:i:s', strtotime($employee->created_at));
+        // $employee->updating_time = $employee->updated_at ? date('Y-m-d H:i:s', strtotime($employee->updated_at)) : null;
+        // $employee->status_labels = Employee::getStatusLabels();
+        // $employee->gender_labels = Employee::getGenderLabels();
         return $employee;
     }
 

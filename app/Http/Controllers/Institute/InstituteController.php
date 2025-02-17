@@ -25,13 +25,13 @@ class InstituteController extends Controller
 
     public function profile()
     {
-        $institute = Auth::guard('institute')->user();
+        $institute = institute();
         return view('institute.profile.index', compact('institute'));
     }
 
     public function updateProfile(InstituteRequest $request)
     {
-        $institute = Auth::guard('institute')->user();
+        $institute = institute();
         $this->instituteService->update($institute, $request->validated());
         return redirect()->back()->with('success', 'Profile updated successfully');
     }

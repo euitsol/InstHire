@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\AuthBaseModel;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Notifications\AdminResetPasswordNotification;
+use DateTimeInterface;
 
 class Employee extends AuthBaseModel
 {
@@ -50,13 +51,20 @@ class Employee extends AuthBaseModel
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'status' => 'integer',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'status' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'creater_id' => 'integer',
+        'updater_id' => 'integer',
+        'deleter_id' => 'integer',
+        'gender' => 'integer',
+        'verifier_id' => 'integer',
+        'verified_by_id' => 'integer',
+    ];
     /**
      * Get the verifier that owns the employee
      */
@@ -96,7 +104,7 @@ class Employee extends AuthBaseModel
       public static function getStatusBadgeColors(): array
       {
           return [
-              self::STATUS_PENDING => 'badge bg-secondary',
+              self::STATUS_PENDING => 'badge bg-info',
               self::STATUS_ACCEPTED => 'badge bg-success',
               self::STATUS_DECLINED => 'badge bg-danger',
           ];

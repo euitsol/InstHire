@@ -10,23 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class InstituteService
 {
-    // public function getInstitutes(): Collection
-    // {
-    //     return Institute::latest()->get();
-    // }
-    // public function store($data)
-    // {
-    //     $data['valid_to'] = Carbon::now()->addMonths(1);
-    //     return Institute::create($data);
-    // }
-
-    // public function update($institute, $data)
-    // {
-    //     $institute->update($data);
-    //     return $institute;
-    // }
-
-
     /**
      * Get list of institute
      */
@@ -43,10 +26,10 @@ class InstituteService
 
     public function getDetails(Institute $institute): Institute
     {
-        $institute->modify_image = $institute->image ? asset('storage/' . $institute->image) : strtoupper(substr($institute->name, 0, 1));
-        $institute->creating_time = date('Y-m-d H:i:s', strtotime($institute->created_at));
-        $institute->updating_time = $institute->updated_at ? date('Y-m-d H:i:s', strtotime($institute->updated_at)) : null;
-        $institute->status_labels = Institute::getStatusLabels();
+        // $institute->modify_image = $institute->image ? asset('storage/' . $institute->image) : strtoupper(substr($institute->name, 0, 1));
+        // $institute->creating_time = date('Y-m-d H:i:s', strtotime($institute->created_at));
+        // $institute->updating_time = $institute->updated_at ? date('Y-m-d H:i:s', strtotime($institute->updated_at)) : null;
+        // $institute->status_labels = Institute::getStatusLabels();
         return $institute;
     }
 

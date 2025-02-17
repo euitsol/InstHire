@@ -25,11 +25,6 @@ class AdminService
 
     public function getDetails(Admin $admin): Admin
     {
-        $admin->modify_image = $admin->image ? asset('storage/' . $admin->image) : strtoupper(substr($admin->name, 0, 1));
-        $admin->creating_time = date('Y-m-d H:i:s', strtotime($admin->created_at));
-        $admin->updating_time = $admin->updated_at ? date('Y-m-d H:i:s', strtotime($admin->updated_at)) : null;
-        $admin->status_labels = Admin::getStatusLabels();
-        $admin->gender_labels = Admin::getGenderLabels();
         return $admin;
     }
 

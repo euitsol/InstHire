@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
@@ -13,7 +15,7 @@ class BaseModel extends Model
     public const STATUS_DEACTIVE = 2;
 
     protected $appends = [
-        'status_label',
+        'status_label','status_labels',
         'status_badge_color',
         'status_btn_color',
         'status_btn_label'
@@ -55,6 +57,11 @@ class BaseModel extends Model
     public function getStatusBtnLabelAttribute(): string
     {
         return self::getStatusBtnLabels()[$this->status] ?? 'Unknown';
+    }
+
+    public function getStatusLabelsAttribute(): array
+    {
+        return self::getStatusLabels();
     }
 
     // Status badge colors
@@ -115,4 +122,12 @@ class BaseModel extends Model
     {
         return $this->morphTo();
     }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format(timeFormat());
+
+    }
+
+
 }

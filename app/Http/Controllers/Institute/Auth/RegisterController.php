@@ -23,10 +23,10 @@ class RegisterController extends Controller
 
     public function register(InstituteRegistrationRequest $request)
     {
-        $institute = $this->instituteService->store($request->validated());
-        
+        $institute = $this->instituteService->create($request->validated());
+
         Auth::guard('institute')->login($institute);
-        
+
         return redirect()->route('institute.dashboard')
             ->with('success', 'Registration successful! Welcome to your dashboard.');
     }

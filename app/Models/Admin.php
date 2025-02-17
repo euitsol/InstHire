@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTimeInterface;
 use App\Models\AuthBaseModel;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Notifications\AdminResetPasswordNotification;
@@ -27,7 +28,10 @@ class Admin extends AuthBaseModel
         'image',
         'phone',
         'gender',
-        'status'
+        'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     /**
@@ -45,15 +49,28 @@ class Admin extends AuthBaseModel
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'status' => 'integer',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-            'deleted_at' => 'datetime',
-        ];
-    }
+    // protected function casts(): array
+    // {
+    //     return [
+    //         'email_verified_at' => 'datetime',
+    //         'password' => 'hashed',
+    //         'status' => 'integer',
+    //         'created_at' => 'datetime',
+    //         'updated_at' => 'datetime',
+    //         'deleted_at' => 'datetime',
+    //     ];
+    // }
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'status' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'created_by' => 'integer',
+        'updated_by' => 'integer',
+        'deleted_by' => 'integer',
+        'gender' => 'integer',
+    ];
 }

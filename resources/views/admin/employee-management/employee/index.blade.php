@@ -29,7 +29,7 @@
                         <tr>
                             <td>
                                 @if ($employee->image)
-                                    <img src="{{ asset('storage/' . $employee->image) }}" alt="Profile" class="rounded-circle"
+                                    <img src="{{ $employee->image }}" alt="Profile" class="rounded-circle"
                                         width="40" height="40">
                                 @else
                                     <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
@@ -141,11 +141,11 @@
                                         <th>:</th>
                                         <td>`;
                         if (data.image) {
-                            result += `<img src="${data.modify_image}" alt="Profile"
+                            result += `<img src="${data.image}" alt="Profile"
                                                 class="rounded-circle" width="40" height="40">`;
                         } else {
                             result += `<div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                            style="width: 40px; height: 40px;">${data.modify_image}</div>`;
+                            style="width: 40px; height: 40px;">${data.image}</div>`;
                         }
                         result += `
                                         </td>
@@ -183,12 +183,12 @@
                                     <tr>
                                         <th class="text-nowrap">Created Date</th>
                                         <th>:</th>
-                                        <td>${data.creating_time}</td>
+                                        <td>${data.created_at}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Updated Date</th>
                                         <th>:</th>
-                                        <td>${data.updating_time}</td>
+                                        <td>${data.updated_at}</td>
                                     </tr>
                                 </table>
                                 `;

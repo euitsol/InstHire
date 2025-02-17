@@ -14,11 +14,34 @@ class Payment extends BaseModel
         'institute_subscription_id',
         'amount',
         'status',
+        'creater_id',
+        'updater_id',
+        'deleter_id',
+        'creater_type',
+        'updater_type',
+        'deleter_type',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
+     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
-        'status' => 'integer',
+        'institute_id'=> 'integer',
+        'institute_subscription_id' => 'integer',
         'amount' => 'decimal:2',
+        'status' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'creater_id' => 'integer',
+        'updater_id' => 'integer',
+        'deleter_id' => 'integer',
+
     ];
 
     /**

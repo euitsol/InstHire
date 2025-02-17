@@ -20,6 +20,12 @@ class Subscription extends BaseModel
         'status',
         'image',
         'description',
+        'created_by',
+        'updated_by',
+        'deleted_by',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
@@ -30,13 +36,18 @@ class Subscription extends BaseModel
     protected $casts = [
         'price' => 'double',
         'validity' => 'integer',
-        'status' => 'boolean',
+        'status' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'created_by' => 'integer',
+        'updated_by' => 'integer',
+        'deleted_by' => 'integer',
+
     ];
-
-
-    protected function getImageAttribute($image): string
+    public function getImageAttribute(): string
     {
-        return $image ? asset('storage/' . $image) : '';
+        return storage_url($this->image);
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\AuthBaseModel;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Institute extends AuthBaseModel
@@ -41,8 +42,13 @@ class Institute extends AuthBaseModel
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'status' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'creater_id' => 'integer',
+        'updater_id' => 'integer',
+        'deleter_id' => 'integer',
     ];
-
     public function subscriptions()
     {
         return $this->hasMany(InstituteSubscription::class);

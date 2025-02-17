@@ -125,12 +125,12 @@
                                     <tr>
                                         <th class="text-nowrap">Created Date</th>
                                         <th>:</th>
-                                        <td>${data.creating_time}</td>
+                                        <td>${data.created_at}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Updated Date</th>
                                         <th>:</th>
-                                        <td>${data.updating_time}</td>
+                                        <td>${data.updated_at}</td>
                                     </tr>
                                 </table>
                                 `;
