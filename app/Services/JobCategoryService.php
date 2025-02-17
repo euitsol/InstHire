@@ -12,7 +12,7 @@ class JobCategoryService
      */
     public function getJobCategories(): Collection
     {
-        return JobCategory::latest()->get();
+        return JobCategory::with(['creater_admin'])->latest()->get();
     }
 
     /**
@@ -36,6 +36,7 @@ class JobCategoryService
         //     ? date('Y-m-d H:i:s', strtotime($jobCategory->updated_at))
         //     : null;
         // $jobCategory->status_labels = JobCategory::getStatusLabels();
+        $jobCategory->load(['creater_admin','updater_admin']);
         return $jobCategory;
     }
 
@@ -44,6 +45,8 @@ class JobCategoryService
      */
     public function createJobCategory(array $data): JobCategory
     {
+        $data['creater_id'] = admin()->id;
+        $data['creater_type'] = get_class(admin());
         return JobCategory::create($data);
     }
 
@@ -52,6 +55,8 @@ class JobCategoryService
      */
     public function updateJobCategory(JobCategory $jobCategory, array $data): bool
     {
+        $data['updater_id'] = admin()->id;
+        $data['updater_type'] = get_class(admin());
         return $jobCategory->update($data);
     }
 
@@ -60,6 +65,8 @@ class JobCategoryService
      */
     public function deleteJobCategory(JobCategory $jobCategory): ?bool
     {
+        $jobCategory->deleter_id = admin()->id;
+        $jobCategory->deleter_type = get_class(admin());
         return $jobCategory->delete();
     }
 }

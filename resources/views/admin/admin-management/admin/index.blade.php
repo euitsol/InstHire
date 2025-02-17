@@ -19,6 +19,8 @@
                         <th>{{ __('Email') }}</th>
                         <th>{{ __('Phone') }}</th>
                         <th>{{ __('Status') }}</th>
+                        <th>{{ __('Created At') }}</th>
+                        <th>{{ __('Created By') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -44,6 +46,8 @@
                                     {{ $admin->status_label }}
                                 </span>
                             </td>
+                            <td>{{ $admin->created_at }}</td>
+                            <td>{{ creater_name($admin->creater_admin) }}</td>
                             <td>
                                 @include('admin.includes.action_buttons', [
                                     'menuItems' => [
@@ -162,6 +166,16 @@
                                         <td><span class="${data.status_badge_color}">${data.status_label}</span></td>
                                     </tr>
                                     <tr>
+                                        <th class="text-nowrap">Created By</th>
+                                        <th>:</th>
+                                        <td>${data.creater_admin ? data.creater_admin.name : 'System'}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Updated By</th>
+                                        <th>:</th>
+                                        <td>${data.updater_admin ? data.updater_admin.name : 'Null'}</td>
+                                    </tr>
+                                    <tr>
                                         <th class="text-nowrap">Created Date</th>
                                         <th>:</th>
                                         <td>${data.created_at}</td>
@@ -169,7 +183,7 @@
                                     <tr>
                                         <th class="text-nowrap">Updated Date</th>
                                         <th>:</th>
-                                        <td>${data.updated_at}</td>
+                                        <td>${data.updated_at != data.created_at ? data.updated_at : 'Null'}</td>
                                     </tr>
                                 </table>
                                 `;

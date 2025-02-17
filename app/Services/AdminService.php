@@ -13,7 +13,7 @@ class AdminService
      */
     public function getAdmins(): Collection
     {
-        return Admin::latest()->get();
+        return Admin::with(['creater_admin'])->latest()->get();
     }
 
     public function statusChange(Admin $admin): bool
@@ -25,6 +25,7 @@ class AdminService
 
     public function getDetails(Admin $admin): Admin
     {
+        $admin->load(['creater_admin', 'updater_admin']);
         return $admin;
     }
 
@@ -36,6 +37,7 @@ class AdminService
         if (isset($data['image'])) {
             $data['image'] = $this->uploadImage($data['image']);
         }
+        $data['created_by'] = admin()->id;
         return Admin::create($data);
     }
 
@@ -52,6 +54,7 @@ class AdminService
             $data['image'] = $this->uploadImage($data['image']);
         }
         $data['password'] = !empty($data['password']) ? $data['password']: $admin->password;
+        $data['updated_by'] = admin()->id;
         return $admin->update($data);
     }
 
@@ -60,6 +63,7 @@ class AdminService
      */
     public function deleteAdmin(Admin $admin): ?bool
     {
+        $admin->deleted_by = admin()->id;
         return $admin->delete();
     }
 

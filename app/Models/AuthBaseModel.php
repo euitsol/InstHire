@@ -124,18 +124,20 @@ class AuthBaseModel extends Authenticatable
         return self::getGenderBadgeColors()[$this->gender] ?? 'badge bg-secondary';
     }
 
-    public function created_admin()
+
+    public function creater_admin()
     {
         return $this->belongsTo(Admin::class, 'created_by');
     }
-    public function updated_admin()
+    public function updater_admin()
     {
         return $this->belongsTo(Admin::class, 'updated_by');
     }
-    public function deleted_admin()
+    public function deleter_admin()
     {
         return $this->belongsTo(Admin::class, 'deleted_by');
     }
+
 
     public function creater()
     {

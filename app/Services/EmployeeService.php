@@ -14,7 +14,7 @@ class EmployeeService
      */
     public function getEmployees(): Collection
     {
-        return Employee::with(['verifier', 'verified_by'])->latest()->get();
+        return Employee::with(['verifier', 'verified_by', 'creater'])->latest()->get();
     }
 
     public function statusChange(Employee $employee, int $status): bool
@@ -30,6 +30,7 @@ class EmployeeService
         // $employee->updating_time = $employee->updated_at ? date('Y-m-d H:i:s', strtotime($employee->updated_at)) : null;
         // $employee->status_labels = Employee::getStatusLabels();
         // $employee->gender_labels = Employee::getGenderLabels();
+        $employee->load(['verifier', 'verified_by','creater','updater']);
         return $employee;
     }
 
@@ -45,7 +46,8 @@ class EmployeeService
         // Set verifier information
         $data['verifier_type'] = !empty($data['verifier_id']) ? Employee::class : null;
         $data['verifier_id'] = $data['verifier_id'] ?? null;
-
+        $data['creater_id'] = admin()->id;
+        $data['creater_type'] = get_class(admin());
         return Employee::create($data);
     }
 
@@ -63,6 +65,8 @@ class EmployeeService
         }
 
         $data['password'] = !empty($data['password']) ? $data['password']: $employee->password;
+        $data['updater_id'] = admin()->id;
+        $data['updater_type'] = get_class(admin());
         return $employee->update($data);
     }
 
@@ -71,6 +75,8 @@ class EmployeeService
      */
     public function deleteEmployee(Employee $employee): ?bool
     {
+        $employee->deleter_id = admin()->id;
+        $employee->deleter_type = get_class(admin());
         return $employee->delete();
     }
 

@@ -180,6 +180,16 @@
                                         <td><span class="${data.status_badge_color}">${data.status_label}</span></td>
                                     </tr>
                                     <tr>
+                                        <th class="text-nowrap">Created By</th>
+                                        <th>:</th>
+                                        <td>${data.creater ? data.creater.name : 'Null'}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Updated By</th>
+                                        <th>:</th>
+                                        <td>${data.updater ? data.updater.name : 'Null'}</td>
+                                    </tr>
+                                    <tr>
                                         <th class="text-nowrap">Created Date</th>
                                         <th>:</th>
                                         <td>${data.created_at}</td>

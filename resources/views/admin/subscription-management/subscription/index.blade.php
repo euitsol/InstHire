@@ -173,12 +173,26 @@
                                             <th>Status</th>
                                             <td><span class="${subscription.status_badge_color}">${subscription.status_label}</span></td>
                                         </tr>
-                                        ${subscription.description ?
-                                            `<tr>
-                                                <th>Description</th>
-                                                <td>${subscription.description}</td>
-                                            </tr>` : ''
-                                        }
+                                        <tr>
+                                            <th>Description</th>
+                                            <td>${subscription.description}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Created By</th>
+                                            <td>${subscription.creater_admin ? subscription.creater_admin.name : 'Null'}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Updated By</th>
+                                            <td>${subscription.updater_admin ? subscription.updater_admin.name : 'Null'}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Created Date</th>
+                                            <td>${subscription.created_at}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Updated Date</th>
+                                            <td>${subscription.updated_at != subscription.created_at ? subscription.updated_at : 'Null'}</td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>

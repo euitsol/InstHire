@@ -21,6 +21,8 @@
                         <th>{{ __('Status') }}</th>
                         <th>{{ __('Verifier') }}</th>
                         <th>{{ __('Verified By') }}</th>
+                        <th>{{ __('Created By') }}</th>
+                        <th>{{ __('Created At') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -48,6 +50,8 @@
                             </td>
                             <td>{{ $employee->verifier ? $employee->verifier->name : 'Admin'}}</td>
                             <td>{{ $employee->verified_by ? $employee->verified_by->name : 'N/A' }}</td>
+                            <td>{{ $employee->creater ? $employee->creater->name : 'System' }}</td>
+                            <td>{{ $employee->created_at }}</td>
                             <td>
                                 @include('admin.includes.action_buttons', [
                                     'menuItems' => [
@@ -163,12 +167,12 @@
                                     <tr>
                                         <th class="text-nowrap">Verifier</th>
                                         <th>:</th>
-                                        <td>${data.verifier ? data.verifier.name : 'N/A'}</td>
+                                        <td>${data.verifier ? data.verifier.name : 'Admin'}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Verified By</th>
                                         <th>:</th>
-                                        <td>${data.verified_by ? data.verified_by.name : 'N/A'}</td>
+                                        <td>${data.verified_by ? data.verified_by.name : 'Null'}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Gender</th>
@@ -188,7 +192,17 @@
                                     <tr>
                                         <th class="text-nowrap">Updated Date</th>
                                         <th>:</th>
-                                        <td>${data.updated_at}</td>
+                                        <td>${data.updated_at != data.created_at ? data.updated_at : 'Null'}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Created By</th>
+                                        <th>:</th>
+                                        <td>${data.creater ? data.creater.name : 'System'}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Updated By</th>
+                                        <th>:</th>
+                                        <td>${data.updater ? data.updater.name : 'Null'}</td>
                                     </tr>
                                 </table>
                                 `;

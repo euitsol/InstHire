@@ -45,9 +45,9 @@ class Subscription extends BaseModel
         'deleted_by' => 'integer',
 
     ];
-    public function getImageAttribute(): string
+    public function getImageAttribute($image): string
     {
-        return storage_url($this->image);
+        return storage_url($image);
     }
 
 }

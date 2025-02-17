@@ -15,7 +15,7 @@ class InstituteService
      */
     public function getInstitutes(): Collection
     {
-        return Institute::with(['subscriptions'])->latest()->get();
+        return Institute::with(['subscriptions', 'creater'])->latest()->get();
     }
 
     public function statusChange(Institute $institute): bool
@@ -26,10 +26,12 @@ class InstituteService
 
     public function getDetails(Institute $institute): Institute
     {
+
         // $institute->modify_image = $institute->image ? asset('storage/' . $institute->image) : strtoupper(substr($institute->name, 0, 1));
         // $institute->creating_time = date('Y-m-d H:i:s', strtotime($institute->created_at));
         // $institute->updating_time = $institute->updated_at ? date('Y-m-d H:i:s', strtotime($institute->updated_at)) : null;
         // $institute->status_labels = Institute::getStatusLabels();
+        $institute->load(['creater', 'updater', 'subscriptions']);
         return $institute;
     }
 
@@ -41,6 +43,8 @@ class InstituteService
         if (isset($data['image'])) {
             $data['image'] = $this->uploadImage($data['image']);
         }
+        $data['creater_id'] = admin()->id;
+        $data['creater_type'] = get_class(admin());
         return Institute::create($data);
     }
 
@@ -58,6 +62,8 @@ class InstituteService
         }
 
         $data['password'] = !empty($data['password']) ? $data['password']: $institute->password;
+        $data['updater_id'] = admin()->id;
+        $data['updater_type'] = get_class(admin());
         return $institute->update($data);
     }
 
@@ -66,6 +72,8 @@ class InstituteService
      */
     public function delete(Institute $institute): ?bool
     {
+        $institute->deleter_id = admin()->id;
+        $institute->deleter_type = get_class(admin());
         return $institute->delete();
     }
 
