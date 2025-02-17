@@ -1,111 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Institute Registration - {{ config('app.name') }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('institute/css/style.css') }}">
-    <style>
-        body {
-            background-color: var(--bg-color);
-        }
-        .register-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem 0;
-        }
-        .register-card {
-            width: 100%;
-            max-width: 500px;
-        }
-    </style>
-</head>
-<body>
-    <div class="register-container">
-        <div class="card register-card">
-            <div class="card-body p-4">
-                <h4 class="text-center mb-4">Institute Registration</h4>
-                
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+@extends('institute.layouts.master')
 
-                <form action="{{ route('institute.register.submit') }}" method="POST">
-                    @csrf
-                    
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Institute Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                            id="name" name="name" value="{{ old('name') }}" required autofocus>
-                        @error('name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+@section('title', 'Register')
+
+@section('content')
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center mt-5">
+        <div class="col-md-8 col-lg-6">
+            <div class="card stats-card h-100">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <img src="{{ asset('institute/images/logo.png') }}" alt="Logo" class="mb-3" height="60">
+                        <h4 class="mb-2">Create Account</h4>
+                        <p class="text-muted">Register your institute with us</p>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                            id="email" name="email" value="{{ old('email') }}" required>
-                        @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <form method="POST" action="{{ route('institute.register.submit') }}" class="needs-validation" novalidate>
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Institute Name</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required autofocus>
+                                @include('alerts.feedback', ['field' => 'name'])
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="responsible_person_name" class="form-label">Responsible Person Name</label>
-                        <input type="text" class="form-control @error('responsible_person_name') is-invalid @enderror" 
-                            id="responsible_person_name" name="responsible_person_name" 
-                            value="{{ old('responsible_person_name') }}" required>
-                        @error('responsible_person_name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
+                                @include('alerts.feedback', ['field' => 'email'])
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="responsible_person_phone" class="form-label">Responsible Person Phone</label>
-                        <input type="text" class="form-control @error('responsible_person_phone') is-invalid @enderror" 
-                            id="responsible_person_phone" name="responsible_person_phone" 
-                            value="{{ old('responsible_person_phone') }}" required>
-                        @error('responsible_person_phone')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">+880</span>
+                                    <input type="tel" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone') }}" required pattern="[0-9]{10}" placeholder="1XXXXXXXXX">
+                                    @include('alerts.feedback', ['field' => 'phone'])
+                                </div>
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" 
-                            id="password" name="password" required>
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="address" value="{{ old('address') }}" required>
+                                @include('alerts.feedback', ['field' => 'address'])
+                            </div>
 
-                    <div class="mb-4">
-                        <label for="password_confirmation" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" 
-                            id="password_confirmation" name="password_confirmation" required>
-                    </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
+                                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                @include('alerts.feedback', ['field' => 'password'])
+                            </div>
 
-                    <button type="submit" class="btn btn-primary w-100 mb-3">Register</button>
-                    
-                    <div class="text-center">
-                        <p class="mb-0">Already have an account? <a href="{{ route('institute.login') }}">Login here</a></p>
-                    </div>
-                </form>
+                            <div class="col-md-6 mb-3">
+                                <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                                    <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input @error('terms') is-invalid @enderror" type="checkbox" id="terms" name="terms" required {{ old('terms') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                                </label>
+                                @error('terms')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="me-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                                </svg>
+                                Register
+                            </button>
+                            <p class="text-center mt-3">Already have an account? <a href="{{ route('institute.login') }}" class="text-primary text-decoration-none">Login</a></p>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        // Toggle password visibility
+        function togglePasswordVisibility(buttonId, inputId) {
+            $(buttonId).on('click', function() {
+                const input = $(inputId);
+                const type = input.attr('type') === 'password' ? 'text' : 'password';
+                input.attr('type', type);
+
+                // Update icon based on password visibility
+                const icon = $(this).find('svg');
+                if (type === 'text') {
+                    icon.html('<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />');
+                } else {
+                    icon.html('<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />');
+                }
+            });
+        }
+
+        // Initialize password toggles
+        togglePasswordVisibility('#togglePassword', '#password');
+        togglePasswordVisibility('#toggleConfirmPassword', '#password_confirmation');
+
+        // Phone number validation
+        $('#phone').on('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (this.value.length > 10) {
+                this.value = this.value.slice(0, 10);
+            }
+        });
+    });
+</script>
+@endpush
+@endsection

@@ -10,6 +10,9 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
+        if (Auth::guard('institute')->check()) {
+            return redirect()->route('institute.dashboard');
+        }
         return view('institute.auth.login');
     }
 
@@ -22,12 +25,11 @@ class LoginController extends Controller
 
         if (Auth::guard('institute')->attempt($credentials)) {
             $request->session()->regenerate();
+            session()->flash('success', 'Welcome back');
             return redirect()->intended(route('institute.dashboard'));
         }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        session()->flash('error', 'The provided credentials do not match our records.');
+        return back()->onlyInput('email');
     }
 
     public function logout(Request $request)

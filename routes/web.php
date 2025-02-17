@@ -78,13 +78,19 @@ Route::group(['middleware' => 'auth:admin'], function () {
     });
 });
 
-// Institute Routes
+// Institute Auth Routes
 Route::prefix('institute')->name('institute.')->group(function () {
     Route::middleware('guest:institute')->group(function () {
         Route::get('login', [App\Http\Controllers\Institute\Auth\LoginController::class, 'showLoginForm'])->name('login');
         Route::post('login', [App\Http\Controllers\Institute\Auth\LoginController::class, 'login'])->name('login.submit');
         Route::get('register', [App\Http\Controllers\Institute\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
         Route::post('register', [App\Http\Controllers\Institute\Auth\RegisterController::class, 'register'])->name('register.submit');
+        
+        // Password Reset Routes
+        Route::get('password/reset', [App\Http\Controllers\Institute\Auth\InstituteForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+        Route::post('password/email', [App\Http\Controllers\Institute\Auth\InstituteForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+        Route::get('password/reset/{token}', [App\Http\Controllers\Institute\Auth\InstituteResetPasswordController::class, 'showResetForm'])->name('password.reset');
+        Route::post('password/reset', [App\Http\Controllers\Institute\Auth\InstituteResetPasswordController::class, 'reset'])->name('password.update');
     });
 
     Route::middleware('auth:institute')->group(function () {

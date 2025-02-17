@@ -18,6 +18,9 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
+        if (Auth::guard('institute')->check()) {
+            return redirect()->route('institute.dashboard');
+        }
         return view('institute.auth.register');
     }
 
@@ -26,8 +29,8 @@ class RegisterController extends Controller
         $institute = $this->instituteService->create($request->validated());
 
         Auth::guard('institute')->login($institute);
+        session()->flash('success', 'Registration successful! Welcome to your dashboard.');
+        return redirect()->route('institute.dashboard');
 
-        return redirect()->route('institute.dashboard')
-            ->with('success', 'Registration successful! Welcome to your dashboard.');
     }
 }

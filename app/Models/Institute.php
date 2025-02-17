@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\AuthBaseModel;
+use App\Notifications\InstituteResetPasswordNotification;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -49,6 +50,12 @@ class Institute extends AuthBaseModel
         'updater_id' => 'integer',
         'deleter_id' => 'integer',
     ];
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new InstituteResetPasswordNotification($token));
+    }
+
     public function subscriptions()
     {
         return $this->hasMany(InstituteSubscription::class);
