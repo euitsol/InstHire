@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admin\EmployeeManagement;
+namespace App\Http\Controllers\Institute\EmployeeManagement;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeRequest;
-use App\Models\Admin;
 use App\Models\Employee;
 use App\Services\EmployeeService;
 use App\Services\InstituteService;
@@ -26,8 +25,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = $this->employeeService->getEmployees();
-        return view('admin.employee-management.employee.index', compact('employees'));
+        $employees = $this->employeeService->getInstituteEmployees(institute()->id);
+        return view('institute.employee-management.employee.index', compact('employees'));
     }
 
     /**
@@ -35,8 +34,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $institutes = $this->instituteService->getInstitutes();
-        return view('admin.employee-management.employee.create', compact('institutes'));
+        return view('institute.employee-management.employee.create');
     }
 
     /**
@@ -44,10 +42,12 @@ class EmployeeController extends Controller
      */
     public function store(EmployeeRequest $request)
     {
-        $audits['creater_type'] = Admin::class;
-        $audits['creater_id'] = admin()->id;
+        $audits['creater_type'] = get_class(institute());
+        $audits['verifier_type'] = get_class(institute());
+        $audits['creater_id'] = institute()->id;
+        $audits['verifier_id'] = institute()->id;
         $this->employeeService->createEmployee(array_merge($request->validated(), $audits));
-        return redirect()->route('em.employee.index')->with('success', 'Employee created successfully');
+        return redirect()->route('institute.employee.index')->with('success', 'Employee created successfully');
     }
 
     /**
@@ -66,8 +66,7 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         $employee = $this->employeeService->getDetails($employee);
-        $institutes = $this->instituteService->getInstitutes();
-        return view('admin.employee-management.employee.edit', compact('employee', 'institutes'));
+        return view('institute.employee-management.employee.edit', compact('employee'));
     }
 
     /**
@@ -75,9 +74,9 @@ class EmployeeController extends Controller
      */
     public function update(EmployeeRequest $request, Employee $employee)
     {
-        $employee->updater()->associate(admin());
+        $employee->updater()->associate(institute());
         $this->employeeService->updateEmployee($employee, $request->validated());
-        return redirect()->route('em.employee.index')->with('success', 'Employee updated successfully');
+        return redirect()->route('institute.employee.index')->with('success', 'Employee updated successfully');
     }
 
     /**
@@ -85,9 +84,9 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        $employee->deleter()->associate(admin());
+        $employee->deleter()->associate(institute());
         $this->employeeService->deleteEmployee($employee);
-        return redirect()->route('em.employee.index')->with('success', 'Employee deleted successfully');
+        return redirect()->route('institute.employee.index')->with('success', 'Employee deleted successfully');
     }
 
     /**
@@ -95,7 +94,7 @@ class EmployeeController extends Controller
      */
     public function status(Employee $employee, int $status)
     {
-        $employee->updater()->associate(admin());
+        $employee->updater()->associate(institute());
         $this->employeeService->statusChange($employee, $status);
         return redirect()->back()->with('success', 'Employee status updated successfully');
     }
@@ -106,16 +105,6 @@ class EmployeeController extends Controller
     public function profile(Employee $employee)
     {
         $employee = $this->employeeService->getDetails($employee);
-        return view('admin.employee-management.employee.profile', compact('employee'));
-    }
-
-    /**
-     * Update the authenticated employee's profile.
-     */
-    public function updateProfile(EmployeeRequest $request, Employee $employee)
-    {
-        $employee->updater()->associate(admin());
-        $this->employeeService->updateEmployee($employee, $request->validated());
-        return redirect()->route('em.employee.profile', $employee->id)->with('success', 'Profile updated successfully');
+        return view('institute.employee-management.employee.profile', compact('employee'));
     }
 }
