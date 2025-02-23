@@ -40,10 +40,10 @@ class InstituteController extends Controller
      */
     public function store(InstituteRequest $request)
     {
-        $audits['creater_type'] = Admin::class;
-        $audits['creater_id'] = admin()->id;
-        $audits['slug'] = Str::slug($request->input('name'));
-        $this->instituteService->create(array_merge($request->validated(), $audits));
+        $data['creater_type'] = Admin::class;
+        $data['creater_id'] = admin()->id;
+        $data['slug'] = Str::slug($request->input('name'));
+        $this->instituteService->create(array_merge($request->validated(), $data));
         return redirect()->route('im.institute.index')->with('success', 'Institute created successfully');
     }
 

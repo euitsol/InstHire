@@ -16,9 +16,11 @@
                         <div class="card h-100 subscription-card">
                             <div class="position-relative">
                                 @if ($subscription->image)
-                                    <img src="{{ $subscription->image }}" class="card-img-top subscription-image" alt="{{ $subscription->title }}">
+                                    <img src="{{ storage_url($subscription->image) }}"
+                                        class="card-img-top subscription-image" alt="{{ $subscription->title }}">
                                 @else
-                                    <div class="card-img-top subscription-image-placeholder d-flex align-items-center justify-content-center">
+                                    <div
+                                        class="card-img-top subscription-image-placeholder d-flex align-items-center justify-content-center">
                                         <i class="bi bi-box-seam text-muted"></i>
                                     </div>
                                 @endif
@@ -28,7 +30,8 @@
                                     </span>
                                 </div>
                                 <div class="position-absolute bottom-0 start-0 w-100 price-banner">
-                                    <h4 class="text-white mb-0 px-3 py-2">{{ number_format($subscription->price, 2) }} <small>BDT</small></h4>
+                                    <h4 class="text-white mb-0 px-3 py-2">{{ number_format($subscription->price, 2) }}
+                                        <small>BDT</small></h4>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -36,8 +39,9 @@
                                     <h5 class="card-title mb-0">{{ $subscription->title }}</h5>
                                     <span class="badge bg-info rounded-pill">{{ $subscription->validity }} Days</span>
                                 </div>
-                                @if($subscription->description)
-                                    <p class="card-text text-muted mb-3">{{ Str::limit($subscription->description, 100) }}</p>
+                                @if ($subscription->description)
+                                    <p class="card-text text-muted mb-3">{{ Str::limit($subscription->description, 100) }}
+                                    </p>
                                 @endif
                                 <div class="action-buttons">
                                     @include('admin.includes.action_buttons', [
@@ -91,34 +95,42 @@
         .subscription-card {
             transition: transform 0.2s;
             border: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             overflow: hidden;
         }
+
         .subscription-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
-        .subscription-image, .subscription-image-placeholder {
+
+        .subscription-image,
+        .subscription-image-placeholder {
             height: 200px;
             object-fit: cover;
             background: linear-gradient(45deg, #f8f9fa, #e9ecef);
         }
+
         .subscription-image-placeholder i {
             font-size: 3rem;
         }
+
         .price-banner {
-            background: linear-gradient(to right, rgba(40,167,69,0.9), rgba(32,201,151,0.9));
+            background: linear-gradient(to right, rgba(40, 167, 69, 0.9), rgba(32, 201, 151, 0.9));
             backdrop-filter: blur(5px);
         }
+
         .action-buttons {
-            border-top: 1px solid rgba(0,0,0,0.05);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
             padding-top: 1rem;
             margin-top: auto;
         }
+
         .card-title {
             color: #2c3e50;
             font-weight: 600;
         }
+
         .card-text {
             font-size: 0.9rem;
             color: #6c757d;
@@ -151,8 +163,8 @@
                                     ${subscription.image ?
                                         `<img src="${subscription.image}" alt="${subscription.title}" class="img-fluid rounded mb-3">` :
                                         `<div class="bg-light rounded mb-3 d-flex align-items-center justify-content-center" style="height: 200px">
-                                            <i class="bi bi-image text-muted display-1"></i>
-                                        </div>`
+                                                <i class="bi bi-image text-muted display-1"></i>
+                                            </div>`
                                     }
                                 </div>
                                 <div class="col-md-8">

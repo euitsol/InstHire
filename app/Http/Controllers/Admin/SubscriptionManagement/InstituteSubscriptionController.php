@@ -44,7 +44,9 @@ class InstituteSubscriptionController extends Controller
     public function store(InstituteSubscriptionRequest $request)
     {
         try {
-            $this->service->create($request->validated());
+            $data['creater_id'] = admin()->id;
+            $data['creater_type'] = get_class(admin());
+            $this->service->create(array_merge($request->validated(), $data));
             return redirect()->route('sm.institute-subscription.index')->with('success', 'Institute subscription created successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong! ' . $e->getMessage());
@@ -75,7 +77,9 @@ class InstituteSubscriptionController extends Controller
     public function update(InstituteSubscriptionRequest $request, InstituteSubscription $instituteSubscription)
     {
         try {
-            $this->service->update($instituteSubscription, $request->validated());
+            $data['updater_id'] = admin()->id;
+            $data['updater_type'] = get_class(admin());
+            $this->service->update($instituteSubscription, array_merge($request->validated(), $data));
             return redirect()->route('sm.institute-subscription.index')->with('success', 'Institute subscription updated successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Something went wrong! ' . $e->getMessage());

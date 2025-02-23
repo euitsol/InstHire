@@ -19,41 +19,48 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Institute Name</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        id="name" name="name" value="{{ old('name') }}" required autofocus>
+                                    <input type="text" placeholder="Institute Name"
+                                        class="form-control @error('name') is-invalid @enderror" id="name"
+                                        name="name" value="{{ old('name') }}" required autofocus>
                                     @include('alerts.feedback', ['field' => 'name'])
                                 </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                        id="email" name="email" value="{{ old('email') }}" required>
+                                    <input type="email" placeholder="Email Address"
+                                        class="form-control @error('email') is-invalid @enderror" id="email"
+                                        name="email" value="{{ old('email') }}" required>
                                     @include('alerts.feedback', ['field' => 'email'])
                                 </div>
-
                                 <div class="col-md-6 mb-3">
-                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <label for="responsible_person_name" class="form-label">Responsible Person Name</label>
+                                    <input type="text" placeholder="Responsible Person Name"
+                                        class="form-control @error('responsible_person_name') is-invalid @enderror"
+                                        id="responsible_person_name" name="responsible_person_name"
+                                        value="{{ old('responsible_person_name') }}" required>
+                                    @include('alerts.feedback', ['field' => 'responsible_person_name'])
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="responsible_person_phone" class="form-label">Responsible Person Phone
+                                        Number</label>
                                     <div class="input-group">
                                         <span class="input-group-text">+880</span>
-                                        <input type="tel" class="form-control @error('phone') is-invalid @enderror"
-                                            id="phone" name="phone" value="{{ old('phone') }}" required
-                                            pattern="[0-9]{10}" placeholder="1XXXXXXXXX">
-                                        @include('alerts.feedback', ['field' => 'phone'])
+                                        <input type="tel"
+                                            class="form-control @error('responsible_person_phone') is-invalid @enderror"
+                                            id="responsible_person_phone" name="responsible_person_phone"
+                                            value="{{ old('responsible_person_phone') }}" required pattern="[0-9]{10}"
+                                            placeholder="1XXXXXXXXX">
+                                        @include('alerts.feedback', [
+                                            'field' => 'responsible_person_phone',
+                                        ])
                                     </div>
                                 </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label for="address" class="form-label">Address</label>
-                                    <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                        id="address" name="address" value="{{ old('address') }}" required>
-                                    @include('alerts.feedback', ['field' => 'address'])
-                                </div>
-
                                 <div class="col-md-6 mb-3">
                                     <label for="password" class="form-label">Password</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                            id="password" name="password" required>
+                                        <input type="password" placeholder="Password"
+                                            class="form-control @error('password') is-invalid @enderror" id="password"
+                                            name="password" required>
                                         <button type="button" class="btn btn-outline-secondary" id="togglePassword">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,8 +77,8 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="password_confirmation" class="form-label">Confirm Password</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="password_confirmation"
-                                            name="password_confirmation" required>
+                                        <input type="password" placeholder="Confirm Password" class="form-control"
+                                            id="password_confirmation" name="password_confirmation" required>
                                         <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">

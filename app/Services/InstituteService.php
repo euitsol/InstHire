@@ -43,8 +43,6 @@ class InstituteService
         if (isset($data['image'])) {
             $data['image'] = $this->uploadImage($data['image']);
         }
-        $data['creater_id'] = admin()->id;
-        $data['creater_type'] = get_class(admin());
         return Institute::create($data);
     }
 
@@ -61,7 +59,7 @@ class InstituteService
             $data['image'] = $this->uploadImage($data['image']);
         }
 
-        $data['password'] = !empty($data['password']) ? $data['password']: $institute->password;
+        $data['password'] = !empty($data['password']) ? $data['password'] : $institute->password;
         $data['updater_id'] = admin()->id;
         $data['updater_type'] = get_class(admin());
         return $institute->update($data);
