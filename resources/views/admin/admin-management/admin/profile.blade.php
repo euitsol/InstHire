@@ -73,7 +73,7 @@
                                                 </div>
                                             </div>
                                             <div class="image-preview mt-3 {{ $admin->image ? '' : 'd-none' }}">
-                                                <img src="{{ $admin->image ? asset('storage/'.$admin->image) : '' }}" alt="Profile Preview" class="img-fluid rounded">
+                                                <img src="{{ $admin->image ? $admin->image : '' }}" alt="Profile Preview" class="img-fluid rounded">
                                             </div>
                                         </div>
                                     </div>

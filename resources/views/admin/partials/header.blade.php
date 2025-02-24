@@ -9,12 +9,12 @@
                 <div class="dropdown">
                     <button class="btn p-0" type="button" id="userDropdown" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <img src="{{ asset('storage/' . Auth::guard('admin')->user()->image) ?? 'https://i.pravatar.cc/150?img=68' }}"
+                        <img src="{{ admin()->image }}"
                             alt="User Avatar" class="user-avatar">
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li>
-                            <h6 class="dropdown-header">{{ Auth::guard('admin')->user()->name }}</h6>
+                            <h6 class="dropdown-header">{{ admin()->name }}</h6>
                         </li>
                         <li><a class="dropdown-item" href="{{ route('am.admin.profile') }}"><i
                                     class="bi bi-person me-2"></i>{{ __('My Profile') }}</a>

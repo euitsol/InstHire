@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,7 +23,7 @@ class AuthBaseModel extends Authenticatable
     const GENDER_FEMALE = 2;
     const GENDER_OTHERS = 3;
 
-    protected $appends = ['status_label', 'gender_label', 'status_badge_color', 'status_btn_color', 'status_btn_label', 'gender_badge_color'];
+    protected $appends = ['status_label','status_labels', 'gender_label', 'gender_labels', 'status_badge_color', 'status_btn_color', 'status_btn_label', 'gender_badge_color'];
 
     // Status labels
     public static function getStatusLabels(): array
@@ -53,6 +55,15 @@ class AuthBaseModel extends Authenticatable
     public function getStatusLabelAttribute(): string
     {
         return self::getStatusLabels()[$this->status] ?? 'Unknown';
+    }
+
+    public function getStatusLabelsAttribute(): array
+    {
+        return self::getStatusLabels();
+    }
+    public function getGenderLabelsAttribute(): array
+    {
+        return self::getGenderLabels();
     }
     // Accessor for status btn label
     public function getStatusBtnLabelAttribute(): string
@@ -113,18 +124,20 @@ class AuthBaseModel extends Authenticatable
         return self::getGenderBadgeColors()[$this->gender] ?? 'badge bg-secondary';
     }
 
-    public function created_admin()
+
+    public function creater_admin()
     {
         return $this->belongsTo(Admin::class, 'created_by');
     }
-    public function updated_admin()
+    public function updater_admin()
     {
         return $this->belongsTo(Admin::class, 'updated_by');
     }
-    public function deleted_admin()
+    public function deleter_admin()
     {
         return $this->belongsTo(Admin::class, 'deleted_by');
     }
+
 
     public function creater()
     {
@@ -137,5 +150,14 @@ class AuthBaseModel extends Authenticatable
     public function deleter()
     {
         return $this->morphTo();
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format(timeFormat());
+    }
+    public function getImageAttribute($image): string
+    {
+        return auth_storage_url($image, $this);
     }
 }

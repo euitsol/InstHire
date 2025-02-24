@@ -18,7 +18,7 @@
                     </svg>
                 </button>
 
-                <!-- Notifications -->
+                {{-- <!-- Notifications -->
                 <div class="dropdown">
                     <button class="btn icon-button" data-bs-toggle="dropdown">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,13 +30,14 @@
                             No new notifications
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
+                @if (auth()->guard('institute')->check())
                 <!-- Profile dropdown -->
                 <div class="dropdown profile-dropdown">
                     <button class="btn d-flex align-items-center gap-2" data-bs-toggle="dropdown">
                         <img class="rounded-circle" width="32" height="32"
-                             src="https://ui-avatars.com/api/?name={{ urlencode(auth()->guard('institute')->user()->name) }}&background=0D8ABC&color=fff" 
+                             src="https://ui-avatars.com/api/?name={{ urlencode(auth()->guard('institute')->user()->name) }}&background=0D8ABC&color=fff"
                              alt="{{ auth()->guard('institute')->user()->name }}">
                         <span class="d-none d-md-block">{{ auth()->guard('institute')->user()->name }}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,6 +58,7 @@
                         </form>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

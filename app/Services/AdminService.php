@@ -13,7 +13,7 @@ class AdminService
      */
     public function getAdmins(): Collection
     {
-        return Admin::latest()->get();
+        return Admin::with(['creater_admin'])->latest()->get();
     }
 
     public function statusChange(Admin $admin): bool
@@ -25,11 +25,7 @@ class AdminService
 
     public function getDetails(Admin $admin): Admin
     {
-        $admin->modify_image = $admin->image ? asset('storage/' . $admin->image) : strtoupper(substr($admin->name, 0, 1));
-        $admin->creating_time = date('Y-m-d H:i:s', strtotime($admin->created_at));
-        $admin->updating_time = $admin->updated_at ? date('Y-m-d H:i:s', strtotime($admin->updated_at)) : null;
-        $admin->status_labels = Admin::getStatusLabels();
-        $admin->gender_labels = Admin::getGenderLabels();
+        $admin->load(['creater_admin', 'updater_admin']);
         return $admin;
     }
 
@@ -41,6 +37,7 @@ class AdminService
         if (isset($data['image'])) {
             $data['image'] = $this->uploadImage($data['image']);
         }
+        $data['created_by'] = admin()->id;
         return Admin::create($data);
     }
 
@@ -57,6 +54,7 @@ class AdminService
             $data['image'] = $this->uploadImage($data['image']);
         }
         $data['password'] = !empty($data['password']) ? $data['password']: $admin->password;
+        $data['updated_by'] = admin()->id;
         return $admin->update($data);
     }
 
@@ -65,6 +63,7 @@ class AdminService
      */
     public function deleteAdmin(Admin $admin): ?bool
     {
+        $admin->deleted_by = admin()->id;
         return $admin->delete();
     }
 

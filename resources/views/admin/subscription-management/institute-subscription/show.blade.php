@@ -22,28 +22,39 @@
                                         <div class="row g-3">
                                             <div class="col-12">
                                                 <div class="d-flex">
-                                                    <label class="text-muted" style="width: 100px">{{ __('Name') }}</label>
-                                                    <div class="flex-grow-1">{{ $instituteSubscription->institute->name }}</div>
+                                                    <label class="text-muted"
+                                                        style="width: 100px">{{ __('Name') }}</label>
+                                                    <div class="flex-grow-1">{{ $instituteSubscription->institute->name }}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex">
-                                                    <label class="text-muted" style="width: 100px">{{ __('Email') }}</label>
-                                                    <div class="flex-grow-1">{{ $instituteSubscription->institute->email }}</div>
+                                                    <label class="text-muted"
+                                                        style="width: 100px">{{ __('Email') }}</label>
+                                                    <div class="flex-grow-1">{{ $instituteSubscription->institute->email }}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex">
-                                                    <label class="text-muted" style="width: 100px">{{ __('Phone') }}</label>
-                                                    <div class="flex-grow-1">{{ $instituteSubscription->institute->phone }}</div>
+                                                    <label class="text-muted"
+                                                        style="width: 100px">{{ __('Responsible Person Name') }}</label>
+                                                    <div class="flex-grow-1">
+                                                        {{ $instituteSubscription->institute->responsible_person_name }}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex">
-                                                    <label class="text-muted" style="width: 100px">{{ __('Address') }}</label>
-                                                    <div class="flex-grow-1">{{ $instituteSubscription->institute->address }}</div>
+                                                    <label class="text-muted"
+                                                        style="width: 100px">{{ __('Responsible Person Phone') }}</label>
+                                                    <div class="flex-grow-1">
+                                                        {{ $instituteSubscription->institute->responsible_person_phone }}
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -55,25 +66,32 @@
                                         <div class="row g-3">
                                             <div class="col-12">
                                                 <div class="d-flex">
-                                                    <label class="text-muted" style="width: 100px">{{ __('Title') }}</label>
-                                                    <div class="flex-grow-1">{{ $instituteSubscription->subscription->title }}</div>
+                                                    <label class="text-muted"
+                                                        style="width: 100px">{{ __('Title') }}</label>
+                                                    <div class="flex-grow-1">
+                                                        {{ $instituteSubscription->subscription->title }}</div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex">
-                                                    <label class="text-muted" style="width: 100px">{{ __('Price') }}</label>
-                                                    <div class="flex-grow-1">{{ $instituteSubscription->subscription->price }} BDT</div>
+                                                    <label class="text-muted"
+                                                        style="width: 100px">{{ __('Price') }}</label>
+                                                    <div class="flex-grow-1">
+                                                        {{ $instituteSubscription->subscription->price }} BDT</div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex">
-                                                    <label class="text-muted" style="width: 100px">{{ __('Validity') }}</label>
-                                                    <div class="flex-grow-1">{{ $instituteSubscription->subscription->validity }} Days</div>
+                                                    <label class="text-muted"
+                                                        style="width: 100px">{{ __('Validity') }}</label>
+                                                    <div class="flex-grow-1">
+                                                        {{ $instituteSubscription->subscription->validity }} Days</div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex">
-                                                    <label class="text-muted" style="width: 100px">{{ __('Status') }}</label>
+                                                    <label class="text-muted"
+                                                        style="width: 100px">{{ __('Status') }}</label>
                                                     <div class="flex-grow-1">
                                                         <span class="{{ $instituteSubscription->status_badge_color }}">
                                                             {{ $instituteSubscription->status_label }}
@@ -83,8 +101,11 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="d-flex">
-                                                    <label class="text-muted" style="width: 100px">{{ __('Created At') }}</label>
-                                                    <div class="flex-grow-1">{{ $instituteSubscription->created_at->format('d M, Y h:i A') }}</div>
+                                                    <label class="text-muted"
+                                                        style="width: 100px">{{ __('Created At') }}</label>
+                                                    <div class="flex-grow-1">
+                                                        {{ $instituteSubscription->created_at->format('d M, Y h:i A') }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

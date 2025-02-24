@@ -45,7 +45,7 @@ class EmployeeController extends Controller
     public function store(EmployeeRequest $request)
     {
         $audits['creater_type'] = Admin::class;
-        $audits['creater_id'] = auth()->guard('admin')->id();
+        $audits['creater_id'] = admin()->id;
         $this->employeeService->createEmployee(array_merge($request->validated(), $audits));
         return redirect()->route('em.employee.index')->with('success', 'Employee created successfully');
     }
@@ -75,9 +75,8 @@ class EmployeeController extends Controller
      */
     public function update(EmployeeRequest $request, Employee $employee)
     {
-        $audits['updater_type'] = Admin::class;
-        $audits['updater_id'] = auth()->guard('admin')->id();
-        $this->employeeService->updateEmployee($employee, array_merge($request->validated(), $audits));
+        $employee->updater()->associate(admin());
+        $this->employeeService->updateEmployee($employee, $request->validated());
         return redirect()->route('em.employee.index')->with('success', 'Employee updated successfully');
     }
 
@@ -86,7 +85,7 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        $employee->deleter()->associate(auth()->guard('admin')->user());
+        $employee->deleter()->associate(admin());
         $this->employeeService->deleteEmployee($employee);
         return redirect()->route('em.employee.index')->with('success', 'Employee deleted successfully');
     }
@@ -96,7 +95,7 @@ class EmployeeController extends Controller
      */
     public function status(Employee $employee, int $status)
     {
-        $employee->updater()->associate(auth()->guard('admin')->user());
+        $employee->updater()->associate(admin());
         $this->employeeService->statusChange($employee, $status);
         return redirect()->back()->with('success', 'Employee status updated successfully');
     }
@@ -115,9 +114,8 @@ class EmployeeController extends Controller
      */
     public function updateProfile(EmployeeRequest $request, Employee $employee)
     {
-        $data['updater_type'] = Admin::class;
-        $data['updater_id'] = auth()->guard('admin')->id();
-        $this->employeeService->updateEmployee($employee, array_merge($request->validated(), $data));
+        $employee->updater()->associate(admin());
+        $this->employeeService->updateEmployee($employee, $request->validated());
         return redirect()->route('em.employee.profile', $employee->id)->with('success', 'Profile updated successfully');
     }
 }

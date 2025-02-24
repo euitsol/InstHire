@@ -1,5 +1,5 @@
 <!-- Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
 
 <!-- Custom JavaScript -->
 <script>
@@ -21,7 +21,7 @@
 
     // Dark Mode Toggle
     document.getElementById('darkModeToggle').addEventListener('click', function() {
-        document.documentElement.setAttribute('data-bs-theme', 
+        document.documentElement.setAttribute('data-bs-theme',
             document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark'
         );
     });

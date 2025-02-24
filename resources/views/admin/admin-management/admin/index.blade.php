@@ -19,6 +19,8 @@
                         <th>{{ __('Email') }}</th>
                         <th>{{ __('Phone') }}</th>
                         <th>{{ __('Status') }}</th>
+                        <th>{{ __('Created At') }}</th>
+                        <th>{{ __('Created By') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -27,7 +29,7 @@
                         <tr>
                             <td>
                                 @if ($admin->image)
-                                    <img src="{{ asset('storage/' . $admin->image) }}" alt="Profile" class="rounded-circle"
+                                    <img src="{{ $admin->image }}" alt="Profile" class="rounded-circle"
                                         width="40" height="40">
                                 @else
                                     <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
@@ -44,6 +46,8 @@
                                     {{ $admin->status_label }}
                                 </span>
                             </td>
+                            <td>{{ $admin->created_at }}</td>
+                            <td>{{ creater_name($admin->creater_admin) }}</td>
                             <td>
                                 @include('admin.includes.action_buttons', [
                                     'menuItems' => [
@@ -68,7 +72,7 @@
                                             'icon' => 'bi bi-pencil',
                                             'label' => 'Edit',
                                         ],
-                                
+
                                         [
                                             'routeName' => 'am.admin.destroy',
                                             'className' => 'btn-danger',
@@ -137,11 +141,11 @@
                                         <th>:</th>
                                         <td>`;
                         if (data.image) {
-                            result += `<img src="${data.modify_image}" alt="Profile"
+                            result += `<img src="${data.image}" alt="Profile"
                                                 class="rounded-circle" width="40" height="40">`;
                         } else {
                             result += `<div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                            style="width: 40px; height: 40px;">${data.modify_image}</div>`;
+                            style="width: 40px; height: 40px;">${data.image}</div>`;
                         }
                         result += `
                                         </td>
@@ -162,14 +166,24 @@
                                         <td><span class="${data.status_badge_color}">${data.status_label}</span></td>
                                     </tr>
                                     <tr>
+                                        <th class="text-nowrap">Created By</th>
+                                        <th>:</th>
+                                        <td>${data.creater_admin ? data.creater_admin.name : 'System'}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Updated By</th>
+                                        <th>:</th>
+                                        <td>${data.updater_admin ? data.updater_admin.name : 'Null'}</td>
+                                    </tr>
+                                    <tr>
                                         <th class="text-nowrap">Created Date</th>
                                         <th>:</th>
-                                        <td>${data.creating_time}</td>
+                                        <td>${data.created_at}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Updated Date</th>
                                         <th>:</th>
-                                        <td>${data.updating_time}</td>
+                                        <td>${data.updated_at != data.created_at ? data.updated_at : 'Null'}</td>
                                     </tr>
                                 </table>
                                 `;

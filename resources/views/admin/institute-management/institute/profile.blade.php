@@ -76,7 +76,7 @@
                                                 </div>
                                             </div>
                                             <div class="image-preview mt-3 {{ $institute->image ? '' : 'd-none' }}">
-                                                <img src="{{ $institute->image ? asset('storage/'.$institute->image) : '' }}" alt="Profile Preview" class="img-fluid rounded">
+                                                <img src="{{ $institute->image ? $institute->image : '' }}" alt="Profile Preview" class="img-fluid rounded">
                                             </div>
                                         </div>
                                     </div>

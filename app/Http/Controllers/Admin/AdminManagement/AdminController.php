@@ -106,14 +106,14 @@ class AdminController extends Controller
 
     public function profile()
     {
-        $admin = $this->adminService->getDetails(Auth::guard('admin')->user());
+        $admin = $this->adminService->getDetails(admin());
         return view('admin.admin-management.admin.profile', compact('admin'));
     }
 
     public function updateProfile(AdminRequest $request): RedirectResponse
     {
         try {
-            $this->adminService->updateAdmin(Auth::guard('admin')->user(), $request->validated());
+            $this->adminService->updateAdmin(admin(), $request->validated());
             session()->flash('success', 'Profile updated successfully');
             return Redirect::route('am.admin.profile');
         } catch (\Exception $e) {

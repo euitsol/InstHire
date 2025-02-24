@@ -40,10 +40,10 @@ class InstituteController extends Controller
      */
     public function store(InstituteRequest $request)
     {
-        $audits['creater_type'] = Admin::class;
-        $audits['creater_id'] = auth()->guard('admin')->id();
-        $audits['slug'] = Str::slug($request->input('name'));
-        $this->instituteService->create(array_merge($request->validated(), $audits));
+        $data['creater_type'] = Admin::class;
+        $data['creater_id'] = admin()->id;
+        $data['slug'] = Str::slug($request->input('name'));
+        $this->instituteService->create(array_merge($request->validated(), $data));
         return redirect()->route('im.institute.index')->with('success', 'Institute created successfully');
     }
 
@@ -72,7 +72,7 @@ class InstituteController extends Controller
     public function update(InstituteRequest $request, Institute $institute)
     {
         $audits['updater_type'] = Admin::class;
-        $audits['updater_id'] = auth()->guard('admin')->id();
+        $audits['updater_id'] = admin()->id;
         $audits['slug'] = Str::slug($request->input('name'));
         $this->instituteService->update($institute, array_merge($request->validated(), $audits));
         return redirect()->route('im.institute.index')->with('success', 'Institute updated successfully');
@@ -84,7 +84,7 @@ class InstituteController extends Controller
     public function destroy(Institute $institute)
     {
         $audits['deleter_type'] = Admin::class;
-        $audits['deleter_id'] = auth()->guard('admin')->id();
+        $audits['deleter_id'] = admin()->id;
         $this->instituteService->delete($institute);
         return redirect()->route('im.institute.index')->with('success', 'Institute deleted successfully');
     }
@@ -94,7 +94,7 @@ class InstituteController extends Controller
      */
     public function status(Institute $institute)
     {
-        $institute->updater()->associate(auth()->guard('admin')->user());
+        $institute->updater()->associate(admin());
         $this->instituteService->statusChange($institute);
         return redirect()->back()->with('success', 'Institute status updated successfully');
     }
@@ -114,7 +114,7 @@ class InstituteController extends Controller
     public function updateProfile(InstituteRequest $request, Institute $institute)
     {
         $data['updater_type'] = Admin::class;
-        $data['updater_id'] = auth()->guard('admin')->id();
+        $data['updater_id'] = admin()->id;
         $this->instituteService->update($institute, array_merge($request->validated(), $data));
         return redirect()->route('im.institute.profile', $institute->id)->with('success', 'Profile updated successfully');
     }

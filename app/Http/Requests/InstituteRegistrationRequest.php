@@ -17,8 +17,8 @@ class InstituteRegistrationRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:institutes'],
-            'responsible_person_name' => ['required', 'string', 'max:255'],
-            'responsible_person_phone' => ['required', 'string', 'max:20'],
+            'responsible_person_name' => ['required', 'sometimes', 'string', 'max:255'],
+            'responsible_person_phone' => ['required', 'sometimes', 'string', 'max:20'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }

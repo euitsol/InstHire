@@ -17,6 +17,8 @@ class InstituteSubscriptionObserver
             'institute_subscription_id' => $instituteSubscription->id,
             'amount' => $instituteSubscription->subscription->price,
             'status' => 0,
+            'creater_id' => $instituteSubscription->creater_id,
+            'creater_type' => $instituteSubscription->creater_type,
         ]);
     }
 }

@@ -12,6 +12,6 @@ class PaymentService
      */
     public function getAllPayments(): Collection
     {
-        return Payment::with(['institute', 'instituteSubscription.subscription'])->get();
+        return Payment::with(['institute', 'instituteSubscription.subscription', 'creater'])->get();
     }
 }

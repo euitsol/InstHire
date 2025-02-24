@@ -17,13 +17,15 @@
                             <table class="table table-responsive table-striped" id="instituteSubscriptionTable">
                                 <thead class="text-center bg-light">
                                     <tr>
-                                        <th width="5%">{{ __('#SL') }}</th>
-                                        <th width="20%">{{ __('Institute') }}</th>
-                                        <th width="20%">{{ __('Subscription') }}</th>
-                                        <th width="15%">{{ __('Price') }}</th>
-                                        <th width="15%">{{ __('Validity') }}</th>
-                                        <th width="10%">{{ __('Status') }}</th>
-                                        <th width="15%">{{ __('Action') }}</th>
+                                        <th>{{ __('#SL') }}</th>
+                                        <th>{{ __('Institute') }}</th>
+                                        <th>{{ __('Subscription') }}</th>
+                                        <th>{{ __('Price') }}</th>
+                                        <th>{{ __('Validity') }}</th>
+                                        <th>{{ __('Status') }}</th>
+                                        <th>{{ __('Created At') }}</th>
+                                        <th>{{ __('Created By') }}</th>
+                                        <th>{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -39,6 +41,9 @@
                                                     {{ $item->status_label }}
                                                 </span>
                                             </td>
+                                            <td>{{ $item->created_at}}</td>
+                                            <td>{{ $item->creater ? $item->creater->name : 'Null'}}</td>
+
                                             <td>
                                                 @include('admin.includes.action_buttons', [
                                                     'menuItems' => [

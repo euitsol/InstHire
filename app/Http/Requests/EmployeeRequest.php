@@ -35,6 +35,7 @@ class EmployeeRequest extends FormRequest
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'phone' => ['nullable', 'numeric', 'digits:11'],
             'gender' => ['nullable', Rule::in([Employee::GENDER_MALE, Employee::GENDER_FEMALE, Employee::GENDER_OTHERS])],
+            'verifier_id' => ['nullable', 'exists:institutes,id'],
 
         ];
 

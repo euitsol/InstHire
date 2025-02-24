@@ -9,16 +9,40 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
+    @stack('style_links')
+
     <!-- Styles -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @include('institute.partials.styles')
+
+    @stack('styles')
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                showAlert('success', '{{ session('success') }}');
+            @endif
+
+            @if (session('error'))
+                showAlert('error', '{{ session('error') }}');
+            @endif
+
+            @if (session('warning'))
+                showAlert('warning', '{{ session('warning') }}');
+            @endif
+        });
+    </script>
 </head>
 <body>
     <div id="app">
         <!-- Sidebar -->
-        @include('institute.partials.sidebar')
+        @if(auth()->guard('institute')->check())
+            @include('institute.partials.sidebar')
+        @endif
 
         <!-- Main Content -->
-        <div class="main-content">
+        <div class="main-content {{ !auth()->guard('institute')->check() ? 'ms-0' : '' }}">
             <!-- Header -->
             @include('institute.partials.header')
 
@@ -34,7 +58,11 @@
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    @stack('script_links')
+
     @include('institute.partials.scripts')
     <script src="{{ asset('institute/js/theme.js') }}"></script>
+
+    @stack('scripts')
 </body>
 </html>

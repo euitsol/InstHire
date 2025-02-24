@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->double('price', 8, 2);
-            $table->boolean('status')->default(Subscription::STATUS_ACTIVE)->comment(Subscription::STATUS_ACTIVE.' = active, '.Subscription::STATUS_DEACTIVE.' = inactive');
+            $table->boolean('status')->default(Subscription::STATUS_ACTIVE)->comment(Subscription::STATUS_ACTIVE . ' = active, ' . Subscription::STATUS_DEACTIVE . ' = inactive');
             $table->integer('validity');
             $table->string('image')->nullable();
             $table->text('description')->nullable();

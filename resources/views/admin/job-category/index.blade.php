@@ -15,8 +15,9 @@
                     <tr>
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Slug') }}</th>
-                        <th>{{ __('Created At') }}</th>
                         <th>{{ __('Status') }}</th>
+                        <th>{{ __('Created At') }}</th>
+                        <th>{{ __('Created By') }}</th>
                         <th>{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -25,12 +26,13 @@
                         <tr>
                             <td>{{ $jobCategory->title }}</td>
                             <td>{{ $jobCategory->slug }}</td>
-                            <td>{{ $jobCategory->created_at->format('Y-m-d H:i:s') }}</td>
                             <td>
                                 <span class="{{ $jobCategory->status_badge_color }}">
                                     {{ $jobCategory->status_label }}
                                 </span>
                             </td>
+                            <td>{{ $jobCategory->created_at }}</td>
+                            <td>{{ $jobCategory->creater ? $jobCategory->creater->name : 'System'}}</td>
                             <td>
                                 @include('admin.includes.action_buttons', [
                                     'menuItems' => [
@@ -123,14 +125,24 @@
                                         <td><span class="${data.status_badge_color}">${data.status_label}</span></td>
                                     </tr>
                                     <tr>
+                                        <th class="text-nowrap">Created By</th>
+                                        <th>:</th>
+                                        <td>${data.creater ? data.creater.name : 'System'}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-nowrap">Updated By</th>
+                                        <th>:</th>
+                                        <td>${data.updater ? data.updater.name : 'Null'}</td>
+                                    </tr>
+                                    <tr>
                                         <th class="text-nowrap">Created Date</th>
                                         <th>:</th>
-                                        <td>${data.creating_time}</td>
+                                        <td>${data.created_at}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap">Updated Date</th>
                                         <th>:</th>
-                                        <td>${data.updating_time}</td>
+                                        <td>${data.updated_at}</td>
                                     </tr>
                                 </table>
                                 `;

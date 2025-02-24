@@ -17,6 +17,7 @@
                         <th>{{ __('Amount') }}</th>
                         <th>{{ __('Status') }}</th>
                         <th>{{ __('Created At') }}</th>
+                        <th>{{ __('Created By') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +32,8 @@
                                     {{ $payment->status_label }}
                                 </span>
                             </td>
-                            <td>{{ $payment->created_at->format('d M, Y') }}</td>
+                            <td>{{ $payment->created_at}}</td>
+                            <td>{{ $payment->creater ? $payment->creater->name : 'Null'}}</td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -16,7 +16,7 @@ class SubscriptionService
      */
     public function getSubscriptions(): Collection
     {
-        return Subscription::latest()->get();
+        return Subscription::with(['creater_admin'])->latest()->get();
     }
 
     public function statusChange(Subscription $subscription): bool
@@ -28,8 +28,9 @@ class SubscriptionService
 
     public function getDetails(Subscription $subscription): Subscription
     {
-        $subscription->creating_time = date('Y-m-d H:i:s', strtotime($subscription->created_at));
-        $subscription->updating_time = $subscription->updated_at ? date('Y-m-d H:i:s', strtotime($subscription->updated_at)) : null;
+        // $subscription->creating_time = date('Y-m-d H:i:s', strtotime($subscription->created_at));
+        // $subscription->updating_time = $subscription->updated_at ? date('Y-m-d H:i:s', strtotime($subscription->updated_at)) : null;
+        $subscription->load(['creater_admin', 'updater_admin']);
         return $subscription;
     }
 
@@ -42,7 +43,7 @@ class SubscriptionService
         if (isset($data['image'])) {
             $data['image'] = $this->uploadImage($data['image']);
         }
-
+        $data['created_by'] = admin()->id;
         return Subscription::create($data);
     }
 
@@ -59,6 +60,7 @@ class SubscriptionService
                 $data['image'] = $this->uploadImage($data['image']);
             }
         }
+        $data['updated_by'] = admin()->id;
         return $subscription->update($data);
     }
 
@@ -67,6 +69,7 @@ class SubscriptionService
      */
     public function delete(Subscription $subscription): ?bool
     {
+        $subscription->deleted_by = admin()->id;
         return $subscription->delete();
     }
 
