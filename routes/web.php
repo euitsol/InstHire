@@ -17,6 +17,8 @@ use App\Http\Controllers\Institute\Auth\LoginController as InstituteLoginControl
 use App\Http\Controllers\Institute\Auth\RegisterController as InstituteRegisterController;
 use App\Http\Controllers\Institute\EmployeeManagement\EmployeeController as InstituteEmployeeController;
 use App\Http\Controllers\Institute\InstituteController as InstituteInstituteController;
+use App\Http\Controllers\Institute\Setup\DepartmentController;
+use App\Http\Controllers\Institute\Setup\SessionController;
 use App\Http\Controllers\Institute\ThemeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -112,9 +114,24 @@ Route::prefix('institute')->name('institute.')->group(function () {
             Route::get('employee/profile/{employee}', [InstituteEmployeeController::class, 'profile'])->name('employee.profile');
         });
 
+        // Setup Routes
+        Route::prefix('setup')->name('setup.')->group(function () {
+            // Department Routes
+            Route::get('departments', [DepartmentController::class, 'index'])->name('department.index');
+            Route::post('departments', [DepartmentController::class, 'store'])->name('department.store');
+            Route::get('departments/{department}', [DepartmentController::class, 'show'])->name('department.show');
+            Route::put('departments/{department}', [DepartmentController::class, 'update'])->name('department.update');
+            Route::patch('departments/{department}/toggle-status', [DepartmentController::class, 'toggleStatus'])->name('department.toggle-status');
+
+            // Session Routes
+            Route::get('sessions', [SessionController::class, 'index'])->name('session.index');
+            Route::post('sessions', [SessionController::class, 'store'])->name('session.store');
+            Route::get('sessions/{session}', [SessionController::class, 'show'])->name('session.show');
+            Route::put('sessions/{session}', [SessionController::class, 'update'])->name('session.update');
+            Route::patch('sessions/{session}/toggle-status', [SessionController::class, 'toggleStatus'])->name('session.toggle-status');
+        });
+
         // Theme routes
         Route::post('/theme/update', [ThemeController::class, 'update'])->name('theme.update');
     });
-
-
 });

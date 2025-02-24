@@ -39,6 +39,24 @@
                 </svg>
                 Employees
             </a>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#setup-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-gear"></i><span>Setup</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="setup-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('institute.setup.department.index') }}" class="{{ request()->routeIs('institute.setup.department.*') ? 'active' : '' }}">
+                            <i class="bi bi-building"></i><span>Departments</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('institute.setup.session.index') }}" class="{{ request()->routeIs('institute.setup.session.*') ? 'active' : '' }}">
+                            <i class="bi bi-calendar3"></i><span>Sessions</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </div>
     </nav>
 </div>
