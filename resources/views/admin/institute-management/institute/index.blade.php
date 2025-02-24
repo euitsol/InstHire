@@ -30,8 +30,8 @@
                         <tr>
                             <td>
                                 @if ($institute->image)
-                                    <img src="{{ $institute->image }}" alt="Profile" class="rounded-circle"
-                                        width="40" height="40">
+                                    <img src="{{ $institute->image }}" alt="Profile" class="rounded-circle" width="40"
+                                        height="40">
                                 @else
                                     <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
                                         style="width: 40px; height: 40px;">
@@ -41,15 +41,15 @@
                             </td>
                             <td>{{ $institute->name }}</td>
                             <td>{{ $institute->email }}</td>
-                            <td>{{ $institute->responsible_person_name}}</td>
-                            <td>{{ $institute->responsible_person_phone}}</td>
+                            <td>{{ $institute->responsible_person_name }}</td>
+                            <td>{{ $institute->responsible_person_phone }}</td>
                             <td>
                                 <span class="{{ $institute->status_badge_color }}">
                                     {{ $institute->status_label }}
                                 </span>
                             </td>
                             <td>{{ date('d-m-Y', strtotime($institute->created_at)) }}</td>
-                            <td>{{ $institute->creater->name }}</td>
+                            <td>{{ creater_name($institute->creater) }}</td>
                             <td>
                                 @include('admin.includes.action_buttons', [
                                     'menuItems' => [
@@ -81,7 +81,7 @@
                                             'icon' => 'bi bi-pencil',
                                             'label' => 'Edit',
                                         ],
-
+                                
                                         [
                                             'routeName' => 'im.institute.destroy',
                                             'className' => 'btn-danger',

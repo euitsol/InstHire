@@ -44,6 +44,7 @@ class EmployeeService
         }
         $data['verifier_type'] = !empty($data['verifier_id']) ? Institute::class : null;
         $data['verifier_id'] = $data['verifier_id'] ?? null;
+
         return Employee::create($data);
     }
 

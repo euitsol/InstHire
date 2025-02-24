@@ -27,40 +27,52 @@
                                                     @php
                                                         use App\Models\Employee;
                                                     @endphp
-                                                    @if($employee->status == Employee::STATUS_PENDING)
+                                                    @if ($employee->status == Employee::STATUS_PENDING)
                                                         @include('admin.includes.button', [
                                                             'routeName' => 'em.employee.status',
                                                             'label' => 'Accept',
                                                             'className' => 'btn-success',
-                                                            'params' => ['employee' => $employee->id, 'status' => Employee::STATUS_ACCEPTED],
+                                                            'params' => [
+                                                                'employee' => $employee->id,
+                                                                'status' => Employee::STATUS_ACCEPTED,
+                                                            ],
                                                         ])
                                                         @include('admin.includes.button', [
                                                             'routeName' => 'em.employee.status',
                                                             'label' => 'Decline',
                                                             'className' => 'btn-danger',
-                                                            'params' => ['employee' => $employee->id, 'status' => Employee::STATUS_DECLINED],
+                                                            'params' => [
+                                                                'employee' => $employee->id,
+                                                                'status' => Employee::STATUS_DECLINED,
+                                                            ],
                                                         ])
-                                                    @elseif($employee->status == Employee::STATUS_DECLINED)
+                                                    @elseif($employee->status == Employee::STATUS_ACCEPTED)
                                                         @include('admin.includes.button', [
                                                             'routeName' => 'em.employee.status',
-                                                            'label' => 'Accept',
-                                                            'className' => 'btn-success',
-                                                            'params' => ['employee' => $employee->id, 'status' => Employee::STATUS_ACCEPTED],
+                                                            'label' => 'Decline',
+                                                            'className' => 'btn-danger',
+                                                            'params' => [
+                                                                'employee' => $employee->id,
+                                                                'status' => Employee::STATUS_DECLINED,
+                                                            ],
                                                         ])
                                                     @endif
 
                                                 </div>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">{{ __('Name') }}<span class="text-danger">*</span></label>
-                                                <input type="text" value="{{ $employee->name }}" class="form-control" name="name"
-                                                    required>
+                                                <label class="form-label">{{ __('Name') }}<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" value="{{ $employee->name }}" class="form-control"
+                                                    name="name" required>
                                                 @include('alerts.feedback', ['field' => 'name'])
                                             </div>
 
                                             <div class="mb-3">
-                                                <label class="form-label">{{ __('Email') }}<span class="text-danger">*</span></label>
-                                                <input type="email" value="{{ $employee->email }}" class="form-control" required disabled>
+                                                <label class="form-label">{{ __('Email') }}<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="email" value="{{ $employee->email }}" class="form-control"
+                                                    required disabled>
                                                 @include('alerts.feedback', ['field' => 'email'])
                                             </div>
                                             <div class="mb-3">
@@ -68,8 +80,8 @@
                                                 <div class="input-group">
                                                     <span class="input-group-text">+880</span>
                                                     <input type="text" min='11' max='11' pattern="[0-9]{11}"
-                                                        placeholder="Enter phone" value="{{ $employee->phone }}" class="form-control"
-                                                        name="phone">
+                                                        placeholder="Enter phone" value="{{ $employee->phone }}"
+                                                        class="form-control" name="phone">
                                                 </div>
                                                 @include('alerts.feedback', ['field' => 'phone'])
                                             </div>
@@ -88,11 +100,15 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">{{ __('Verifier') }}</label>
-                                                <input type="text" value="{{ $employee->verifier ? $employee->verifier->name : 'Admin' }}" class="form-control" required disabled>
+                                                <input type="text"
+                                                    value="{{ $employee->verifier ? $employee->verifier->name : 'Admin' }}"
+                                                    class="form-control" required disabled>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">{{ __('Verified By') }}</label>
-                                                <input type="text" value="{{ $employee->verified_by ? $employee->verified_by->name : 'N/A' }}" class="form-control" required disabled>
+                                                <input type="text"
+                                                    value="{{ $employee->verified_by ? $employee->verified_by->name : 'N/A' }}"
+                                                    class="form-control" required disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -110,7 +126,8 @@
                                                 </div>
                                             </div>
                                             <div class="image-preview mt-3 {{ $employee->image ? '' : 'd-none' }}">
-                                                <img src="{{ $employee->image ? $employee->image : '' }}" alt="Profile Preview" class="img-fluid rounded">
+                                                <img src="{{ $employee->image ? $employee->image : '' }}"
+                                                    alt="Profile Preview" class="img-fluid rounded">
                                             </div>
                                         </div>
                                     </div>
@@ -130,26 +147,26 @@
 @endsection
 
 @push('scripts')
-<script>
-    // Image preview
-    document.querySelector('input[name="image"]').addEventListener('change', function(e) {
-        const preview = document.querySelector('.image-preview');
-        const img = preview.querySelector('img');
-        const file = e.target.files[0];
+    <script>
+        // Image preview
+        document.querySelector('input[name="image"]').addEventListener('change', function(e) {
+            const preview = document.querySelector('.image-preview');
+            const img = preview.querySelector('img');
+            const file = e.target.files[0];
 
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                img.src = e.target.result;
-                preview.classList.remove('d-none');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                    preview.classList.remove('d-none');
+                }
+                reader.readAsDataURL(file);
+            } else {
+                // If no new file is selected and there's an existing image, keep showing it
+                if (!img.getAttribute('src')) {
+                    preview.classList.add('d-none');
+                }
             }
-            reader.readAsDataURL(file);
-        } else {
-            // If no new file is selected and there's an existing image, keep showing it
-            if (!img.getAttribute('src')) {
-                preview.classList.add('d-none');
-            }
-        }
-    });
-</script>
+        });
+    </script>
 @endpush

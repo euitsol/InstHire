@@ -15,6 +15,7 @@ use App\Http\Controllers\Institute\Auth\InstituteForgotPasswordController;
 use App\Http\Controllers\Institute\Auth\InstituteResetPasswordController;
 use App\Http\Controllers\Institute\Auth\LoginController as InstituteLoginController;
 use App\Http\Controllers\Institute\Auth\RegisterController as InstituteRegisterController;
+use App\Http\Controllers\Institute\EmployeeManagement\EmployeeController as InstituteEmployeeController;
 use App\Http\Controllers\Institute\InstituteController as InstituteInstituteController;
 use App\Http\Controllers\Institute\ThemeController;
 use Illuminate\Support\Facades\Auth;
@@ -103,14 +104,17 @@ Route::prefix('institute')->name('institute.')->group(function () {
         Route::get('profile', [InstituteInstituteController::class, 'profile'])->name('profile');
         Route::put('profile', [InstituteInstituteController::class, 'updateProfile'])->name('profile.update');
         Route::post('logout', [InstituteLoginController::class, 'logout'])->name('logout');
+
+        // Employee Management Routes
+        Route::group(['prefix' => 'employee-management'], function () {
+            Route::resource('employee', InstituteEmployeeController::class);
+            Route::get('employee/status/{employee}/{status}', [InstituteEmployeeController::class, 'status'])->name('employee.status');
+            Route::get('employee/profile/{employee}', [InstituteEmployeeController::class, 'profile'])->name('employee.profile');
+        });
+
+        // Theme routes
+        Route::post('/theme/update', [ThemeController::class, 'update'])->name('theme.update');
     });
 
-    Route::group(['prefix' => 'employee-management'], function () {
-        Route::resource('employee', EmployeeController::class);
-        Route::get('employee/status/{employee}/{status}', [EmployeeController::class, 'status'])->name('employee.status');
-        Route::get('employee/profile/{employee}', [EmployeeController::class, 'profile'])->name('employee.profile');
-    });
 
-    // Theme routes
-    Route::post('/theme/update', [ThemeController::class, 'update'])->name('theme.update');
 });

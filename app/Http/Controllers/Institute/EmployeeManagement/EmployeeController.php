@@ -57,7 +57,7 @@ class EmployeeController extends Controller
     {
         $employee->load(['verifier', 'verified_by']);
         $employee = $this->employeeService->getDetails($employee);
-        return response()->json($employee);
+        return view('institute.employee-management.employee.show', compact('employee'));
     }
 
     /**
