@@ -14,10 +14,10 @@ jobs:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
-          host: 'jobportal.dhakapharmacy.com.bd'
-          port: '22'
-          username: 'jobpo8817'
-          password: 'jobPortal8817'
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
           script: |
             cd public_html
             git fetch --all
