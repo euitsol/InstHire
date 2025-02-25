@@ -5,9 +5,9 @@
     <div class="card mb-4">
         <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
-                <h2 class="card-title mb-4">{{ __('Student List') }}</h2>
-                <a href="{{ route('institute.student.create') }}" class="btn btn-sm btn-primary">
-                    <i class="bi bi-plus"></i> {{ __('Add New Student') }}
+                <h2 class="card-title mb-4">{{ __('Student Create') }}</h2>
+                <a href="{{ route('institute.student.index') }}" class="btn btn-sm btn-primary">
+                    <i class="bi bi-plus"></i> {{ __('Back') }}
                 </a>
             </div>
 

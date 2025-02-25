@@ -65,6 +65,14 @@
                                                 'icon' => 'bi bi-pencil',
                                                 'label' => 'Edit',
                                             ],
+                                            [
+                                                'routeName' => 'institute.student.destroy',
+                                                'className' => 'btn-danger',
+                                                'params' => [$student->id],
+                                                'label' => 'Delete',
+                                                'icon' => 'bi bi-trash',
+                                                'delete' => true,
+                                            ],
                                         ],
                                     ])
                                 </td>

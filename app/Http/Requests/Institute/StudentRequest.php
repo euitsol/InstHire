@@ -47,10 +47,10 @@ class StudentRequest extends FormRequest
     public function update(): array
     {
         return [
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $this->route('student')->id],
-            'phone' => ['numeric', 'digits:11', 'unique:users,phone,' . $this->route('student')->id],
-            'roll' => ['required', 'numeric', 'unique:users,roll,' . $this->route('student')->id],
-            'registration' => ['required', 'numeric', 'unique:users,registration,' . $this->route('student')->id],
+            'email' => ['required', 'email', 'max:255', 'unique:students,email,' . $this->route('student')->id],
+            'phone' => ['numeric', 'digits:11', 'unique:students,phone,' . $this->route('student')->id],
+            'roll' => ['required', 'numeric', 'unique:students,roll,' . $this->route('student')->id],
+            'registration' => ['required', 'numeric', 'unique:students,registration,' . $this->route('student')->id],
         ];
     }
 }
