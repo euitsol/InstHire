@@ -13,8 +13,8 @@
     @stack('style_links')
 
     <!-- Styles -->
-    @include('institute.partials.styles')
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @include('institute.partials.styles')
 
     @stack('styles')
 
