@@ -19,6 +19,7 @@ use App\Http\Controllers\Institute\EmployeeManagement\EmployeeController as Inst
 use App\Http\Controllers\Institute\InstituteController as InstituteInstituteController;
 use App\Http\Controllers\Institute\Setup\DepartmentController;
 use App\Http\Controllers\Institute\Setup\SessionController;
+use App\Http\Controllers\Institute\StudentManagement\StudentController as InstituteStudentController;
 use App\Http\Controllers\Institute\ThemeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -112,6 +113,13 @@ Route::prefix('institute')->name('institute.')->group(function () {
             Route::resource('employee', InstituteEmployeeController::class);
             Route::get('employee/status/{employee}/{status}', [InstituteEmployeeController::class, 'status'])->name('employee.status');
             Route::get('employee/profile/{employee}', [InstituteEmployeeController::class, 'profile'])->name('employee.profile');
+        });
+
+        // Student Management Routes
+        Route::group(['prefix' => 'student-management'], function () {
+            Route::resource('student', InstituteStudentController::class);
+            Route::get('student/status/{student}/{status}', [InstituteStudentController::class, 'status'])->name('student.status');
+            Route::get('student/profile/{student}', [InstituteStudentController::class, 'profile'])->name('student.profile');
         });
 
         // Setup Routes
