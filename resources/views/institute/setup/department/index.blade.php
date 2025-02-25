@@ -50,11 +50,19 @@
                                                 'label' => 'Edit',
                                             ],
                                             [
-                                                'routeName' => 'javascript:void(0)',
-                                                'data-id' => $department->id,
+                                                'routeName' => 'institute.setup.department.toggle-status',
+                                                'params' => $department->id,
                                                 'className' => 'btn-warning toggle-status',
                                                 'icon' => 'bi bi-toggle-on',
                                                 'label' => 'Toggle Status',
+                                            ],
+                                            [
+                                                'routeName' => 'institute.setup.department.delete',
+                                                'params' => [$department->id],
+                                                'className' => 'btn-danger delete',
+                                                'delete' => true,
+                                                'icon' => 'bi bi-trash',
+                                                'label' => 'Delete',
                                             ],
                                         ],
                                     ])
@@ -79,107 +87,60 @@
 @endpush
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        if (!$.fn.DataTable.isDataTable('#departmentTable')) {
-            $('#departmentTable').DataTable({
-                responsive: true,
-                language: {
-                    search: "_INPUT_",
-                    searchPlaceholder: "Search departments...",
-                },
-                order: [[2, 'desc']], // Sort by created_at by default
-                columnDefs: [
-                    { orderable: false, targets: [3] } // Disable sorting for actions column
-                ],
+    <script>
+        $(document).ready(function() {
+            if (!$.fn.DataTable.isDataTable('#departmentTable')) {
+                $('#departmentTable').DataTable({
+                    responsive: true,
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "Search departments...",
+                    },
+                    order: [
+                        [2, 'desc']
+                    ], // Sort by created_at by default
+                    columnDefs: [{
+                            orderable: false,
+                            targets: [3]
+                        } // Disable sorting for actions column
+                    ],
+                });
+            }
+
+            // Show create modal
+            $('#addNew').on('click', function() {
+                $('#formModal').modal('show');
+                $('#dataForm').attr('action', "{{ route('institute.setup.department.store') }}");
+                $('#dataForm').attr('method', 'POST');
+                $('#formModalLabel').text('Add New Department');
+                $('#dataForm')[0].reset();
+                $('#formErrors').addClass('d-none').find('ul').html('');
             });
-        }
 
-        // Show create modal
-        $('#addNew').on('click', function() {
-            $('#formModal').modal('show');
-            $('#dataForm').attr('action', "{{ route('institute.setup.department.store') }}");
-            $('#dataForm').attr('method', 'POST');
-            $('#formModalLabel').text('Add New Department');
-            $('#dataForm')[0].reset();
-            $('#formErrors').addClass('d-none').find('ul').html('');
-        });
+            // Show edit modal
+            $('.edit').on('click', function() {
+                let id = $(this).data('id');
+                let url = "{{ route('institute.setup.department.show', ':id') }}".replace(':id', id);
 
-        // Show edit modal
-        $('.edit').on('click', function() {
-            let id = $(this).data('id');
-            let url = "{{ route('institute.setup.department.show', ':id') }}".replace(':id', id);
-            
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function(data) {
-                    $('#formModal').modal('show');
-                    $('#dataForm').attr('action', "{{ route('institute.setup.department.update', ':id') }}".replace(':id', id));
-                    $('#dataForm').attr('method', 'PUT');
-                    $('#formModalLabel').text('Edit Department');
-                    $('#name').val(data.name);
-                    $('#status').val(data.status ? '1' : '0');
-                    $('#formErrors').addClass('d-none').find('ul').html('');
-                },
-                error: function() {
-                    showAlert('error', 'Failed to load department data');
-                }
-            });
-        });
-
-        // Handle form submission
-        $('#dataForm').on('submit', function(e) {
-            e.preventDefault();
-            let form = $(this);
-            let url = form.attr('action');
-            let method = form.attr('method');
-
-            $.ajax({
-                url: url,
-                method: method,
-                data: form.serialize(),
-                success: function(response) {
-                    $('#formModal').modal('hide');
-                    showAlert('success', response.message);
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
-                },
-                error: function(xhr) {
-                    if (xhr.status === 422) {
-                        let errors = xhr.responseJSON.errors;
-                        let errorHtml = '';
-                        $.each(errors, function(key, value) {
-                            errorHtml += `<li>${value[0]}</li>`;
-                        });
-                        $('#formErrors').removeClass('d-none').find('ul').html(errorHtml);
-                    } else {
-                        showAlert('error', 'Failed to save department');
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(data) {
+                        $('#formModal').modal('show');
+                        $('#dataForm').attr('action',
+                            "{{ route('institute.setup.department.update', ':id') }}"
+                            .replace(':id', id));
+                        $('#dataForm').attr('method', 'POST');
+                        $('#formModalLabel').text('Edit Department');
+                        $('#name').val(data.name);
+                        $('#status').val(data.status ? '1' : '0');
+                        $('#formErrors').addClass('d-none').find('ul').html('');
+                    },
+                    error: function() {
+                        showAlert('error', 'Failed to load department data');
                     }
-                }
+                });
             });
         });
-
-        // Handle status toggle
-        $('.toggle-status').on('click', function() {
-            let id = $(this).data('id');
-            let url = "{{ route('institute.setup.department.toggle-status', ':id') }}".replace(':id', id);
-
-            $.ajax({
-                url: url,
-                method: 'PATCH',
-                success: function(response) {
-                    showAlert('success', response.message);
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
-                },
-                error: function() {
-                    showAlert('error', 'Failed to update status');
-                }
-            });
-        });
-    });
-</script>
+    </script>
 @endpush

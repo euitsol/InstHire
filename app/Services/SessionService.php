@@ -22,7 +22,7 @@ class SessionService
                 'status' => $data['status'] ?? true,
                 'institute_id' => $data['institute_id']
             ]);
-$session->save();
+            $session->save();
             DB::commit();
             return $session;
         } catch (\Exception $e) {
@@ -58,6 +58,19 @@ $session->save();
                 'status' => !$session->status
             ]);
 
+            DB::commit();
+            return $session;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    public function delete($session)
+    {
+        try {
+            DB::beginTransaction();
+            $session->delete();
             DB::commit();
             return $session;
         } catch (\Exception $e) {

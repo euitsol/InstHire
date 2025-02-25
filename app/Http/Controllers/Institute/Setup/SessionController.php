@@ -34,10 +34,11 @@ class SessionController extends Controller
 
         try {
             $this->sessionService->createSession($data);
-            return response()->json(['message' => 'Session created successfully']);
+            session()->flash('success', 'Session created successfully');
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to create session'], 500);
+            session()->flash('error', 'Failed to create session');
         }
+        return redirect()->back();
     }
 
     public function show(InstituteSession $session)
@@ -54,19 +55,32 @@ class SessionController extends Controller
 
         try {
             $this->sessionService->updateSession($session, $request->all());
-            return response()->json(['message' => 'Session updated successfully']);
+            session()->flash('success', 'Session updated successfully');
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to update session'], 500);
+            session()->flash('error', 'Failed to update session');
         }
+        return redirect()->back();
     }
 
     public function toggleStatus(InstituteSession $session)
     {
         try {
             $this->sessionService->toggleStatus($session);
-            return response()->json(['message' => 'Status updated successfully']);
+            session()->flash('success', 'Status updated successfully');
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to update status'], 500);
+            session()->flash('error', 'Failed to update status');
         }
+        return redirect()->back();
+    }
+
+    public function delete(InstituteSession $session)
+    {
+        try {
+            $this->sessionService->delete($session);
+            session()->flash('success', 'Session deleted successfully');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to delete session');
+        }
+        return redirect()->back();
     }
 }

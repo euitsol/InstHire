@@ -12,10 +12,11 @@ class BaseModel extends Model
 
     // Status constants
     public const STATUS_ACTIVE = 1;
-    public const STATUS_DEACTIVE = 2;
+    public const STATUS_DEACTIVE = 0;
 
     protected $appends = [
-        'status_label','status_labels',
+        'status_label',
+        'status_labels',
         'status_badge_color',
         'status_btn_color',
         'status_btn_label'
@@ -126,8 +127,5 @@ class BaseModel extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format(timeFormat());
-
     }
-
-
 }

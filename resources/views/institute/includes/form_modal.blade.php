@@ -1,12 +1,12 @@
 <!-- Form Modal -->
 <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="formModalLabel">{{ $modal_title ?? 'Form' }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="dataForm" method="POST">
+            <form id="dataForm" action="" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div id="formErrors" class="alert alert-danger d-none">

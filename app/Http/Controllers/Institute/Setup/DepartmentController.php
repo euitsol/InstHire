@@ -34,10 +34,11 @@ class DepartmentController extends Controller
 
         try {
             $this->departmentService->createDepartment($data);
-            return response()->json(['message' => 'Department created successfully']);
+            session()->flash('success', 'Department created successfully');
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to create department'], 500);
+            session()->flash('error', 'Failed to create department');
         }
+        return redirect()->back();
     }
 
     public function show(Department $department)
@@ -54,19 +55,32 @@ class DepartmentController extends Controller
 
         try {
             $this->departmentService->updateDepartment($department, $request->all());
-            return response()->json(['message' => 'Department updated successfully']);
+            session()->flash('success', 'Department updated successfully');
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to update department'], 500);
+            session()->flash('error', 'Failed to update department');
         }
+        return redirect()->back();
     }
 
     public function toggleStatus(Department $department)
     {
         try {
             $this->departmentService->toggleStatus($department);
-            return response()->json(['message' => 'Status updated successfully']);
+            session()->flash('success', 'Status updated successfully');
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to update status'], 500);
+            session()->flash('error', 'Failed to update status');
         }
+        return redirect()->back();
+    }
+
+    public function delete(Department $department)
+    {
+        try {
+            $this->departmentService->delete($department);
+            session()->flash('success', 'Department deleted successfully');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to delete department');
+        }
+        return redirect()->back();
     }
 }

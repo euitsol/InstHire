@@ -16,7 +16,7 @@ class DepartmentService
     {
         try {
             DB::beginTransaction();
-            
+
             $department = Department::create([
                 'name' => $data['name'],
                 'status' => $data['status'] ?? true,
@@ -58,6 +58,19 @@ class DepartmentService
                 'status' => !$department->status
             ]);
 
+            DB::commit();
+            return $department;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    public function delete($department)
+    {
+        try {
+            DB::beginTransaction();
+            $department->delete();
             DB::commit();
             return $department;
         } catch (\Exception $e) {
