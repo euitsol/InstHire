@@ -1,0 +1,24 @@
+name: Deploy Application to Live Server
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  live-server-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: 'jobportal.dhakapharmacy.com.bd'
+          port: '22'
+          username: 'jobpo8817'
+          password: 'jobPortal8817'
+          script: |
+            cd public_html
+            git fetch --all
+            git reset --hard origin/main
