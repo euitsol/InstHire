@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="{{ session('theme', 'light') }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +13,8 @@
     @stack('style_links')
 
     <!-- Styles -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @include('institute.partials.styles')
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     @stack('styles')
 
@@ -34,10 +35,11 @@
         });
     </script>
 </head>
+
 <body>
     <div id="app">
         <!-- Sidebar -->
-        @if(auth()->guard('institute')->check())
+        @if (auth()->guard('institute')->check())
             @include('institute.partials.sidebar')
         @endif
 
@@ -57,7 +59,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     @stack('script_links')
 
     @include('institute.partials.scripts')
@@ -65,4 +68,5 @@
 
     @stack('scripts')
 </body>
+
 </html>
