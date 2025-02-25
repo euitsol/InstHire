@@ -46,7 +46,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $student->name }}</td>
-                                <td>{{ optional($student->sesssion)->name }}</td>
+                                <td>{{ optional($student->session)->name }}</td>
                                 <td>{{ optional($student->department)->name }}</td>
                                 <td>{{ $student->email }}</td>
                                 <td>

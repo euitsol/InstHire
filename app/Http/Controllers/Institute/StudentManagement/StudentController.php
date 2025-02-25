@@ -51,6 +51,7 @@ class StudentController extends Controller
     {
         $audits['creater_type'] = Institute::class;
         $audits['creater_id'] = institute()->id;
+        $audits['institute_id'] = institute()->id;
         $this->studentService->createStudent(array_merge($request->validated(), $audits));
         session()->flash('success', 'Student created successfully');
         return redirect()->route('institute.student.index');

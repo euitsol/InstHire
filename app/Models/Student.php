@@ -26,7 +26,10 @@ class Student extends AuthBaseModel
         'updater_type',
         'updater_id',
         'deleter_type',
-        'deleter_id'
+        'deleter_id',
+        'session_id',
+        'department_id',
+        'institute_id',
     ];
 
     /**

@@ -22,12 +22,14 @@ return new class extends Migration
             $table->unsignedBigInteger('session_id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('roll')->unique()->nullable();
+            $table->string('registration')->unique()->nullable();
             $table->string('phone')->unique()->nullable();
             $table->string('image')->nullable();
             $table->unsignedBigInteger('verified_by_id')->nullable();
             $table->string('verified_by_type')->nullable();
             $table->tinyInteger('status')->default(Student::STATUS_PENDING)->comment(Student::STATUS_PENDING . ' = pending, ' . Student::STATUS_ACCEPTED . ' = verified, ' . Student::STATUS_DECLINED . ' = declined');
-            $table->tinyInteger('gender')->nullable();
+            $table->tinyInteger('gender')->nullable(Student::GENDER_OTHERS)->comment(Student::GENDER_MALE . ' = male, ' . Student::GENDER_FEMALE . ' = female, ' . Student::GENDER_OTHERS . ' = others');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
