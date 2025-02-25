@@ -30,6 +30,8 @@ class Student extends AuthBaseModel
         'session_id',
         'department_id',
         'institute_id',
+        'roll',
+        'registration',
     ];
 
     /**
