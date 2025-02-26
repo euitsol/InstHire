@@ -40,7 +40,7 @@ class StudentRequest extends FormRequest
             'email' => ['required', 'email', 'max:255', 'unique:students,email'],
             'phone' => ['required', 'numeric', 'digits:11', 'unique:students,phone'],
             'roll' => ['required', 'numeric', 'unique:students,roll'],
-            'registration' => ['required', 'numeric', 'unique:students,registration'],
+            // 'registration' => ['required', 'numeric', 'unique:students,registration'],
         ];
     }
 
@@ -50,7 +50,7 @@ class StudentRequest extends FormRequest
             'email' => ['required', 'email', 'max:255', 'unique:students,email,' . $this->route('student')->id],
             'phone' => ['numeric', 'digits:11', 'unique:students,phone,' . $this->route('student')->id],
             'roll' => ['required', 'numeric', 'unique:students,roll,' . $this->route('student')->id],
-            'registration' => ['required', 'numeric', 'unique:students,registration,' . $this->route('student')->id],
+            // 'registration' => ['required', 'numeric', 'unique:students,registration,' . $this->route('student')->id],
         ];
     }
 }

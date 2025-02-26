@@ -19,13 +19,13 @@
                             @csrf
                             <div class="mb-3">
                                 <label class="form-label">{{ __('Title') }}</label>
-                                <input type="text" value="{{ old('title') }}" class="form-control" name="title"
+                                <input type="text" id="title" value="{{ old('title') }}" class="form-control" name="title"
                                     required>
                                 @include('alerts.feedback', ['field' => 'title'])
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">{{ __('Slug') }}</label>
-                                <input type="text" value="{{ old('slug') }}" class="form-control" name="slug"
+                                <input type="text" id="slug" value="{{ old('slug') }}" class="form-control" name="slug"
                                     required>
                                 @include('alerts.feedback', ['field' => 'slug'])
                             </div>

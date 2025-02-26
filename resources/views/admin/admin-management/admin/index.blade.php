@@ -14,7 +14,7 @@
             <table id="adminTable" class="table table-striped table-responsive" style="width:100%">
                 <thead>
                     <tr>
-                        <th>{{ __('Image') }}</th>
+                        <th>{{ __('SL') }}</th>
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('Email') }}</th>
                         <th>{{ __('Phone') }}</th>
@@ -27,17 +27,7 @@
                 <tbody>
                     @foreach ($admins as $admin)
                         <tr>
-                            <td>
-                                @if ($admin->image)
-                                    <img src="{{ $admin->image }}" alt="Profile" class="rounded-circle"
-                                        width="40" height="40">
-                                @else
-                                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                                        style="width: 40px; height: 40px;">
-                                        {{ strtoupper(substr($admin->name, 0, 1)) }}
-                                    </div>
-                                @endif
-                            </td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $admin->name }}</td>
                             <td>{{ $admin->email }}</td>
                             <td>{{ $admin->phone ?? 'N/A' }}</td>

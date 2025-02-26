@@ -23,6 +23,7 @@
                 <table class="table" id="departmentTable">
                     <thead>
                         <tr>
+                            <th>{{ __('SL') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Created At') }}</th>
@@ -32,6 +33,7 @@
                     <tbody>
                         @foreach ($departments as $department)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $department->name }}</td>
                                 <td>
                                     <span class="{{ $department->status_badge_color }}">

@@ -18,7 +18,7 @@
                 <table class="table" id="employeeTable">
                     <thead>
                         <tr>
-                            <th>{{ __('Image') }}</th>
+                            <th>{{ __('SL') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Email') }}</th>
                             <th>{{ __('Phone') }}</th>
@@ -30,17 +30,7 @@
                     <tbody>
                         @foreach ($employees as $employee)
                             <tr>
-                                <td>
-                                    @if ($employee->image)
-                                        <img src="{{ $employee->image }}" alt="Profile" class="rounded-circle"
-                                            width="40" height="40">
-                                    @else
-                                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                                            style="width: 40px; height: 40px;">
-                                            {{ strtoupper(substr($employee->name, 0, 1)) }}
-                                        </div>
-                                    @endif
-                                </td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $employee->name }}</td>
                                 <td>{{ $employee->email }}</td>
                                 <td>{{ $employee->phone ?? 'N/A' }}</td>

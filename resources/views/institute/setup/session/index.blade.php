@@ -23,6 +23,7 @@
                 <table class="table" id="sessionTable">
                     <thead>
                         <tr>
+                            <th>{{ __('SL') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Created At') }}</th>
@@ -32,6 +33,7 @@
                     <tbody>
                         @foreach ($sessions as $session)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $session->name }}</td>
                                 <td>
                                     <span class="{{ $session->status_badge_color }}">

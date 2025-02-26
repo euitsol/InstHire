@@ -615,3 +615,8 @@ main {
     background-color: rgba(37, 99, 235, 0.2);
     color: #60a5fa;
 }
+
+.btn-group>.btn:last-child:not(.dropdown-toggle){
+    border-top-right-radius: .375rem !important;
+    border-bottom-right-radius: .375rem !important;
+}

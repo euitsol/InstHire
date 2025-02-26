@@ -17,7 +17,7 @@
                             <table class="table table-responsive table-striped" id="instituteSubscriptionTable">
                                 <thead class="text-center bg-light">
                                     <tr>
-                                        <th>{{ __('#SL') }}</th>
+                                        <th>{{ __('SL') }}</th>
                                         <th>{{ __('Institute') }}</th>
                                         <th>{{ __('Subscription') }}</th>
                                         <th>{{ __('Price') }}</th>
@@ -31,7 +31,7 @@
                                 <tbody class="text-center">
                                     @foreach ($instituteSubscriptions as $key => $item)
                                         <tr>
-                                            <td>{{ ++$key }}</td>
+                                            <td>{{ $loop->iteration  }}</td>
                                             <td>{{ $item->institute->name }}</td>
                                             <td>{{ $item->subscription->title }}</td>
                                             <td>{{ $item->subscription->price }} BDT</td>

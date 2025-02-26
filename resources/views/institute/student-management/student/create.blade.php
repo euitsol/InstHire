@@ -50,12 +50,12 @@
                         id="roll" name="roll">
                     @include('alerts.feedback', ['field' => 'roll'])
                 </div>
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                     <label for="registration" class="form-label">Registration</label>
                     <input type="text" class="form-control" value="{{ old('registration') }}"
                         placeholder="Enter registration" id="registration" name="registration">
                     @include('alerts.feedback', ['field' => 'registration'])
-                </div>
+                </div> --}}
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" value="{{ old('email') }}" placeholder="Enter email"

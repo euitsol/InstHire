@@ -246,3 +246,9 @@ body {
         display: block;
     }
 }
+
+
+.btn-group>.btn:last-child:not(.dropdown-toggle){
+    border-top-right-radius: .375rem !important;
+    border-bottom-right-radius: .375rem !important;
+}

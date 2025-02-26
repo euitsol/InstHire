@@ -13,6 +13,7 @@
             <table id="jobCategoryTable" class="table table-striped table-responsive" style="width:100%">
                 <thead>
                     <tr>
+                        <th>{{ __('SL') }}</th>
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Slug') }}</th>
                         <th>{{ __('Status') }}</th>
@@ -24,6 +25,7 @@
                 <tbody>
                     @foreach($jobCategories as $jobCategory)
                         <tr>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $jobCategory->title }}</td>
                             <td>{{ $jobCategory->slug }}</td>
                             <td>

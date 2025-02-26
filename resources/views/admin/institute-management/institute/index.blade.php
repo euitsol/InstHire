@@ -14,7 +14,7 @@
             <table id="instituteTable" class="table table-striped table-responsive" style="width:100%">
                 <thead>
                     <tr>
-                        <th>{{ __('Image') }}</th>
+                        <th>{{ __('SL') }}</th>
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('Email') }}</th>
                         <th>{{ __('Responsible Person Name') }}</th>
@@ -28,17 +28,7 @@
                 <tbody>
                     @foreach ($institutes as $institute)
                         <tr>
-                            <td>
-                                @if ($institute->image)
-                                    <img src="{{ $institute->image }}" alt="Profile" class="rounded-circle" width="40"
-                                        height="40">
-                                @else
-                                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                                        style="width: 40px; height: 40px;">
-                                        {{ strtoupper(substr($institute->name, 0, 1)) }}
-                                    </div>
-                                @endif
-                            </td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $institute->name }}</td>
                             <td>{{ $institute->email }}</td>
                             <td>{{ $institute->responsible_person_name }}</td>
@@ -81,7 +71,7 @@
                                             'icon' => 'bi bi-pencil',
                                             'label' => 'Edit',
                                         ],
-                                
+
                                         [
                                             'routeName' => 'im.institute.destroy',
                                             'className' => 'btn-danger',

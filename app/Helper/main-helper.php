@@ -71,7 +71,7 @@ function auth_storage_url($url, $model = null)
     if (Str::contains($url, ['http://', 'https://'])) {
         return $url;
     }
-    $image = 'https://i.pravatar.cc/150?img=68';
+    $image = asset('default_img/user.png');
     // if ($model->gender == $model::GENDER_MALE) {
     //     $image = asset('default_img/male-1.jpeg');
     // } elseif ($model->gender == $model::GENDER_FEMALE) {

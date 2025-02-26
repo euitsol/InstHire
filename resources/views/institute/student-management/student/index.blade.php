@@ -21,7 +21,7 @@
                 <table class="table" id="studentTable">
                     <thead>
                         <tr>
-                            <th>{{ __('Image') }}</th>
+                            <th>{{ __('SL') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Session') }}</th>
                             <th>{{ __('Department') }}</th>
@@ -34,17 +34,7 @@
                     <tbody>
                         @foreach ($students as $student)
                             <tr>
-                                <td>
-                                    @if ($student->image)
-                                        <img src="{{ $student->image }}" alt="Profile" class="rounded-circle"
-                                            width="40" height="40">
-                                    @else
-                                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                                            style="width: 40px; height: 40px;">
-                                            {{ strtoupper(substr($student->name, 0, 1)) }}
-                                        </div>
-                                    @endif
-                                </td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $student->name }}</td>
                                 <td>{{ optional($student->session)->name }}</td>
                                 <td>{{ optional($student->department)->name }}</td>
