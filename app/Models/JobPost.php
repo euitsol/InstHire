@@ -88,14 +88,14 @@ class JobPost extends BaseModel
         ];
     }
 
-    public function getVisibilityLabelAttribute(string $attribute): string
+    public function getVisibilityLabelAttribute(): string
     {
-        return $this->visibilityLabels()[$attribute] ?? 'Unknown';
+        return $this->getVisibilityLabels()[$this->visibility] ?? 'Unknown';
     }
 
     public function getVisibilityLabelsAttribute(): array
     {
-        return $this->visibilityLabels() ?? [];
+        return $this->getVisibilityLabels() ?? [];
     }
 
     public function getTypeLabels()
@@ -106,14 +106,14 @@ class JobPost extends BaseModel
         ];
     }
 
-    public function getTypeLabelAttribute(string $attribute): string
+    public function getTypeLabelAttribute(): string
     {
-        return $this->typeLabels()[$attribute] ?? 'Unknown';
+        return $this->getTypeLabels()[$this->type] ?? 'Unknown';
     }
 
     public function getTypeLabelsAttribute(): array
     {
-        return $this->typeLabels() ?? [];
+        return $this->getTypeLabels() ?? [];
     }
 
     public function getJobTypeLabels()
@@ -127,14 +127,13 @@ class JobPost extends BaseModel
         ];
     }
 
-    public function getJobTypeLabelAttribute(string $attribute): string
+    public function getJobTypeLabelAttribute(): string
     {
-        return $this->jobTypeLabels()[$attribute] ?? 'Unknown';
+        return self::getJobTypeLabels()[$this->job_type] ?? 'Unknown';
     }
-
-    public function getJobTypeLabelsAttribute(): array
+public function getJobTypeLabelsAttribute(): array
     {
-        return $this->jobTypeLabels() ?? [];
+        return self::getJobTypeLabels() ?? [];
     }
 
     public function getSalaryTypeLabels()
@@ -146,14 +145,14 @@ class JobPost extends BaseModel
         ];
     }
 
-    public function getSalaryTypeLabelAttribute(string $attribute): string
+    public function getSalaryTypeLabelAttribute(): string
     {
-        return $this->salaryTypeLabels()[$attribute] ?? 'Unknown';
+        return self::getSalaryTypeLabels()[$this->salary_type] ?? 'Unknown';
     }
 
     public function getSalaryTypeLabelsAttribute(): array
     {
-        return $this->salaryTypeLabels() ?? [];
+        return self::getSalaryTypeLabels() ?? [];
     }
 
     public function getJobStatusLabels()
@@ -175,18 +174,30 @@ class JobPost extends BaseModel
         ];
     }
 
-    public function getJobStatusBadgeColorAttribute(string $attribute): string
+    public function getJobStatusBadgeColorAttribute(): string
     {
-        return $this->jobStatusBadgeColors()[$attribute] ?? 'Unknown';
+        return self::getJobStatusBadgeColors()[$this->status] ?? 'Unknown';
     }
-    public function getJobStatusLabelAttribute(string $attribute): string
+    public function getJobStatusLabelAttribute(): string
     {
-        return $this->jobStatusLabels()[$attribute] ?? 'Unknown';
+        return self::getJobStatusLabels()[$this->status] ?? 'Unknown';
     }
 
     public function getJobStatusLabelsAttribute(): array
     {
-        return $this->jobStatusLabels() ?? [];
+        return self::getJobStatusLabels() ?? [];
     }
 
+    public function institute()
+    {
+        return $this->belongsTo(Institute::class, 'institute_id');
+    }
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
+    }
+    public function category()
+    {
+        return $this->belongsTo(JobCategory::class, 'category_id');
+    }
 }

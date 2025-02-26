@@ -22,6 +22,11 @@ class EmployeeService
         return Employee::with(['verifier', 'verified_by', 'creater'])->where('verifier_id', $institute_id)->where('verifier_type', 'App\Models\Institute')->latest()->get();
     }
 
+    public function getAcceptedInstituteEmployees($institute_id): Collection
+    {
+        return Employee::with(['verifier', 'verified_by', 'creater'])->accepted()->where('verifier_id', $institute_id)->where('verifier_type', 'App\Models\Institute')->latest()->get();
+    }
+
     public function statusChange(Employee $employee, int $status): bool
     {
         $employee->status = $status;

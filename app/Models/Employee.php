@@ -6,6 +6,7 @@ use App\Models\AuthBaseModel;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Notifications\AdminResetPasswordNotification;
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Builder;
 
 class Employee extends AuthBaseModel
 {
@@ -113,5 +114,10 @@ class Employee extends AuthBaseModel
       public function getStatusBadgeColorAttribute(): string
       {
           return self::getStatusBadgeColors()[$this->status] ?? 'badge bg-secondary';
+      }
+
+      public function scopeAccepted($query): Builder
+      {
+          return $query->where('status', self::STATUS_ACCEPTED);
       }
 }

@@ -13,6 +13,9 @@
     --sidebar-width: 280px;
     --header-height: 64px;
 }
+.text-justify{
+    text-align: justify;
+}
 
 /* General Styles */
 body {

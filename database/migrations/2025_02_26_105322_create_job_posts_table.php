@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('title');
             $table->string('company_name');
             $table->unsignedBigInteger('category_id');
-            $table->tinyInteger('visibility',1)->comment(JobPost::VISIBLE_PUBLIC.' = public, '.JobPost::VISIBLE_INSTITUTE.' = institute');
+            $table->tinyInteger('visibility')->comment(JobPost::VISIBLE_PUBLIC.' = public, '.JobPost::VISIBLE_INSTITUTE.' = institute');
             $table->unsignedBigInteger('institute_id')->nullable();
-            $table->tinyInteger('type',1)->comment(JobPost::TYPE_SELF.' = self, '.JobPost::TYPE_EXTERNAL.' = external');
+            $table->tinyInteger('type')->comment(JobPost::TYPE_SELF.' = self, '.JobPost::TYPE_EXTERNAL.' = external');
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->string('application_url')->nullable();
             $table->string('email');
@@ -44,15 +44,13 @@ return new class extends Migration
             $table->string('age_requirement')->nullable();
             $table->tinyInteger('status')->default(0);
 
-
-            $table->integer('notify')->default(1);
-            $table->longText('email_subject')->nullable();
-            $table->longText('email_body')->nullable();
-            $table->longText('sms_body')->nullable();
-
             $table->timestamps();
             $table->softDeletes();
             $this->addMorphedAuditColumns($table);
+
+            $table->foreign('category_id')->references('id')->on('job_categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('institute_id')->references('id')->on('institutes')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
