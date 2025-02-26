@@ -22,7 +22,7 @@ use App\Http\Controllers\Institute\Setup\DepartmentController;
 use App\Http\Controllers\Institute\Setup\SessionController;
 use App\Http\Controllers\Institute\StudentManagement\StudentController as InstituteStudentController;
 use App\Http\Controllers\Institute\ThemeController;
-use App\Http\Controllers\Institute\JobFair\JobFairStallOptionController as InstituteJobFairStallOptionController;
+use App\Http\Controllers\Institute\Setup\JobFairStallOptionController as InstituteJobFairStallOptionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Institute\JobFair;
+namespace App\Http\Controllers\Institute\Setup;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Institute\JobFairStallOptionRequest;
