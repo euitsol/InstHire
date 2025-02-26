@@ -2,22 +2,29 @@
 
 namespace App\Models;
 
-use Faker\Provider\Base;
 use Illuminate\Database\Eloquent\Model;
 
 class JobFairStallOption extends BaseModel
 {
-    protected $filleable = [
+    protected $fillable = [
+        'institute_id',
         'stall_size',
         'maximum_representative',
         'description',
+        'status',
         'creater_id',
         'updater_id',
         'deleter_id',
-        'status',
         'creater_type',
         'updater_type',
         'deleter_type',
     ];
 
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_INACTIVE = 0;
+
+    public function institute()
+    {
+        return $this->belongsTo(Institute::class);
+    }
 }
