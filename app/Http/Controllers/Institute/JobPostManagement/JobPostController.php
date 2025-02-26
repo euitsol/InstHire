@@ -65,7 +65,7 @@ class JobPostController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Something went wrong!')
+                ->with('error', 'Something went wrong! ')
                 ->withInput();
         }
     }

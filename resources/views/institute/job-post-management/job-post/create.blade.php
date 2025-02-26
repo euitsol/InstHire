@@ -10,9 +10,6 @@
                     {{ __('Back') }}
                 </a>
             </div>
-
-            {{-- {{ dd($errors->all()) }} --}}
-
             <form action="{{ route('institute.job-post.store') }}" method="POST">
                 @csrf
                 <div class="row g-4">
