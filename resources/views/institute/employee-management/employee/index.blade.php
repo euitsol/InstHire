@@ -12,6 +12,7 @@
         <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
                 <h2 class="card-title mb-4">{{ __('Employee List') }}</h2>
+                <a href="{{ route('institute.employee.create') }}" class="btn btn-sm btn-primary"><i class="bi bi-plus"></i> {{ __('Create Employee') }}</a>
             </div>
 
             <div class="table-responsive">
