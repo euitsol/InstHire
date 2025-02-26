@@ -10,7 +10,7 @@
                     <h2 class="card-title h5 mb-3">
                         <i class="bi bi-briefcase me-2"></i>Recent Job Listings
                     </h2>
-                    <ul class="list-unstyled">
+                    {{-- <ul class="list-unstyled">
                         <li class="mb-2">
                             <span class="me-2 text-primary">•</span>
                             <a href="#" class="text-decoration-none text-gray-600">Software Developer
@@ -25,7 +25,7 @@
                             <span class="me-2 text-primary">•</span>
                             <a href="#" class="text-decoration-none text-gray-600">Data Analyst</a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
                     <h2 class="card-title h5 mb-3">
                         <i class="bi bi-file-text me-2"></i>Your Applications
                     </h2>
-                    <ul class="list-unstyled">
+                    {{-- <ul class="list-unstyled">
                         <li class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-gray-600">Web Designer</span>
                             <span class="status-badge review">Under Review</span>
@@ -46,7 +46,7 @@
                             <span class="text-gray-600">Junior Project Manager</span>
                             <span class="status-badge pending">Pending</span>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
                     <h2 class="card-title h5 mb-3">
                         <i class="bi bi-calendar-event me-2"></i>Upcoming Events
                     </h2>
-                    <ul class="list-unstyled">
+                    {{-- <ul class="list-unstyled">
                         <li class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-gray-600">Career Fair</span>
                             <small class="text-gray-500">May 15, 2025</small>
@@ -67,7 +67,7 @@
                             <span class="text-gray-600">Resume Workshop</span>
                             <small class="text-gray-500">June 2, 2025</small>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
     <!-- New row for Chart and Wizard -->
     <div class="row mt-4 g-4">
         <!-- Job Application Analytics Chart -->
-        <div class="col-md-6">
+        {{-- <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title h5 mb-3">
@@ -84,10 +84,10 @@
                     <canvas id="jobApplicationChart"></canvas>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Onboarding Wizard -->
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title h5 mb-3">
@@ -139,12 +139,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
-@push('styles')
+{{-- @push('styles')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endpush
 @push('scripts')
     <script src="{{ asset('admin/assets/js/dashboard.js') }}"></script>
-@endpush
+@endpush --}}

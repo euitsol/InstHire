@@ -7,7 +7,7 @@ new Chart(ctx, {
         datasets: [
             {
                 label: "Job Applications",
-                data: [12, 19, 3, 5, 2, 3],
+                data: [0, 0, 0, 0, 0, 0],
                 backgroundColor: "rgba(15, 118, 110, 0.7)",
                 borderColor: "rgba(15, 118, 110, 1)",
                 borderWidth: 1,
