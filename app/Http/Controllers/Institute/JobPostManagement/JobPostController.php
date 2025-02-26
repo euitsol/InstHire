@@ -50,7 +50,7 @@ class JobPostController extends Controller
      */
     public function store(JobPostRequest $request)
     {
-        try {
+        // try {
             $data = $request->validated();
 
             $data['institute_id'] = $request->visibility == JobPost::VISIBLE_INSTITUTE ? institute()->id : null;
@@ -62,12 +62,12 @@ class JobPostController extends Controller
             return redirect()
                 ->route('institute.job-post.index')
                 ->with('success', 'Job Post created successfully');
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Something went wrong!')
-                ->withInput();
-        }
+        // } catch (\Exception $e) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('error', 'Something went wrong! ')
+        //         ->withInput();
+        // }
     }
 
     /**

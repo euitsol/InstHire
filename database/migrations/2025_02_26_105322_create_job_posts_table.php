@@ -38,10 +38,10 @@ return new class extends Migration
             $table->longText('job_location');
             $table->longText('other_benefits')->nullable();
             $table->longText('special_instractions')->nullable();
-            $table->string('educational_requirement')->nullable();
-            $table->string('professional_requirement')->nullable();
-            $table->string('experience_requirement')->nullable();
-            $table->string('age_requirement')->nullable();
+            $table->longText('educational_requirement')->nullable();
+            $table->longText('professional_requirement')->nullable();
+            $table->longText('experience_requirement')->nullable();
+            $table->longText('age_requirement')->nullable();
             $table->tinyInteger('status')->default(0);
 
             $table->timestamps();

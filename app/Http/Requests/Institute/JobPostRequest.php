@@ -27,6 +27,7 @@ class JobPostRequest extends FormRequest
             'type' => ['required', Rule::in([JobPost::TYPE_SELF, JobPost::TYPE_EXTERNAL])],
             'employee_id' => [
                 Rule::requiredIf(fn() => $this->type == JobPost::TYPE_SELF),
+                'nullable',
                 'exists:employees,id'
             ],
             'application_url' => [

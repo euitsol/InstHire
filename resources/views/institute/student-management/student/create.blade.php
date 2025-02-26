@@ -10,7 +10,6 @@
                  {{ __('Back') }}
                 </a>
             </div>
-
             <form action="{{ route('institute.student.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
