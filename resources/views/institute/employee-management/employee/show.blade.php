@@ -8,8 +8,8 @@
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h4 class="mb-0">Employee Profile</h4>
             <div class="d-flex gap-2">
-                <a href="{{ route('institute.employee.index') }}" class="btn btn-secondary">
-                    Back to List
+                <a href="{{ route('institute.employee.index') }}" class="btn btn-sm btn-primary">
+                    Back
                 </a>
             </div>
 
@@ -25,8 +25,8 @@
                         <h5>{{ $employee->name }}</h5>
                         <p class="text-muted mb-3">{{ $employee->email }}</p>
                         <div class="d-flex justify-content-center">
-                            <span class="badge {{ $employee->status ? 'bg-success' : 'bg-danger' }}">
-                                {{ $employee->status ? 'Active' : 'Inactive' }}
+                            <span class="badge {{ $employee->status_badge_color }}">
+                                {{ $employee->status_label }}
                             </span>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Gender</label>
-                                <p>{{ ucfirst($employee->gender) }}</p>
+                                <p><span class="badge {{ $employee->gender_badge_color }}">{{ $employee->gender_label }}</span></p>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Created At</label>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div class="status_update text-end">
+            <div class="status_update text-end mt-3">
                 @php
                     use App\Models\Employee;
                 @endphp
