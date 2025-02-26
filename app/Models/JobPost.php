@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\AuditColumnsTrait;
 
 class JobPost extends BaseModel
 {
-    use SoftDeletes, AuditColumnsTrait;
 
     // visibility constants
     public const VISIBLE_PUBLIC = 1;

@@ -19,6 +19,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AdminSeeder::class,
             SubscriptionSeeder::class,
+            InstituteSeeder::class,
+            SessionSeeder::class,
+            CategorySeeder::class,
+            DepartmentSeeder::class,
         ]);
     }
 }
