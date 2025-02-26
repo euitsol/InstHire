@@ -17,6 +17,7 @@ use App\Http\Controllers\Institute\Auth\LoginController as InstituteLoginControl
 use App\Http\Controllers\Institute\Auth\RegisterController as InstituteRegisterController;
 use App\Http\Controllers\Institute\EmployeeManagement\EmployeeController as InstituteEmployeeController;
 use App\Http\Controllers\Institute\InstituteController as InstituteInstituteController;
+use App\Http\Controllers\Institute\JobPostManagement\JobPostController;
 use App\Http\Controllers\Institute\Setup\DepartmentController;
 use App\Http\Controllers\Institute\Setup\SessionController;
 use App\Http\Controllers\Institute\StudentManagement\StudentController as InstituteStudentController;
@@ -121,6 +122,13 @@ Route::prefix('institute')->name('institute.')->group(function () {
             Route::resource('student', InstituteStudentController::class);
             Route::get('student/status/{student}/{status}', [InstituteStudentController::class, 'status'])->name('student.status');
             Route::get('student/profile/{student}', [InstituteStudentController::class, 'profile'])->name('student.profile');
+        });
+
+        // Job Post Management Routes
+        Route::group(['prefix' => 'job-post-management'], function () {
+            Route::resource('job-post', JobPostController::class);
+            Route::get('job-post/status/{jobPost}/{status}', [JobPostController::class, 'status'])->name('job-post.status');
+            Route::get('job-post/profile/{jobPost}', [JobPostController::class, 'profile'])->name('job-post.profile');
         });
 
         // Setup Routes

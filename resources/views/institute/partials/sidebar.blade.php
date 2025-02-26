@@ -34,6 +34,29 @@
                 Employees
             </a>
 
+            <a class="nav-link {{ request()->routeIs('institute.job-post.*') ? 'active' : '' }}"
+                data-bs-toggle="collapse" href="#job-nav" role="button"
+                aria-expanded="{{ request()->routeIs('institute.job-post.*') ? 'true' : 'false' }}"
+                aria-controls="job-nav">
+                <i class="bi bi-briefcase"></i>
+                Job Management
+
+            </a>
+            <ul id="job-nav"
+                class="nav-content collapse {{ request()->routeIs('institute.job-post.*') ? 'show' : '' }}"
+                data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('institute.job-post.index') }}"
+                        class="nav-link {{ request()->routeIs('institute.job-post.*') ? 'active' : '' }}">
+                        <span>Job Posts</span>
+                    </a>
+                </li>
+            </ul>
+
+
+
+
+
             <a class="nav-link {{ request()->routeIs('institute.setup.*') ? 'active' : '' }}" data-bs-toggle="collapse"
                 href="#setup-nav" role="button"
                 aria-expanded="{{ request()->routeIs('institute.setup.*') ? 'true' : 'false' }}"
