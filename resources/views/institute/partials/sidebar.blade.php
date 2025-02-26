@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
     <!-- Logo -->
-    <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+    <div class="p-3 d-flex align-items-center justify-content-between border-bottom">
         <a href="{{ route('institute.dashboard') }}" class="d-flex align-items-center text-decoration-none">
             {{-- <img src="{{ asset('images/logo.png') }}" alt="Logo" class="me-2" width="32" height="32"> --}}
             <span class="fs-4 fw-semibold text-dark">{{ config('app.name') }}</span>
@@ -15,7 +15,7 @@
 
     <!-- Navigation -->
     <nav class="p-3">
-        <div class="d-flex flex-column gap-2">
+        <div class="gap-2 d-flex flex-column">
             <a href="{{ route('institute.dashboard') }}"
                 class="nav-link {{ request()->routeIs('institute.dashboard') ? 'active' : '' }}">
                 <i class="bi bi-house"></i>
@@ -77,6 +77,12 @@
                     <a href="{{ route('institute.setup.session.index') }}"
                         class="nav-link {{ request()->routeIs('institute.setup.session.*') ? 'active' : '' }}">
                         <span>Sessions</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('institute.setup.jfs.list') }}"
+                        class="nav-link {{ request()->routeIs('institute.setup.jfs.*') ? 'active' : '' }}">
+                        <span>Job Fair Stall Options</span>
                     </a>
                 </li>
             </ul>

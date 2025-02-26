@@ -22,6 +22,7 @@ use App\Http\Controllers\Institute\Setup\DepartmentController;
 use App\Http\Controllers\Institute\Setup\SessionController;
 use App\Http\Controllers\Institute\StudentManagement\StudentController as InstituteStudentController;
 use App\Http\Controllers\Institute\ThemeController;
+use App\Http\Controllers\Institute\Setup\JobFairStallOptionController as InstituteJobFairStallOptionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -148,7 +149,21 @@ Route::prefix('institute')->name('institute.')->group(function () {
             Route::get('sessions/toggle-status/{session}', [SessionController::class, 'toggleStatus'])->name('session.toggle-status');
             Route::delete('sessions/delete/{session}', [SessionController::class, 'delete'])->name('session.delete');
 
+            Route::controller(InstituteJobFairStallOptionController::class)->prefix('job-fair-stall')->name('jfs.')->group(function () {
+                Route::get('list', 'list')->name('list');
+                Route::get('create', 'create')->name('create');
+                Route::post('store', 'store')->name('store');
+
+                Route::get('edit/{stallOption}', 'edit')->name('edit');
+                Route::put('update/{stallOption}', 'update')->name('update');
+
+                Route::get('show/{stallOption}', 'show')->name('show');;
+                Route::get('toggle-status/{stallOption}', 'toggleStatus')->name('toggle-status');
+                Route::delete('delete/{stallOption}', 'delete')->name('delete');
+            });
+
         });
+
 
         // Theme routes
         Route::post('/theme/update', [ThemeController::class, 'update'])->name('theme.update');
