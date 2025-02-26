@@ -100,14 +100,19 @@
                     },
                     order: [
                         [2, 'desc']
-                    ], // Sort by created_at by default
-                    columnDefs: [{
-                            orderable: false,
-                            targets: [3]
-                        } // Disable sorting for actions column
                     ],
+                    columnDefs: [{
+                        orderable: false,
+                        targets: [3]
+                    }],
                 });
             }
+
+            // Reset form and errors when modal is closed
+            $('#formModal').on('hidden.bs.modal', function() {
+                $('#dataForm')[0].reset();
+                $('#formErrors').addClass('d-none').find('ul').html('');
+            });
 
             // Show create modal
             $('#addNew').on('click', function() {
@@ -133,6 +138,7 @@
                             "{{ route('institute.setup.session.update', ':id') }}"
                             .replace(':id', id));
                         $('#dataForm').attr('method', 'POST');
+                        $('#method').val('PUT');
                         $('#formModalLabel').text('Edit Session');
                         $('#name').val(data.name);
                         $('#status').val(data.status ? '1' : '0');
@@ -140,6 +146,39 @@
                     },
                     error: function() {
                         showAlert('error', 'Failed to load session data');
+                    }
+                });
+            });
+
+            // Handle form submission
+            $('#dataForm').on('submit', function(e) {
+                e.preventDefault();
+                let form = $(this);
+                let url = form.attr('action');
+                let method = form.attr('method');
+
+                $.ajax({
+                    url: url,
+                    method: method,
+                    data: form.serialize(),
+                    success: function(response) {
+                        $('#formModal').modal('hide');
+                        showAlert('success', response.message);
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1500);
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            let errorHtml = '';
+                            $.each(errors, function(key, value) {
+                                errorHtml += '<li>' + value[0] + '</li>';
+                            });
+                            $('#formErrors').removeClass('d-none').find('ul').html(errorHtml);
+                        } else {
+                            showAlert('error', 'An error occurred while processing your request');
+                        }
                     }
                 });
             });

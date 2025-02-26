@@ -160,4 +160,14 @@ class AuthBaseModel extends Authenticatable
     {
         return auth_storage_url($image, $this);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    public function scopeDeactive($query)
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
 }

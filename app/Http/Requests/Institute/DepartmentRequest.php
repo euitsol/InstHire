@@ -11,7 +11,7 @@ class DepartmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,23 @@ class DepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+
+            'status' => 'required|boolean',
+        ] +
+            ($this->isMethod('POST') ? $this->store() : $this->update());
+    }
+
+    public function store(): array
+    {
+        return [
+            'name' => 'required|string|max:255|unique:departments,name',
+        ];
+    }
+
+    public function update(): array
+    {
+        return [
+           'name'=> 'required|string|max:255|unique:departments,name,'.$this->route('department')->id,
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Institute\Setup;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Institute\DepartmentRequest;
 use App\Models\Department;
 use App\Services\DepartmentService;
 use Illuminate\Http\Request;
@@ -22,23 +23,17 @@ class DepartmentController extends Controller
         return view('institute.setup.department.index', compact('departments'));
     }
 
-    public function store(Request $request)
+    public function store(DepartmentRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'status' => 'boolean'
-        ]);
-
-        $data = $request->all();
+        $data = $request->validated();
         $data['institute_id'] = institute()->id;
 
         try {
             $this->departmentService->createDepartment($data);
-            session()->flash('success', 'Department created successfully');
+            return response()->json(['message' => 'Department created successfully'], 200);
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to create department');
+            return response()->json(['message' => 'Failed to create department'], 500);
         }
-        return redirect()->back();
     }
 
     public function show(Department $department)
@@ -46,20 +41,16 @@ class DepartmentController extends Controller
         return response()->json($department);
     }
 
-    public function update(Request $request, Department $department)
+    public function update(DepartmentRequest $request, Department $department)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'status' => 'required|boolean'
-        ]);
+        $data = $request->validated();
 
         try {
-            $this->departmentService->updateDepartment($department, $request->all());
-            session()->flash('success', 'Department updated successfully');
+            $this->departmentService->updateDepartment($department, $data);
+            return response()->json(['message' => 'Department updated successfully'], 200);
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to update department');
+            return response()->json(['message' => 'Failed to update department'], 500);
         }
-        return redirect()->back();
     }
 
     public function toggleStatus(Department $department)

@@ -8,6 +8,7 @@
             </div>
             <form id="dataForm" action="" method="POST">
                 @csrf
+                <input type="hidden" name="_method" id="method">
                 <div class="modal-body">
                     <div id="formErrors" class="alert alert-danger d-none">
                         <ul class="mb-0"></ul>

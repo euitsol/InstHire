@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Institute\Setup;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Institute\SessionRequest;
 use App\Models\InstituteSession;
 use App\Services\SessionService;
 use Illuminate\Http\Request;
@@ -22,23 +23,17 @@ class SessionController extends Controller
         return view('institute.setup.session.index', compact('sessions'));
     }
 
-    public function store(Request $request)
+    public function store(SessionRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'status' => 'boolean'
-        ]);
-
-        $data = $request->all();
+        $data = $request->validated();
         $data['institute_id'] = institute()->id;
 
         try {
             $this->sessionService->createSession($data);
-            session()->flash('success', 'Session created successfully');
+            return response()->json(['message' => 'Session created successfully'], 200);
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to create session');
+            return response()->json(['message' => 'Failed to create session'], 500);
         }
-        return redirect()->back();
     }
 
     public function show(InstituteSession $session)
@@ -46,20 +41,16 @@ class SessionController extends Controller
         return response()->json($session);
     }
 
-    public function update(Request $request, InstituteSession $session)
+    public function update(SessionRequest $request, InstituteSession $session)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'status' => 'required|boolean'
-        ]);
+        $data = $request->validated();
 
         try {
-            $this->sessionService->updateSession($session, $request->all());
-            session()->flash('success', 'Session updated successfully');
+            $this->sessionService->updateSession($session, $data);
+            return response()->json(['message' => 'Session updated successfully'], 200);
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to update session');
+            return response()->json(['message' => 'Failed to update session'], 500);
         }
-        return redirect()->back();
     }
 
     public function toggleStatus(InstituteSession $session)

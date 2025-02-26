@@ -15,6 +15,8 @@ class InstituteSession extends BaseModel
         'institute_id'
     ];
 
+    protected $table = 'institute_sessions';
+
     // Institute relationship
     public function institute()
     {

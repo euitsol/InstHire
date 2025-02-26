@@ -11,7 +11,7 @@ class SessionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,24 @@ class SessionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+
+            'status' => 'required|boolean',
+        ] +
+            ($this->isMethod('POST') ? $this->store() : $this->update());
+    }
+
+    public function store(): array
+    {
+        return [
+            'name' => 'required|string|max:255|unique:institute_sessions,name',
         ];
     }
+
+    public function update(): array
+    {
+        return [
+           'name'=> 'required|string|max:255|unique:institute_sessions,name,'.$this->route('session')->id,
+        ];
+    }
+
 }

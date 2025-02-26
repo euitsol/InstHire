@@ -22,7 +22,7 @@ class SessionService
                 'status' => $data['status'] ?? true,
                 'institute_id' => $data['institute_id']
             ]);
-            $session->save();
+
             DB::commit();
             return $session;
         } catch (\Exception $e) {

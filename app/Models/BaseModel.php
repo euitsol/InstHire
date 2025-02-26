@@ -128,4 +128,14 @@ class BaseModel extends Model
     {
         return $date->format(timeFormat());
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    public function scopeDeactive($query)
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
 }

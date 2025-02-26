@@ -128,7 +128,7 @@ Route::prefix('institute')->name('institute.')->group(function () {
             Route::get('departments', [DepartmentController::class, 'index'])->name('department.index');
             Route::post('departments', [DepartmentController::class, 'store'])->name('department.store');
             Route::get('departments/{department}', [DepartmentController::class, 'show'])->name('department.show');
-            Route::post('departments/{department}', [DepartmentController::class, 'update'])->name('department.update');
+            Route::put('departments/{department}', [DepartmentController::class, 'update'])->name('department.update');
             Route::get('departments/toggle-status/{department}', [DepartmentController::class, 'toggleStatus'])->name('department.toggle-status');
             Route::delete('departments/delete/{department}', [DepartmentController::class, 'delete'])->name('department.delete');
 
@@ -136,9 +136,10 @@ Route::prefix('institute')->name('institute.')->group(function () {
             Route::get('sessions', [SessionController::class, 'index'])->name('session.index');
             Route::post('sessions', [SessionController::class, 'store'])->name('session.store');
             Route::get('sessions/{session}', [SessionController::class, 'show'])->name('session.show');
-            Route::post('sessions/{session}', [SessionController::class, 'update'])->name('session.update');
+            Route::put('sessions/{session}', [SessionController::class, 'update'])->name('session.update');
             Route::get('sessions/toggle-status/{session}', [SessionController::class, 'toggleStatus'])->name('session.toggle-status');
             Route::delete('sessions/delete/{session}', [SessionController::class, 'delete'])->name('session.delete');
+
         });
 
         // Theme routes
