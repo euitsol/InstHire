@@ -22,7 +22,7 @@ class JobFairStallOptionService
                 'stall_size' => $data['stall_size'],
                 'maximum_representative' => $data['maximum_representative'],
                 'description' => $data['description'] ?? null,
-                'status' => $data['status'] ?? true
+                'status' => $data['status'] ?? JobFairStallOption::STATUS_ACTIVE
             ]);
 
             DB::commit();
@@ -58,8 +58,12 @@ class JobFairStallOptionService
         try {
             DB::beginTransaction();
 
+            $newStatus = $stallOption->status == JobFairStallOption::STATUS_ACTIVE 
+                ? JobFairStallOption::STATUS_INACTIVE 
+                : JobFairStallOption::STATUS_ACTIVE;
+
             $stallOption->update([
-                'status' => !$stallOption->status
+                'status' => $newStatus
             ]);
 
             DB::commit();

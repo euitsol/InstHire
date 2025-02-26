@@ -37,8 +37,8 @@
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
                     <select name="status" id="status" class="form-control">
-                        <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Active</option>
-                        <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
+                        <option value="{{ App\Models\JobFairStallOption::STATUS_ACTIVE }}" {{ old('status') == App\Models\JobFairStallOption::STATUS_ACTIVE ? 'selected' : '' }}>Active</option>
+                        <option value="{{ App\Models\JobFairStallOption::STATUS_INACTIVE }}" {{ old('status') == App\Models\JobFairStallOption::STATUS_INACTIVE ? 'selected' : '' }}>Inactive</option>
                     </select>
                     @include('alerts.feedback', ['field' => 'status'])
                 </div>

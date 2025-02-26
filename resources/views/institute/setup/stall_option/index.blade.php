@@ -12,9 +12,9 @@
         <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
                 <h2 class="mb-0 card-title">{{ __('Job Fair Stall Options') }}</h2>
-                <button type="button" class="btn btn-primary" id="addNew">
+                <a href="{{ route('institute.setup.jfs.create') }}" type="button" class="btn btn-primary" id="addNew">
                     <i class="bi bi-plus"></i> {{ __('Add New Stall Option') }}
-                </button>
+                </a>
             </div>
 
             <hr>
@@ -38,8 +38,8 @@
                                 <td>{{ $option->stall_size }}</td>
                                 <td>{{ $option->maximum_representative }}</td>
                                 <td>
-                                    <span class="{{ $option->status ? 'badge bg-success' : 'badge bg-danger' }}">
-                                        {{ $option->status ? 'Active' : 'Inactive' }}
+                                    <span class="{{ $option->status == App\Models\JobFairStallOption::STATUS_ACTIVE ? 'badge bg-success' : 'badge bg-danger' }}">
+                                        {{ $option->status == App\Models\JobFairStallOption::STATUS_ACTIVE ? 'Active' : 'Inactive' }}
                                     </span>
                                 </td>
                                 <td>{{ $option->created_at }}</td>
@@ -159,13 +159,13 @@
                                     </tr>
                                     <tr>
                                         <th>Details</th>
-                                        <td>${data.details}</td>
+                                        <td>${data.description}</td>
                                     </tr>
                                     <tr>
                                         <th>Status</th>
                                         <td>
-                                            <span class="${data.status ? 'badge bg-success' : 'badge bg-danger'}">
-                                                ${data.status ? 'Active' : 'Inactive'}
+                                            <span class="${data.status == {{ App\Models\JobFairStallOption::STATUS_ACTIVE }} ? 'badge bg-success' : 'badge bg-danger'}">
+                                                ${data.status == {{ App\Models\JobFairStallOption::STATUS_ACTIVE }} ? 'Active' : 'Inactive'}
                                             </span>
                                         </td>
                                     </tr>
