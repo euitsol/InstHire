@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             SessionSeeder::class,
             CategorySeeder::class,
             DepartmentSeeder::class,
+            JobFairStallOptionSeeder::class,
         ]);
     }
 }

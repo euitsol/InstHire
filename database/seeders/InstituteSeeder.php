@@ -14,6 +14,7 @@ class InstituteSeeder extends Seeder
     public function run(): void
     {
         Institute::create([
+            'id' => 1,
             'name' => 'Institute',
             'slug' => 'institute',
             'email' => 'institute@dev.com',
