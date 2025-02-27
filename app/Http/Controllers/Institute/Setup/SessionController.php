@@ -14,6 +14,7 @@ class SessionController extends Controller
 
     public function __construct(SessionService $sessionService)
     {
+        $this->middleware("auth:institute");
         $this->sessionService = $sessionService;
     }
 

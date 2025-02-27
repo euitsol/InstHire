@@ -21,6 +21,7 @@ class JobPostController extends Controller
 
     public function __construct(JobPostService $jobPostService, EmployeeService $employeeService, JobCategoryService $jobCategoryService)
     {
+        $this->middleware("auth:institute");
         $this->jobPostService = $jobPostService;
         $this->employeeService = $employeeService;
         $this->jobCategoryService = $jobCategoryService;

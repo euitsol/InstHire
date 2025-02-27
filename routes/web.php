@@ -27,8 +27,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('admin.login');
-})->name('welcome');
+    return redirect()->route('login');
+})->name('login_stater');
 
 Auth::routes();
 
@@ -91,9 +91,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
 
 // Institute Auth Routes
 Route::prefix('institute')->name('institute.')->group(function () {
-    Route::middleware('guest:institute')->group(function () {
-        Route::get('login', [InstituteLoginController::class, 'showLoginForm'])->name('login');
-        Route::post('login', [InstituteLoginController::class, 'login'])->name('login.submit');
+
+        Route::get('login', [InstituteLoginController::class, 'login'])->name('login');
+        Route::post('login', [InstituteLoginController::class, 'loginCheck'])->name('login.submit');
         Route::get('register', [InstituteRegisterController::class, 'showRegistrationForm'])->name('register');
         Route::post('register', [InstituteRegisterController::class, 'register'])->name('register.submit');
 
@@ -102,7 +102,7 @@ Route::prefix('institute')->name('institute.')->group(function () {
         Route::post('password/email', [InstituteForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
         Route::get('password/reset/{token}', [InstituteResetPasswordController::class, 'showResetForm'])->name('password.reset');
         Route::post('password/reset', [InstituteResetPasswordController::class, 'reset'])->name('password.update');
-    });
+
 
     Route::middleware('auth:institute')->group(function () {
         Route::get('dashboard', [InstituteInstituteController::class, 'dashboard'])->name('dashboard');

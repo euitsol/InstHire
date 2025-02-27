@@ -15,6 +15,7 @@ class InstituteController extends Controller
 
     public function __construct(InstituteService $instituteService)
     {
+        $this->middleware("auth:institute");
         $this->instituteService = $instituteService;
     }
 
