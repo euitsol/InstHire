@@ -5,7 +5,7 @@
         <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
                 <h2 class="card-title mb-4">{{ __('Job Categories') }}</h2>
-                <a href="{{ route('jc.job-category.create') }}" class="btn btn-sm btn-primary">
+                <a href="{{ route('jm.job-category.create') }}" class="btn btn-sm btn-primary">
                     <i class="bi bi-plus"></i> {{ __('Add New Category') }}
                 </a>
             </div>
@@ -46,21 +46,21 @@
                                             'label' => 'Details',
                                         ],
                                         [
-                                            'routeName' => 'jc.job-category.status',
+                                            'routeName' => 'jm.job-category.status',
                                             'className' => $jobCategory->status_btn_color,
                                             'params' => [$jobCategory->id],
                                             'icon' => $jobCategory->status_btn_icon,
                                             'label' => $jobCategory->status_btn_label,
                                         ],
                                         [
-                                            'routeName' => 'jc.job-category.edit',
+                                            'routeName' => 'jm.job-category.edit',
                                             'params' => [$jobCategory->id],
                                             'className' => 'btn-primary',
                                             'icon' => 'bi bi-pencil',
                                             'label' => 'Edit',
                                         ],
                                         [
-                                            'routeName' => 'jc.job-category.destroy',
+                                            'routeName' => 'jm.job-category.destroy',
                                             'params' => [$jobCategory->id],
                                             'className' => 'btn-danger delete',
                                             'icon' => 'bi bi-trash',
@@ -102,7 +102,7 @@
             // Modal JS
             $('.view').on('click', function() {
                 let id = $(this).data('id');
-                let url = ("{{ route('jc.job-category.show', ['id']) }}");
+                let url = ("{{ route('jm.job-category.show', ['id']) }}");
                 let _url = url.replace('id', id);
                 $.ajax({
                     url: _url,

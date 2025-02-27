@@ -90,18 +90,24 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link {{ $page_slug === 'job-category' ? 'active' : 'collapsed' }}" href="#"
+            <a class="nav-link {{ $page_slug === 'job-category' || $page_slug === 'job-post' ? 'active' : 'collapsed' }}" href="#"
                 data-bs-toggle="collapse" data-bs-target="#jobCategorySubmenu"
-                aria-expanded="{{ $page_slug === 'job-category' ? 'true' : 'false' }}">
+                aria-expanded="{{ $page_slug === 'job-category' || $page_slug === 'job-post' ? 'true' : 'false' }}">
                 <i class="bi bi-briefcase me-2"></i>
                 {{ __('Job Management') }}
                 <i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul class="collapse {{ $page_slug === 'job-category' ? 'show' : '' }}" id="jobCategorySubmenu">
+            <ul class="collapse {{ $page_slug === 'job-category' || $page_slug === 'job-post' ? 'show' : '' }}" id="jobCategorySubmenu">
                 <li class="nav-item">
                     <a class="nav-link {{ $page_slug === 'job-category' ? 'active' : '' }}"
-                        href="{{ route('jc.job-category.index') }}">
+                        href="{{ route('jm.job-category.index') }}">
                         {{ __('Job Categories') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ $page_slug === 'job-post' ? 'active' : '' }}"
+                        href="{{ route('jm.job-post.index') }}">
+                        {{ __('Job Posts') }}
                     </a>
                 </li>
             </ul>

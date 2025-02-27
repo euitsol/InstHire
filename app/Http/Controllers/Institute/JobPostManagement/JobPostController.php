@@ -52,13 +52,13 @@ class JobPostController extends Controller
     public function store(JobPostRequest $request)
     {
         try {
-            $data = $request->validated();
+
 
             $data['institute_id'] = $request->visibility == JobPost::VISIBLE_INSTITUTE ? institute()->id : null;
             $data['creater_id'] = institute()->id;
             $data['creater_type'] = get_class(institute());
 
-            $this->jobPostService->createJobPost($data);
+            $this->jobPostService->createJobPost(array_merge($request->validated(), $data));
 
             return redirect()
                 ->route('institute.job-post.index')

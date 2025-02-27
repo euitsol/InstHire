@@ -9,11 +9,11 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <h2 class="card-title">{{ __('Edit Job Category') }}</h2>
                             @include('admin.includes.button', [
-                                'routeName' => 'jc.job-category.index',
+                                'routeName' => 'jm.job-category.index',
                                 'label' => 'Back',
                             ])
                         </div>
-                        <form action="{{ route('jc.job-category.update', $jobCategory->id) }}" method="POST">
+                        <form action="{{ route('jm.job-category.update', $jobCategory->id) }}" method="POST">
                             @method('PUT')
                             @csrf
                             <div class="mb-3">

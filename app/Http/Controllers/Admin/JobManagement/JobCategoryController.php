@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\JobManagement;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCategory\StoreRequest;
@@ -46,7 +46,7 @@ class JobCategoryController extends Controller
         try {
             $this->jobCategoryService->createJobCategory($request->validated());
             session()->flash('success', 'Job category created successfully');
-            return redirect()->route('jc.job-category.index');
+            return redirect()->route('jm.job-category.index');
         } catch (\Exception $e) {
             session()->flash('error', 'Something went wrong, please try again');
             return back()->withInput();
@@ -77,7 +77,7 @@ class JobCategoryController extends Controller
         try {
             $this->jobCategoryService->updateJobCategory($jobCategory, $request->validated());
             session()->flash('success', 'Job category updated successfully');
-            return redirect()->route('jc.job-category.index');
+            return redirect()->route('jm.job-category.index');
         } catch (\Exception $e) {
             session()->flash('error', 'Something went wrong, please try again');
             return back()->withInput();
@@ -92,10 +92,10 @@ class JobCategoryController extends Controller
         try {
             $this->jobCategoryService->deleteJobCategory($jobCategory);
             session()->flash('success', 'Job category deleted successfully');
-            return redirect()->route('jc.job-category.index');
+            return redirect()->route('jm.job-category.index');
         } catch (\Exception $e) {
             session()->flash('error', 'Something went wrong');
-            return redirect()->route('jc.job-category.index');
+            return redirect()->route('jm.job-category.index');
         }
     }
 

@@ -19,9 +19,13 @@ class JobPostService
     public function getInstituteJobPosts($institute_id): Collection
     {
         return JobPost::with(['institute', 'category', 'employee'])
-            ->where('creater_id', $institute_id)->where('creater_type', 'App\Models\Institute')
-            ->orWhere('institute_id', $institute_id)
-            ->latest()->get();
+        ->where(function ($query) use ($institute_id) {
+            $query->where('creater_id', $institute_id)
+                  ->where('creater_type', 'App\Models\Institute');
+        })
+        ->orWhere('institute_id', $institute_id)
+        ->latest()
+        ->get();
     }
 
     public function statusChange(JobPost $jobPost, int $status): bool
