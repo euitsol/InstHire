@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="{{ session('theme', 'light') }}">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Student Dashboard') - {{ config('app.name') }}</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     @stack('style_links')
 
     <!-- Styles -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @include('student.partials.styles')
-
     @stack('styles')
 
     <script>
@@ -33,20 +35,27 @@
 
 <body>
     <div class="wrapper">
-        @include('student.partials.header')
+        <!-- Sidebar -->
         @include('student.partials.sidebar')
 
-        <main class="content">
-            <div class="container-fluid p-0">
+        <!-- Main Content -->
+        <div class="main">
+            <!-- Top Navigation -->
+            @include('student.partials.header')
+
+            <!-- Page Content -->
+            <div class="content-wrapper">
                 @yield('content')
             </div>
-        </main>
 
-        @include('student.partials.footer')
+            <!-- Footer -->
+            @include('student.partials.footer')
+        </div>
     </div>
 
     <!-- Scripts -->
     @include('student.partials.scripts')
+    @stack('script_links')
     @stack('scripts')
 </body>
 </html>

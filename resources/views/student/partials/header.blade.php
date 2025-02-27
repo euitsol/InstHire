@@ -1,55 +1,43 @@
-<nav class="navbar navbar-expand navbar-light navbar-bg">
-    <a class="sidebar-toggle js-sidebar-toggle">
-        <i class="hamburger align-self-center"></i>
-    </a>
+<header class="header">
+    <nav class="navbar navbar-expand-lg">
+        <div class="px-0 container-fluid">
+            <!-- Mobile Menu Toggle -->
+            <button class="btn btn-link d-lg-none me-3 text-dark fs-4" id="sidebarToggle">
+                <i class="bi bi-list"></i>
+            </button>
 
-    <div class="navbar-collapse collapse">
-        <ul class="navbar-nav navbar-align">
-            <li class="nav-item dropdown">
-                <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
-                    <div class="position-relative">
-                        <i class="align-middle bi bi-bell"></i>
-                        <span class="indicator">4</span>
-                    </div>
-                </a>
-                <div class="py-0 dropdown-menu dropdown-menu-lg dropdown-menu-end" aria-labelledby="alertsDropdown">
-                    <div class="dropdown-menu-header">
-                        4 New Notifications
-                    </div>
-                    <div class="list-group">
-                        <!-- Add notifications here -->
-                    </div>
-                    <div class="dropdown-menu-footer">
-                        <a href="#" class="text-muted">Show all notifications</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
-                    <i class="align-middle bi bi-three-dots"></i>
-                </a>
+            <!-- Brand -->
+            <a class="navbar-brand d-flex align-items-center" href="javascript:void(0)">
+                <span class="brand-text ms-2">InstHire</span>
+            </a>
 
-                <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                    @if(student()->image)
-                        <img src="{{ asset('storage/' . student()->image) }}" class="rounded avatar img-fluid me-1" alt="{{ student()->name }}" />
-                    @else
-                        <img src="{{ asset('student/img/avatars/default.jpg') }}" class="rounded avatar img-fluid me-1" alt="{{ student()->name }}" />
-                    @endif
-                    <span class="text-dark">{{ student()->name }}</span>
+            <!-- Spacer for right alignment -->
+            <div class="flex-grow-1"></div>
+
+            <!-- User Dropdown -->
+            <div class="dropdown">
+                <a href="javascript:void(0)" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+
+                        <img src="{{  student()->image }}" class="avatar-circle" alt="{{ student()->name }}" />
+                    <span class="d-none d-sm-inline ms-2">{{ student()->name }}</span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="">
-                        <i class="align-middle bi bi-person me-1"></i> Profile
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="align-middle bi bi-box-arrow-right me-1"></i> Log out
-                    </a>
-                    <form id="logout-form" action="{{ route('student.logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </div>
-            </li>
-        </ul>
-    </div>
-</nav>
+                <ul class="shadow-sm dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0)">
+                            <i class="bi bi-person me-2"></i>Profile
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </a>
+                        <form id="logout-form" action="{{ route('student.logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -1,26 +1,22 @@
-<footer class="footer">
+<footer class="footer mt-auto py-3">
     <div class="container-fluid">
-        <div class="row text-muted">
-            <div class="col-6 text-start">
-                <p class="mb-0">
-                    <a href="{{ route('student.dashboard') }}" class="text-muted">
-                        <strong>{{ config('app.name') }}</strong>
-                    </a> &copy; {{ date('Y') }}
-                </p>
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <span class="text-muted">{{ config('app.name') }} &copy; {{ date('Y') }}</span>
             </div>
-            <div class="col-6 text-end">
-                <ul class="list-inline">
-                    <li class="list-inline-item">
-                        <a class="text-muted" href="#">Support</a>
+            <div class="col-lg-6">
+                <ul class="nav justify-content-lg-end">
+                    <li class="nav-item">
+                        <a class="nav-link text-muted" href="#">Support</a>
                     </li>
-                    <li class="list-inline-item">
-                        <a class="text-muted" href="#">Help Center</a>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted" href="#">Help Center</a>
                     </li>
-                    <li class="list-inline-item">
-                        <a class="text-muted" href="#">Privacy</a>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted" href="#">Privacy</a>
                     </li>
-                    <li class="list-inline-item">
-                        <a class="text-muted" href="#">Terms</a>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted" href="#">Terms</a>
                     </li>
                 </ul>
             </div>

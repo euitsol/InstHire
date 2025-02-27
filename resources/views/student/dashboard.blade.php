@@ -1,110 +1,198 @@
 @extends('student.layouts.master')
 
 @section('title', 'Dashboard')
-@section('header_title', 'Dashboard')
 
 @section('content')
-<div class="row">
-    <div class="col-xl-3 col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="media align-items-center">
-                    <div class="media-body mr-3">
-                        <h2 class="fs-34 text-black font-w600">{{ $availableJobs ?? 0 }}</h2>
-                        <span>Available Jobs</span>
-                    </div>
-                    <i class="flaticon-381-briefcase fs-45 text-primary"></i>
-                </div>
-            </div>
+<div class="px-4 container-fluid">
+    <!-- Welcome Section -->
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="mb-0 text-gray-800 h3">Welcome back, John Doe!</h1>
+            <p class="text-muted">Here's what's happening with your job applications.</p>
+        </div>
+        <div>
+            <a href="javascript:void(0)" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Apply for Jobs
+            </a>
         </div>
     </div>
-    <div class="col-xl-3 col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="media align-items-center">
-                    <div class="media-body mr-3">
-                        <h2 class="fs-34 text-black font-w600">{{ $appliedJobs ?? 0 }}</h2>
-                        <span>Applied Jobs</span>
-                    </div>
-                    <i class="flaticon-381-file fs-45 text-primary"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="media align-items-center">
-                    <div class="media-body mr-3">
-                        <h2 class="fs-34 text-black font-w600">{{ $upcomingJobFairs ?? 0 }}</h2>
-                        <span>Upcoming Job Fairs</span>
-                    </div>
-                    <i class="flaticon-381-calendar fs-45 text-primary"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="media align-items-center">
-                    <div class="media-body mr-3">
-                        <h2 class="fs-34 text-black font-w600">{{ $interviews ?? 0 }}</h2>
-                        <span>Scheduled Interviews</span>
-                    </div>
-                    <i class="flaticon-381-user fs-45 text-primary"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-xl-12">
-        <div class="card">
-            <div class="card-header border-0 pb-0">
-                <h4 class="card-title">Recent Job Applications</h4>
+    <!-- Stats Row -->
+    <div class="mb-4 row g-4">
+        <div class="col-xl-3 col-sm-6">
+            <div class="stats-card fade-in">
+                <div class="stats-card-icon" style="background-color: var(--primary-600)">
+                    <i class="bi bi-briefcase"></i>
+                </div>
+                <div class="stats-card-value">24</div>
+                <div class="stats-card-label">Available Jobs</div>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-responsive-md">
-                        <thead>
-                            <tr>
-                                <th><strong>JOB TITLE</strong></th>
-                                <th><strong>COMPANY</strong></th>
-                                <th><strong>APPLIED DATE</strong></th>
-                                <th><strong>STATUS</strong></th>
-                                <th><strong>ACTION</strong></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($recentApplications ?? [] as $application)
-                            <tr>
-                                <td>{{ $application->job->title }}</td>
-                                <td>{{ $application->job->company->name }}</td>
-                                <td>{{ $application->created_at->format('d M Y') }}</td>
-                                <td>
-                                    <span class="badge light badge-{{ $application->status_color }}">
-                                        {{ $application->status }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="{{ route('student.jobs.show', $application->job->id) }}" 
-                                       class="btn btn-primary shadow btn-xs sharp mr-1">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center">No recent applications found</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <div class="stats-card fade-in">
+                <div class="stats-card-icon" style="background-color: var(--success-600)">
+                    <i class="bi bi-file-earmark-text"></i>
+                </div>
+                <div class="stats-card-value">8</div>
+                <div class="stats-card-label">Applied Jobs</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <div class="stats-card fade-in">
+                <div class="stats-card-icon" style="background-color: var(--warning-600)">
+                    <i class="bi bi-calendar-event"></i>
+                </div>
+                <div class="stats-card-value">3</div>
+                <div class="stats-card-label">Upcoming Job Fairs</div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <div class="stats-card fade-in">
+                <div class="stats-card-icon" style="background-color: var(--danger-600)">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div class="stats-card-value">2</div>
+                <div class="stats-card-label">Scheduled Interviews</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Applications -->
+    <div class="row">
+        <div class="col-12">
+            <div class="rounded-xl shadow-sm card">
+                <div class="py-3 bg-white card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recent Job Applications</h5>
+                        <a href="javascript:void(0)" class="btn btn-sm btn-outline-primary">
+                            View All
+                        </a>
+                    </div>
+                </div>
+                <div class="p-0 card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>JOB TITLE</th>
+                                    <th>COMPANY</th>
+                                    <th>APPLIED DATE</th>
+                                    <th>STATUS</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="d-inline-block me-3">
+                                                <div class="text-white rounded-circle bg-primary d-flex align-items-center justify-content-center"
+                                                     style="width: 40px; height: 40px">
+                                                    G
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">Senior Software Engineer</h6>
+                                                <small class="text-muted">San Francisco, CA</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Google Inc.</td>
+                                    <td>25 Feb 2024</td>
+                                    <td>
+                                        <span class="badge bg-warning">
+                                            Pending
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)"
+                                           class="btn btn-sm btn-light"
+                                           data-bs-toggle="tooltip"
+                                           title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="d-inline-block me-3">
+                                                <div class="text-white rounded-circle bg-info d-flex align-items-center justify-content-center"
+                                                     style="width: 40px; height: 40px">
+                                                    M
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">Full Stack Developer</h6>
+                                                <small class="text-muted">New York, NY</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Microsoft</td>
+                                    <td>20 Feb 2024</td>
+                                    <td>
+                                        <span class="badge bg-success">
+                                            Accepted
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)"
+                                           class="btn btn-sm btn-light"
+                                           data-bs-toggle="tooltip"
+                                           title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="d-inline-block me-3">
+                                                <div class="text-white rounded-circle bg-danger d-flex align-items-center justify-content-center"
+                                                     style="width: 40px; height: 40px">
+                                                    A
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">Frontend Developer</h6>
+                                                <small class="text-muted">Seattle, WA</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Amazon</td>
+                                    <td>15 Feb 2024</td>
+                                    <td>
+                                        <span class="badge bg-info">
+                                            Interviewing
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)"
+                                           class="btn btn-sm btn-light"
+                                           data-bs-toggle="tooltip"
+                                           title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+});
+</script>
+@endpush
