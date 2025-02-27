@@ -25,6 +25,11 @@ use App\Http\Controllers\Institute\StudentManagement\StudentController as Instit
 use App\Http\Controllers\Institute\ThemeController;
 use App\Http\Controllers\Institute\Setup\JobFairStallOptionController as InstituteJobFairStallOptionController;
 use App\Http\Controllers\Institute\JobFair\JobFairController as InstituteJobFairController;
+use App\Http\Controllers\Student\Auth\LoginController as StudentLoginController;
+use App\Http\Controllers\Student\Auth\RegisterController as StudentRegisterController;
+use App\Http\Controllers\Student\Auth\ForgotPasswordController as StudentForgotPasswordController;
+use App\Http\Controllers\Student\Auth\ResetPasswordController as StudentResetPasswordController;
+use App\Http\Controllers\Student\StudentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -180,5 +185,35 @@ Route::prefix('institute')->name('institute.')->group(function () {
 
         // Theme routes
         Route::post('/theme/update', [ThemeController::class, 'update'])->name('theme.update');
+    });
+});
+
+// Student Auth Routes
+Route::prefix('student')->name('student.')->group(function () {
+    Route::controller(StudentLoginController::class)->group(function() {
+        Route::get('/login', 'login')->name('login');
+        Route::post('/login', 'loginCheck')->name('login');
+        Route::post('/logout', 'logout')->name('logout')->middleware('auth:student');
+    });
+
+    Route::controller(StudentRegisterController::class)->group(function() {
+        Route::get('/register', 'register')->name('register');
+        Route::post('/register', 'store')->name('register');
+        Route::get('department/{institute}', 'departments')->name('departments');
+        Route::get('session/{institute}', 'sessions')->name('sessions');
+    });
+
+    Route::controller(StudentForgotPasswordController::class)->group(function() {
+        Route::get('/password/forgot', 'showLinkRequestForm')->name('forgot');
+        Route::post('/password/forgot/request', 'sendResetLinkEmail')->name('forgot.request');
+    });
+
+    Route::controller(StudentResetPasswordController::class)->group(function() {
+        Route::get('/password/reset/{token}', 'showResetForm')->name('reset');
+        Route::post('/password/reset', 'reset')->name('password.update');
+    });
+
+    Route::controller(StudentController::class)->middleware('auth:student')->group(function() {
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
     });
 });

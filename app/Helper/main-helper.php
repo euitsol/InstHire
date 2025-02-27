@@ -21,6 +21,12 @@ function institute()
 {
     return auth()->guard('institute')->user();
 }
+
+function student()
+{
+    return auth()->guard('student')->user();
+}
+
 function creater_name($user)
 {
     return $user->name ?? 'System';
