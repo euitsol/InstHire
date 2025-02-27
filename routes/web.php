@@ -23,6 +23,7 @@ use App\Http\Controllers\Institute\Setup\SessionController;
 use App\Http\Controllers\Institute\StudentManagement\StudentController as InstituteStudentController;
 use App\Http\Controllers\Institute\ThemeController;
 use App\Http\Controllers\Institute\Setup\JobFairStallOptionController as InstituteJobFairStallOptionController;
+use App\Http\Controllers\Institute\JobFair\JobFairController as InstituteJobFairController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -164,6 +165,16 @@ Route::prefix('institute')->name('institute.')->group(function () {
 
         });
 
+        Route::controller(InstituteJobFairController::class)->prefix('job-fair')->name('jf.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::get('show/{jobFair}', 'show')->name('show');
+            Route::get('edit/{jobFair}', 'edit')->name('edit');
+            Route::put('update/{jobFair}', 'update')->name('update');
+            Route::delete('delete/{jobFair}', 'destroy')->name('destroy');
+            Route::get('active-options', 'getActiveOptions')->name('getActiveOptions');
+        });
 
         // Theme routes
         Route::post('/theme/update', [ThemeController::class, 'update'])->name('theme.update');
