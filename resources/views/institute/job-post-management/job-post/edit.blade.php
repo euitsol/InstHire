@@ -163,49 +163,49 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="form-label">{{ __('Job Responsibility') }} <span class="text-danger">*</span></label>
-                                        <textarea name="job_responsibility" class="form-control @error('job_responsibility') is-invalid @enderror" required>{{ old('job_responsibility', $jobPost->job_responsibility) }}</textarea>
+                                        <textarea name="job_responsibility" rows="10" class="form-control @error('job_responsibility') is-invalid @enderror" required>{{ old('job_responsibility', $jobPost->job_responsibility) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'job_responsibility'])
                                     </div>
 
                                     <div class="col-md-6">
                                         <label class="form-label">{{ __('Educational Requirements') }}</label>
-                                        <textarea name="educational_requirement" class="form-control @error('educational_requirement') is-invalid @enderror">{{ old('educational_requirement', $jobPost->educational_requirement) }}</textarea>
+                                        <textarea name="educational_requirement" rows="10" class="form-control @error('educational_requirement') is-invalid @enderror">{{ old('educational_requirement', $jobPost->educational_requirement) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'educational_requirement'])
                                     </div>
 
                                     <div class="col-md-6">
                                         <label class="form-label">{{ __('Professional Requirements') }}</label>
-                                        <textarea name="professional_requirement" class="form-control @error('professional_requirement') is-invalid @enderror">{{ old('professional_requirement', $jobPost->professional_requirement) }}</textarea>
+                                        <textarea name="professional_requirement" rows="10" class="form-control @error('professional_requirement') is-invalid @enderror">{{ old('professional_requirement', $jobPost->professional_requirement) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'professional_requirement'])
                                     </div>
 
                                     <div class="col-md-6">
                                         <label class="form-label">{{ __('Experience Requirements') }}</label>
-                                        <textarea name="experience_requirement" class="form-control @error('experience_requirement') is-invalid @enderror">{{ old('experience_requirement', $jobPost->experience_requirement) }}</textarea>
+                                        <textarea name="experience_requirement" rows="10" class="form-control @error('experience_requirement') is-invalid @enderror">{{ old('experience_requirement', $jobPost->experience_requirement) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'experience_requirement'])
                                     </div>
 
                                     <div class="col-md-6">
                                         <label class="form-label">{{ __('Age Requirements') }}</label>
-                                        <textarea name="age_requirement" class="form-control @error('age_requirement') is-invalid @enderror">{{ old('age_requirement', $jobPost->age_requirement) }}</textarea>
+                                        <textarea name="age_requirement" rows="10" class="form-control @error('age_requirement') is-invalid @enderror">{{ old('age_requirement', $jobPost->age_requirement) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'age_requirement'])
                                     </div>
 
                                     <div class="col-md-6">
                                         <label class="form-label">{{ __('Additional Requirements') }}</label>
-                                        <textarea name="additional_requirement" class="form-control @error('additional_requirement') is-invalid @enderror">{{ old('additional_requirement', $jobPost->additional_requirement) }}</textarea>
+                                        <textarea name="additional_requirement" rows="10" class="form-control @error('additional_requirement') is-invalid @enderror">{{ old('additional_requirement', $jobPost->additional_requirement) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'additional_requirement'])
                                     </div>
 
                                     <div class="col-md-6">
                                         <label class="form-label">{{ __('Other Benefits') }}</label>
-                                        <textarea name="other_benefits" class="form-control @error('other_benefits') is-invalid @enderror">{{ old('other_benefits', $jobPost->other_benefits) }}</textarea>
+                                        <textarea name="other_benefits" rows="10" class="form-control @error('other_benefits') is-invalid @enderror">{{ old('other_benefits', $jobPost->other_benefits) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'other_benefits'])
                                     </div>
 
                                     <div class="col-md-6">
                                         <label class="form-label">{{ __('Special Instructions') }}</label>
-                                        <textarea name="special_instractions" class="form-control @error('special_instractions') is-invalid @enderror">{{ old('special_instractions', $jobPost->special_instractions) }}</textarea>
+                                        <textarea name="special_instractions" rows="10" class="form-control @error('special_instractions') is-invalid @enderror">{{ old('special_instractions', $jobPost->special_instractions) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'special_instractions'])
                                     </div>
                                 </div>
