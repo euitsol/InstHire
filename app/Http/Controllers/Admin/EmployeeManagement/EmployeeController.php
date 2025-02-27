@@ -46,6 +46,11 @@ class EmployeeController extends Controller
     {
         $audits['creater_type'] = Admin::class;
         $audits['creater_id'] = admin()->id;
+        $audits['verifier_type'] = Admin::class;
+        $audits['verifier_id'] = admin()->id;
+        $audits['verified_by_type'] = Admin::class;
+        $audits['verified_by_id'] = admin()->id;
+        $audits['status'] = 1;
         $this->employeeService->createEmployee(array_merge($request->validated(), $audits));
         return redirect()->route('em.employee.index')->with('success', 'Employee created successfully');
     }

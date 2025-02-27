@@ -13,39 +13,31 @@
                                 'label' => 'Back',
                             ])
                         </div>
-                        <form action="{{ route('em.employee.update', $employee->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('em.employee.update', $employee->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @method('PUT')
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label">{{ __('Verified By') }}</label>
-                                <select name="verifier_id" class="form-select">
-                                    <option value="" selected disabled>{{ __('Select Verified By') }}</option>
-                                    @foreach ($institutes as $institute)
-                                        <option value="{{ $institute->id }}" {{ $employee->verifier_id == $institute->id ? 'selected' : '' }}>{{ $institute->name }}</option>
-                                    @endforeach
-                                </select>
-                                @include('alerts.feedback', ['field' => 'verifier_id'])
-                            </div>
-                            <div class="mb-3">
                                 <label class="form-label">{{ __('Name') }}</label>
-                                <input type="text" placeholder="Enter name" value="{{ $employee->name }}" class="form-control" name="name"
-                                    required>
+                                <input type="text" placeholder="Enter name" value="{{ $employee->name }}"
+                                    class="form-control" name="name" required>
                                 @include('alerts.feedback', ['field' => 'name'])
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">{{ __('Email') }}</label>
-                                <input type="email" placeholder="Enter email" value="{{ $employee->email }}" class="form-control" name="email"
-                                    required>
+                                <input type="email" placeholder="Enter email" value="{{ $employee->email }}"
+                                    class="form-control" name="email" required>
                                 @include('alerts.feedback', ['field' => 'email'])
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">{{ __('Password') }}</label>
-                                <input type="password" placeholder="Enter password" class="form-control" name="password" >
+                                <input type="password" placeholder="Enter password" class="form-control" name="password">
                                 @include('alerts.feedback', ['field' => 'password'])
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">{{ __('Confirm Password') }}</label>
-                                <input type="password" placeholder="Enter confirm password" class="form-control" name="password_confirmation">
+                                <input type="password" placeholder="Enter confirm password" class="form-control"
+                                    name="password_confirmation">
                                 @include('alerts.feedback', ['field' => 'password_confirmation'])
                             </div>
                             <div class="mt-4 text-end">

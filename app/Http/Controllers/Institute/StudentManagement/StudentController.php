@@ -20,6 +20,7 @@ class StudentController extends Controller
 
     public function __construct(StudentService $studentService, SessionService $sessionService, DepartmentService $departmentService)
     {
+        $this->middleware("auth:institute");
         $this->studentService = $studentService;
         $this->sessionService = $sessionService;
         $this->departmentService = $departmentService;

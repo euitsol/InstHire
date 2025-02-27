@@ -8,14 +8,17 @@ use App\Models\Admin;
 use App\Models\Institute;
 use App\Services\InstituteService;
 use Illuminate\Support\Str;
+use App\Services\InstituteSubscriptionService;
 
 class InstituteController extends Controller
 {
     protected InstituteService $instituteService;
+    protected InstituteSubscriptionService $instituteSubscriptionService;
 
-    public function __construct(InstituteService $instituteService)
+    public function __construct(InstituteService $instituteService, InstituteSubscriptionService $instituteSubscriptionService)
     {
         $this->instituteService = $instituteService;
+        $this->instituteSubscriptionService = $instituteSubscriptionService;
     }
 
     /**
@@ -43,7 +46,11 @@ class InstituteController extends Controller
         $data['creater_type'] = Admin::class;
         $data['creater_id'] = admin()->id;
         $data['slug'] = Str::slug($request->input('name'));
-        $this->instituteService->create(array_merge($request->validated(), $data));
+
+        $institute = $this->instituteService->create(array_merge($request->validated(), $data));
+        $data['institute_id'] = $institute->id;
+        $data['subscription_id'] = 1;
+        $this->instituteSubscriptionService->create($data);
         return redirect()->route('im.institute.index')->with('success', 'Institute created successfully');
     }
 

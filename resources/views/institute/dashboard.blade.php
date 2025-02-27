@@ -7,14 +7,97 @@
         <!-- Page Title -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="h3 mb-0">Dashboard</h1>
-            <button class="btn btn-primary">
+            <a href="{{ route('institute.job-post.create') }}" class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" class="me-2">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
                 Create Job Post
-            </button>
+            </a>
         </div>
+
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0">
+                    <div class="card-body p-4">
+                        @if($currentSubscription)
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="card-title mb-0">Subscription Details</h5>
+                            </div>
+                            <div class="row g-4">
+                                <div class="col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="subscription-icon me-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h6 class="text-muted mb-1">Plan</h6>
+                                            <p class="h5 mb-0">{{ $currentSubscription->subscription->title }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="subscription-icon me-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h6 class="text-muted mb-1">Start Date</h6>
+                                            <p class="h5 mb-0">{{ $currentSubscription->created_at->format('d M, Y') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="subscription-icon me-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h6 class="text-muted mb-1">Valid Until</h6>
+                                            <p class="h5 mb-0">{{ institute()->valid_to ? date('d M, Y', strtotime(institute()->valid_to)) : 'Lifetime' }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="subscription-icon me-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h6 class="text-muted mb-1">Status</h6>
+                                            <p class="h5 mb-0"><span class="{{ $currentSubscription->status_badge_color }} px-3 py-2">{{ $currentSubscription->status_label }}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{-- @else
+                            <div class="text-center py-4">
+                                <div class="subscription-icon mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="text-warning">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h5 class="mb-3">No Active Subscription</h5>
+                                <p class="text-muted mb-4">You currently don't have an active subscription. Subscribe to a plan to access all features.</p>
+                                <a href="{{ route('institute.subscriptions.index') }}" class="btn btn-primary px-4">
+                                    View Subscription Plans
+                                </a>
+                            </div> --}}
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Stats Cards -->
         <div class="row g-4 mb-4">

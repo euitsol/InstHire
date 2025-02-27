@@ -51,5 +51,3 @@
         document.querySelector('main').insertBefore(alertDiv, document.querySelector('main').firstChild);
     }
 </script>
-
-@stack('scripts')

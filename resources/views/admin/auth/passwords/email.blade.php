@@ -30,7 +30,7 @@
 <body>
     <div class="main_section">
         <div class="container position-relative">
-            <a href="{{ route('welcome') }}" class="btn btn-back">
+            <a href="{{ route('login_stater') }}" class="btn btn-back">
                 <i class="fas fa-arrow-left"></i>
                 <span>{{ __('Back to Home') }}</span>
             </a>

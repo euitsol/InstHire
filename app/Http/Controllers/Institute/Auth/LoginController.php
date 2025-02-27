@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function showLoginForm()
+    public function login()
     {
         if (Auth::guard('institute')->check()) {
             return redirect()->route('institute.dashboard');
@@ -16,7 +16,7 @@ class LoginController extends Controller
         return view('institute.auth.login');
     }
 
-    public function login(Request $request)
+    public function loginCheck(Request $request)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],

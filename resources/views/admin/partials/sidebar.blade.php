@@ -1,6 +1,6 @@
 <nav class="sidebar">
     <div class="d-flex align-items-center justify-content-between">
-        <h2 class="h4 ps-2 m-0">JobHub</h2>
+        <h2 class="h4 ps-2 m-0">{{ config('app.name') }}</h2>
         <button class="sidebar-toggle text-white">
             <i class="bi bi-x"></i>
         </button>
