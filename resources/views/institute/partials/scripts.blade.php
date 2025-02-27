@@ -20,11 +20,11 @@
     });
 
     // Dark Mode Toggle
-    document.getElementById('darkModeToggle').addEventListener('click', function() {
-        document.documentElement.setAttribute('data-bs-theme',
-            document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark'
-        );
-    });
+    // document.getElementById('darkModeToggle').addEventListener('click', function() {
+    //     document.documentElement.setAttribute('data-bs-theme',
+    //         document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark'
+    //     );
+    // });
 
     // Flash Messages
     document.addEventListener('DOMContentLoaded', function() {
