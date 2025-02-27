@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Institute;
 use App\Models\InstituteSubscription;
+use App\Models\Subscription;
+use Carbon\Carbon;
 
 class InstituteSubscriptionService
 {
@@ -24,6 +27,10 @@ class InstituteSubscriptionService
         return InstituteSubscription::with(['institute', 'subscription', 'creater'])->latest()->get();
     }
 
+    public function getInstCurrentSubs($inst_id){
+        return InstituteSubscription::with(['institute', 'subscription', 'creater'])->where('institute_id', $inst_id)->where('status', 1)->first();
+    }
+
     /**
      * Create a new institute subscription.
      *
@@ -39,6 +46,11 @@ class InstituteSubscriptionService
 
         // Create new subscription with 'current' status
         $data['status'] = 1;
+        $subscription = Subscription::findOrFail($data['subscription_id']);
+
+        $valid_to = Carbon::now()->addDays($subscription->validity);
+
+        Institute::where('id', $data['institute_id'])->update(['valid_to' => $valid_to]);
         return InstituteSubscription::create($data);
     }
 

@@ -8,20 +8,25 @@ use App\Models\Institute;
 use App\Services\InstituteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\InstituteSubscriptionService;
 
 class InstituteController extends Controller
 {
     protected $instituteService;
+    protected $instituteSubscriptionService;
 
-    public function __construct(InstituteService $instituteService)
+    public function __construct(InstituteService $instituteService, InstituteSubscriptionService $instituteSubscriptionService)
     {
         $this->middleware("auth:institute");
         $this->instituteService = $instituteService;
+        $this->instituteSubscriptionService = $instituteSubscriptionService;
     }
 
     public function dashboard()
     {
-        return view('institute.dashboard');
+        $institute = institute();
+        $currentSubscription = $this->instituteSubscriptionService->getInstCurrentSubs($institute->id);
+        return view('institute.dashboard', compact('currentSubscription'));
     }
 
     public function profile()
