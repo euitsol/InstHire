@@ -1,8 +1,8 @@
 $(document).ready(function() {
     // Sidebar Toggle
-    $('.sidebar-toggle').on('click', function() {
+    $('#sidebarToggle').on('click', function() {
         $('.sidebar').toggleClass('active');
-        $('.main').toggleClass('active');
+        $('.content-wrapper').toggleClass('active');
     });
 
     // Responsive sidebar
@@ -14,8 +14,11 @@ $(document).ready(function() {
         }
     });
 
-    // Dropdown menus
-    $('.dropdown-toggle').dropdown();
+    // Initialize all dropdowns
+    var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+    var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+        return new bootstrap.Dropdown(dropdownToggleEl);
+    });
 
     // Tooltips
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -74,19 +77,6 @@ $(document).ready(function() {
     $('.alert-dismissible').on('click', '.close', function() {
         $(this).closest('.alert').fadeOut(300, function() {
             $(this).remove();
-        });
-    });
-
-    // Form validation styles
-    $('form').on('submit', function() {
-        $(this).addClass('was-validated');
-    });
-
-    // Dynamic table search
-    $('#tableSearch').on('keyup', function() {
-        const value = $(this).val().toLowerCase();
-        $('.table tbody tr').filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
 

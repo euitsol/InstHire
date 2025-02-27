@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest:student');
-    }
-
     public function register()
     {
         $data['institutes'] = Institute::active()->get();

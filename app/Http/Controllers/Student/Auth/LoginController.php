@@ -8,13 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest:student')->except('logout');
-    }
-
     public function login()
     {
+        if (Auth::guard('student')->check()) {
+            return redirect()->route('student.dashboard');
+        }
         return view('student.auth.login');
     }
 
@@ -28,7 +26,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('student')->attempt($credentials)) {
-            return redirect()->intended(route('student.dashboard'));
+            return redirect()->route('student.dashboard');
         }
 
         return back()->withErrors([

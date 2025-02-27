@@ -189,19 +189,25 @@ Route::prefix('institute')->name('institute.')->group(function () {
 
 // Student Auth Routes
 Route::prefix('student')->name('student.')->group(function () {
-    Route::middleware('guest:student')->group(function () {
-        Route::get('/login', [StudentLoginController::class, 'login'])->name('login');
-        Route::post('/login', [StudentLoginController::class, 'loginCheck'])->name('login');
-        Route::get('/register', [StudentRegisterController::class, 'register'])->name('register');
-        Route::post('/register', [StudentRegisterController::class, 'store'])->name('register');
-        Route::get('/password/forgot', [StudentForgotPasswordController::class, 'showLinkRequestForm'])->name('forgot');
-        Route::post('/password/forgot/request', [StudentForgotPasswordController::class, 'sendResetLinkEmail'])->name('forgot.request');
-        Route::get('department/{institute}', [StudentRegisterController::class, 'departments'])->name('departments');
-        Route::get('session/{institute}', [StudentRegisterController::class, 'sessions'])->name('sessions');
+    Route::controller(StudentLoginController::class)->group(function() {
+        Route::get('/login', 'login')->name('login');
+        Route::post('/login', 'loginCheck')->name('login');
+        Route::post('/logout', 'logout')->name('logout')->middleware('auth:student');
     });
 
-    Route::middleware('auth:student')->group(function () {
-        Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
-        Route::post('/logout', [StudentLoginController::class, 'logout'])->name('logout');
+    Route::controller(StudentRegisterController::class)->group(function() {
+        Route::get('/register', 'register')->name('register');
+        Route::post('/register', 'store')->name('register');
+        Route::get('department/{institute}', 'departments')->name('departments');
+        Route::get('session/{institute}', 'sessions')->name('sessions');
+    });
+
+    Route::controller(StudentForgotPasswordController::class)->group(function() {
+        Route::get('/password/forgot', 'showLinkRequestForm')->name('forgot');
+        Route::post('/password/forgot/request', 'sendResetLinkEmail')->name('forgot.request');
+    });
+
+    Route::controller(StudentController::class)->middleware('auth:student')->group(function() {
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
     });
 });
