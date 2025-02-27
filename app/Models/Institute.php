@@ -56,10 +56,7 @@ class Institute extends AuthBaseModel
         $this->notify(new InstituteResetPasswordNotification($token));
     }
 
-    /**
-     * Get the institute's subscriptions.
-     */
-    public function instituteSubscriptions()
+    public function subscriptions()
     {
         return $this->hasMany(InstituteSubscription::class);
     }
