@@ -26,9 +26,15 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <label class="form-label">{{ __('Description') }} <span class="text-danger">*</span></label>
-                                        <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="4" required>{{ old('description') }}</textarea>
+                                        <label class="form-label">{{ __('Description') }}</label>
+                                        <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="4">{{ old('description') }}</textarea>
                                         @include('alerts.feedback', ['field' => 'description'])
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">{{ __('Location') }} <span class="text-danger">*</span></label>
+                                        <input type="text" name="location" class="form-control @error('location') is-invalid @enderror" value="{{ old('location') }}" required>
+                                        @include('alerts.feedback', ['field' => 'location'])
                                     </div>
 
                                     <div class="col-md-6">
@@ -82,9 +88,11 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+        // Unbind any existing click handlers to prevent double binding
+        $('#addStallOption').off('click');
 
         // Add stall option button click handler
-        $('#addStallOption').click(function() {
+        $('#addStallOption').on('click', function() {
             console.log('clicked');
             $.get("{{ route('institute.jf.getActiveOptions') }}", function(options) {
                 if (options.length > 0) {
@@ -132,9 +140,26 @@
         }
 
         // Remove stall option
+        $(document).off('click', '.remove-stall-option');
         $(document).on('click', '.remove-stall-option', function() {
             $(this).closest('.stall-option-row').remove();
         });
+
+        // Initialize with old values if they exist
+        @if(old('stall_options'))
+            $.get("{{ route('institute.jf.getActiveOptions') }}", function(options) {
+                if (options.length > 0) {
+                    const oldValues = @json(old('stall_options'));
+                    oldValues.forEach(() => {
+                        addStallOption(options);
+                    });
+                    // Set the old values after adding all options
+                    $('.stall-option-row select').each(function(index) {
+                        $(this).val(oldValues[index]).trigger('change');
+                    });
+                }
+            });
+        @endif
     });
 </script>
 @endpush

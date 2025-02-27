@@ -34,16 +34,16 @@
                 Employees
             </a>
 
-            <a class="nav-link {{ request()->routeIs('institute.job-post.*') ? 'active' : '' }}"
+            <a class="nav-link {{ request()->routeIs('institute.job-post.*') || request()->routeIs('institute.jf.*') ? 'active' : '' }}"
                 data-bs-toggle="collapse" href="#job-nav" role="button"
-                aria-expanded="{{ request()->routeIs('institute.job-post.*') ? 'true' : 'false' }}"
+                aria-expanded="{{ request()->routeIs('institute.job-post.*') || request()->routeIs('institute.jf.*') ? 'true' : 'false' }}"
                 aria-controls="job-nav">
                 <i class="bi bi-briefcase"></i>
                 Job Management
 
             </a>
             <ul id="job-nav"
-                class="nav-content collapse {{ request()->routeIs('institute.job-post.*') ? 'show' : '' }}"
+                class="nav-content collapse {{ request()->routeIs('institute.job-post.*') || request()->routeIs('institute.jf.*') ? 'show' : '' }}"
                 data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="{{ route('institute.job-post.index') }}"
@@ -51,16 +51,15 @@
                         <span>Job Posts</span>
                     </a>
                 </li>
-            </ul>
 
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <a href="{{ route('institute.jf.index') }}" class="nav-link {{ request()->routeIs('institute.jf.*') ? 'active' : '' }}">
-                        <i class="bi bi-calendar2-event me-2"></i>
+                <li>
+                    <a href="{{ route('institute.jf.index') }}"
+                        class="nav-link {{ request()->routeIs('institute.jf.*') ? 'active' : '' }}">
                         <span>{{ __('Job Fair') }}</span>
                     </a>
                 </li>
             </ul>
+
 
             <a class="nav-link {{ request()->routeIs('institute.setup.*') ? 'active' : '' }}" data-bs-toggle="collapse"
                 href="#setup-nav" role="button"

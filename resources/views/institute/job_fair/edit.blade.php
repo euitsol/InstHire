@@ -27,9 +27,15 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <label class="form-label">{{ __('Description') }} <span class="text-danger">*</span></label>
-                                        <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="4" required>{{ old('description', $jobFair->description) }}</textarea>
+                                        <label class="form-label">{{ __('Description') }}</label>
+                                        <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="4">{{ old('description', $jobFair->description) }}</textarea>
                                         @include('alerts.feedback', ['field' => 'description'])
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label class="form-label">{{ __('Location') }} <span class="text-danger">*</span></label>
+                                        <input type="text" name="location" class="form-control @error('location') is-invalid @enderror" value="{{ old('location', $jobFair->location) }}" required>
+                                        @include('alerts.feedback', ['field' => 'location'])
                                     </div>
 
                                     <div class="col-md-6">
@@ -65,42 +71,7 @@
                                 </div>
                                 <hr>
                                 <div id="stallOptionsContainer" class="row g-3">
-                                    @foreach($jobFair->stallOptions as $option)
-                                        <div class="col-12 stall-option">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="mb-3 d-flex justify-content-end">
-                                                        <button type="button" class="btn btn-sm btn-danger remove-stall-option">
-                                                            <i class="bi bi-trash"></i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="row g-3">
-                                                        <input type="hidden" name="stall_options[{{ $loop->index }}][id]" value="{{ $option->id }}">
-                                                        <div class="col-12">
-                                                            <label class="form-label">{{ __('Title') }} <span class="text-danger">*</span></label>
-                                                            <input type="text" name="stall_options[{{ $loop->index }}][title]" class="form-control" value="{{ $option->title }}" required>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label">{{ __('Stall Size') }} <span class="text-danger">*</span></label>
-                                                            <input type="text" name="stall_options[{{ $loop->index }}][stall_size]" class="form-control" value="{{ $option->stall_size }}" required>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label">{{ __('Maximum Representatives') }} <span class="text-danger">*</span></label>
-                                                            <input type="number" name="stall_options[{{ $loop->index }}][maximum_representative]" class="form-control" value="{{ $option->maximum_representative }}" min="1" required>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <label class="form-label">{{ __('Description') }} <span class="text-danger">*</span></label>
-                                                            <textarea name="stall_options[{{ $loop->index }}][description]" class="form-control" rows="2" required>{{ $option->description }}</textarea>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <label class="form-label">{{ __('Price') }} <span class="text-danger">*</span></label>
-                                                            <input type="number" name="stall_options[{{ $loop->index }}][price]" class="form-control" value="{{ $option->price }}" min="0" step="0.01" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                                    <!-- Stall options will be added here dynamically -->
                                 </div>
                             </div>
                         </div>
@@ -118,56 +89,94 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        // Load active stall options
-        $.get("{{ route('institute.jf.getActiveOptions') }}", function(data) {
-            window.stallOptions = data;
+        // Unbind any existing click handlers to prevent double binding
+        $('#addStallOption').off('click');
+
+        // Add stall option button click handler
+        $('#addStallOption').on('click', function() {
+            console.log('clicked');
+            $.get("{{ route('institute.jf.getActiveOptions') }}", function(options) {
+                if (options.length > 0) {
+                    addStallOption(options);
+                } else {
+                    alert("No active stall options available");
+                }
+            });
         });
 
-        // Add stall option
-        $('#addStallOption').click(function() {
-            const index = $('.stall-option').length;
-            const template = `
-                <div class="col-12 stall-option">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="mb-3 d-flex justify-content-end">
-                                <button type="button" class="btn btn-sm btn-danger remove-stall-option">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <label class="form-label">{{ __('Title') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="stall_options[${index}][title]" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">{{ __('Stall Size') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="stall_options[${index}][stall_size]" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">{{ __('Maximum Representatives') }} <span class="text-danger">*</span></label>
-                                    <input type="number" name="stall_options[${index}][maximum_representative]" class="form-control" min="1" required>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label">{{ __('Description') }} <span class="text-danger">*</span></label>
-                                    <textarea name="stall_options[${index}][description]" class="form-control" rows="2" required></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label">{{ __('Price') }} <span class="text-danger">*</span></label>
-                                    <input type="number" name="stall_options[${index}][price]" class="form-control" min="0" step="0.01" required>
-                                </div>
-                            </div>
-                        </div>
+        // Function to add stall option select
+        function addStallOption(options) {
+            const optionsHtml = options.map(option => `
+                <option value="${option.id}">
+                     ${option.stall_size} (Max ${option.maximum_representative} representatives)
+                </option>
+            `).join('');
+
+            const html = `
+                <div class="col-12 stall-option-row">
+                    <div class="gap-2 d-flex">
+                        <select name="stall_options[]" class="form-select @error('stall_options.*') is-invalid @enderror" required>
+                            ${optionsHtml}
+                        </select>
+                        <button type="button" class="btn btn-sm btn-danger remove-stall-option">
+                            <i class="bi bi-trash"></i>
+                        </button>
                     </div>
+                    <div class="mt-2">
+                        <small class="text-muted stall-description"></small>
+                    </div>
+                    @include('alerts.feedback', ['field' => 'stall_options.*'])
                 </div>
             `;
-            $('#stallOptionsContainer').append(template);
-        });
+
+            $('#stallOptionsContainer').append(html);
+
+            // Add change event to show description
+            $('#stallOptionsContainer select').last().change(function() {
+                const selectedOption = options.find(opt => opt.id == $(this).val());
+                if (selectedOption) {
+                    $(this).closest('.stall-option-row').find('.stall-description').text(selectedOption.description);
+                }
+            }).trigger('change');
+        }
 
         // Remove stall option
+        $(document).off('click', '.remove-stall-option');
         $(document).on('click', '.remove-stall-option', function() {
-            $(this).closest('.stall-option').remove();
+            $(this).closest('.stall-option-row').remove();
         });
+
+        // Initialize with existing stall options
+        $.get("{{ route('institute.jf.getActiveOptions') }}", function(options) {
+            if (options.length > 0) {
+                const existingOptions = @json($jobFair->stalls->pluck('job_fair_stall_option_id'));
+                existingOptions.forEach(() => {
+                    addStallOption(options);
+                });
+                // Set the existing values
+                $('.stall-option-row select').each(function(index) {
+                    $(this).val(existingOptions[index]).trigger('change');
+                });
+            }
+        });
+
+        // Initialize with old values if they exist (after validation error)
+        @if(old('stall_options'))
+            $.get("{{ route('institute.jf.getActiveOptions') }}", function(options) {
+                if (options.length > 0) {
+                    const oldValues = @json(old('stall_options'));
+                    // Clear existing options first
+                    $('#stallOptionsContainer').empty();
+                    oldValues.forEach(() => {
+                        addStallOption(options);
+                    });
+                    // Set the old values after adding all options
+                    $('.stall-option-row select').each(function(index) {
+                        $(this).val(oldValues[index]).trigger('change');
+                    });
+                }
+            });
+        @endif
     });
 </script>
 @endpush

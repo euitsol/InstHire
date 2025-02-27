@@ -15,8 +15,9 @@ class JobFairRequest extends FormRequest
     {
         $rules = [
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'start_date' => 'required|date|after_or_equal:today',
+            'description' => 'nullable|string|max:10000',
+            'location' => 'required|string|max:255',
+            'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'maximum_companies' => 'required|integer|min:1',
             'stall_options' => 'required|array|min:1',

@@ -39,7 +39,6 @@ class JobFairController extends Controller
             $data['status'] = JobFair::SCHEDULED;
             $data['creater_id'] = institute()->id;
             $data['creater_type'] = 'App\Models\Institute';
-
             $jobFair = $this->jobFairService->createJobFair($data);
 
             return redirect()->route('institute.jf.index')
@@ -59,13 +58,15 @@ class JobFairController extends Controller
         try {
             $data = $request->validated();
             $data['slug'] = Str::slug($data['title']);
+            $data['creater_id'] = institute()->id;
+            $data['creater_type'] = 'App\Models\Institute';
 
-            $this->jobFairService->updateJobFair($jobFair, $data);
+            $jobFair = $this->jobFairService->updateJobFair($jobFair, $data);
 
             return redirect()->route('institute.jf.index')
                 ->with('success', __('Job fair updated successfully'));
         } catch (\Exception $e) {
-            return back()->with('error', __('Something went wrong'));
+            return back()->with('error', __('Something went wrong'))->withInput();
         }
     }
 
@@ -77,6 +78,15 @@ class JobFairController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => __('Something went wrong')], 500);
         }
+    }
+
+    public function show(JobFair $jobFair)
+    {
+        $jobFair->load([
+            'stalls.stallOption',
+            'registrations.employee',
+        ]);
+        return view('institute.job_fair.show', compact('jobFair'));
     }
 
     public function getActiveOptions()

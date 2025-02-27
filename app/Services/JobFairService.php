@@ -28,6 +28,7 @@ class JobFairService
             'institute_id' => $data['institute_id'],
             'title' => $data['title'],
             'slug' => $data['slug'],
+            'location' => $data['location'],
             'description' => $data['description'],
             'start_date' => $data['start_date'],
             'end_date' => $data['end_date'],
@@ -56,18 +57,23 @@ class JobFairService
         $jobFair->update([
             'title' => $data['title'],
             'slug' => $data['slug'],
+            'location' => $data['location'],
             'description' => $data['description'],
             'start_date' => $data['start_date'],
             'end_date' => $data['end_date'],
             'maximum_companies' => $data['maximum_companies'],
         ]);
 
-        // Update stalls
+        // Delete existing stalls
         $jobFair->stalls()->delete();
+
+        // Create new stalls for each selected option
         foreach ($data['stall_options'] as $optionId) {
             JobFairStall::create([
                 'job_fair_id' => $jobFair->id,
                 'job_fair_stall_option_id' => $optionId,
+                'creater_id' => $data['creater_id'],
+                'creater_type' => $data['creater_type']
             ]);
         }
 

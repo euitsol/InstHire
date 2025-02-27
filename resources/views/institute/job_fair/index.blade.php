@@ -20,7 +20,8 @@
                             <th scope="col">{{ __('Start Date') }}</th>
                             <th scope="col">{{ __('End Date') }}</th>
                             <th scope="col">{{ __('Maximum Companies') }}</th>
-                            <th scope="col">{{ __('Registered Companies') }}</th>
+                            <th scope="col">{{ __('Registered') }}</th>
+                            <th scope="col">{{ __('Pending') }}</th>
                             <th scope="col">{{ __('Status') }}</th>
                             <th scope="col">{{ __('Actions') }}</th>
                         </tr>
@@ -33,7 +34,14 @@
                                 <td>{{ $jobFair->start_date->format('d M Y, h:i A') }}</td>
                                 <td>{{ $jobFair->end_date->format('d M Y, h:i A') }}</td>
                                 <td>{{ $jobFair->maximum_companies }}</td>
-                                <td>{{ $jobFair->registered_companies_count }}</td>
+                                <td>{{ $jobFair->registered_employees_count }}</td>
+                                <td>
+                                    @if($jobFair->pending_registrations_count > 0)
+                                        <span class="badge bg-warning">{{ $jobFair->pending_registrations_count }}</span>
+                                    @else
+                                        {{ $jobFair->pending_registrations_count }}
+                                    @endif
+                                </td>
                                 <td>
                                     @if($jobFair->isUpcoming())
                                         <span class="badge bg-info">{{ __('Upcoming') }}</span>

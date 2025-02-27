@@ -24,6 +24,7 @@ class JobFair extends Model
         'start_date',
         'end_date',
         'maximum_companies',
+        'location',
         'status',
         'creater_id',
         'creater_type',
@@ -34,6 +35,11 @@ class JobFair extends Model
         'end_date' => 'datetime',
         'maximum_companies' => 'integer',
         'status' => 'integer',
+    ];
+
+    protected $appends = [
+        'registered_employees_count',
+        'pending_registrations_count',
     ];
 
     public function institute()
@@ -49,6 +55,28 @@ class JobFair extends Model
     public function stallOptions()
     {
         return $this->belongsToMany(JobFairStallOption::class, 'job_fair_stalls');
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(JobFairRegistration::class);
+    }
+
+    public function registeredEmployees()
+    {
+        return $this->belongsToMany(Employee::class, 'job_fair_registrations')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
+
+    public function getRegisteredEmployeesCountAttribute()
+    {
+        return $this->registrations()->where('status', 1)->count();
+    }
+
+    public function getPendingRegistrationsCountAttribute()
+    {
+        return $this->registrations()->where('status', 0)->count();
     }
 
     public function getStatusLabelAttribute()
@@ -73,7 +101,7 @@ class JobFair extends Model
         };
     }
 
-    public function isScheduled(): bool
+    public function isUpcoming(): bool
     {
         return $this->status === self::SCHEDULED;
     }
