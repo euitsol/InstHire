@@ -35,7 +35,7 @@
     <main class="d-flex w-100 h-100 min-vh-100">
         <div class="container d-flex flex-column">
             <div class="row vh-100">
-                <div class="mx-auto col-sm-10 col-md-8 col-lg-6 col-xl-5 d-table h-100">
+                <div class="mx-auto col-sm-10 col-md-8 col-lg-7 col-xl-6 d-table h-100">
                     <div class="align-middle d-table-cell">
                         @yield('content')
                     </div>

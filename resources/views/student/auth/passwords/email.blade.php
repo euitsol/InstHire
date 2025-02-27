@@ -2,41 +2,48 @@
 
 @section('title', 'Reset Password')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('student/css/auth.css') }}">
+@endpush
+
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <div class="text-center mt-4">
-            <h1 class="h2">Reset password</h1>
-            <p class="lead">
-                Enter your email to reset your password.
-            </p>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <img src="{{ asset('assets/images/logo-full.png') }}" alt="Logo">
         </div>
+        
+        <h1 class="auth-title">Reset Password</h1>
+        <p class="auth-subtitle">Enter your email to reset your password</p>
 
-        <div class="m-sm-4">
-            @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
 
-            <form method="POST" action="{{ route('student.forgot.request') }}">
-                @csrf
+        <form method="POST" action="{{ route('student.forgot.request') }}">
+            @csrf
 
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input class="form-control form-control-lg @error('email') is-invalid @enderror" 
-                           type="email" name="email" placeholder="Enter your email" value="{{ old('email') }}" required />
-                    @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-lg btn-primary">Reset password</button>
-                </div>
-            </form>
-        </div>
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input class="form-control @error('email') is-invalid @enderror" 
+                       type="email" name="email" 
+                       placeholder="Enter your email address" 
+                       value="{{ old('email') }}" required autofocus />
+                @error('email')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send Reset Link</button>
+
+            <div class="auth-links">
+                <a href="{{ route('student.login') }}">Back to login</a>
+            </div>
+        </form>
     </div>
 </div>
 @endsection
