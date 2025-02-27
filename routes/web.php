@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\SubscriptionManagement\SubscriptionController;
 use App\Http\Controllers\Admin\SubscriptionManagement\InstituteSubscriptionController;
 use App\Http\Controllers\Admin\EmployeeManagement\EmployeeController;
 use App\Http\Controllers\Admin\InstituteManagement\InstituteController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Institute\Auth\InstituteForgotPasswordController;
 use App\Http\Controllers\Institute\Auth\InstituteResetPasswordController;
 use App\Http\Controllers\Institute\Auth\LoginController as InstituteLoginController;
@@ -29,17 +30,22 @@ use App\Http\Controllers\Student\Auth\LoginController as StudentLoginController;
 use App\Http\Controllers\Student\Auth\RegisterController as StudentRegisterController;
 use App\Http\Controllers\Student\Auth\ForgotPasswordController as StudentForgotPasswordController;
 use App\Http\Controllers\Student\Auth\ResetPasswordController as StudentResetPasswordController;
+use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Student\StudentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('login');
-})->name('login_stater');
+// Route::get('/', function () {
+//     return redirect()->route('login');
+// })->name('login_stater');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::controller(FrontendHomeController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+});
 
 // Admin Login Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
