@@ -9,31 +9,29 @@
                     <h1 class="mb-4 display-4 fw-bold">Find Your Dream Job with InstHire</h1>
                     <p class="mb-4 lead">Connect with top employers, educational institutes, and opportunities that match your skills and aspirations.</p>
                     <div class="p-4 bg-white rounded shadow search-box">
-                        <form action="#" method="GET" class="row g-3">
+                        <form action="{{ route('frontend.jobs') }}" method="GET" class="row g-3">
                             <div class="col-md-5">
                                 <div class="input-group">
-                                    <span class="input-group-text bg-transparent border-end-0">
+                                    <span class="bg-transparent input-group-text border-end-0">
                                         <i class="bi bi-search"></i>
                                     </span>
-                                    <input type="text" class="form-control border-start-0" placeholder="Job title or keyword">
+                                    <input type="text" name="search" class="form-control border-start-0" placeholder="Job title or keyword">
                                 </div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="input-group">
-                                    <span class="input-group-text bg-transparent border-end-0">
+                                    <span class="bg-transparent input-group-text border-end-0">
                                         <i class="bi bi-grid"></i>
                                     </span>
-                                    <select class="form-select border-start-0">
-                                        <option selected>Select Category</option>
-                                        <option>Web Development</option>
-                                        <option>Mobile Development</option>
-                                        <option>UI/UX Design</option>
-                                        <option>Data Science</option>
-                                        <option>Marketing</option>
+                                    <select class="form-select border-start-0" name="category">
+                                        <option value="">Select Category</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <button type="submit" class="btn btn-primary w-100">
                                     <i class="bi bi-search me-2"></i>Search
                                 </button>
@@ -52,12 +50,12 @@
     <section class="py-5 stats-section">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-8 text-center mb-5">
+                <div class="mb-5 text-center col-lg-8">
                     <h2 class="section-title" data-aos="fade-up">Our Impact in Numbers</h2>
                     <p class="lead text-muted" data-aos="fade-up" data-aos-delay="100">Connecting talent with opportunities across the globe</p>
                 </div>
             </div>
-            <div class="row text-center g-4">
+            <div class="text-center row g-4">
                 <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
                     <div class="stat-card">
                         <div class="stat-icon">
@@ -143,77 +141,41 @@
         <div class="container">
             <h2 class="mb-5 text-center section-title" data-aos="fade-up">Featured Job Opportunities</h2>
             <div class="row">
-                <!-- Job Card 1 -->
-                <div class="mb-4 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                @forelse($featuredJobs->take(3) as $job)
+                <!-- Job Card -->
+                <div class="mb-4 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 100 }}">
                     <div class="p-4 bg-white rounded shadow-sm job-card h-100">
                         <div class="mb-3 d-flex align-items-center">
-                            <div class="company-logo me-3 d-flex align-items-center justify-content-center bg-light">
-                                <span class="h4 mb-0">G</span>
+                            <div class="p-2 rounded company-logo bg-light me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <span class="mb-0 h4 text-primary fw-bold">{{ substr($job->company_name, 0, 1) }}</span>
                             </div>
                             <div>
-                                <h5 class="mb-1">Senior Software Engineer</h5>
-                                <p class="mb-0 text-muted">Google</p>
+                                <h5 class="mb-1">{{ $job->title }}</h5>
+                                <p class="mb-0 text-muted">{{ $job->company_name }}</p>
                             </div>
                         </div>
                         <div class="mb-3 job-details">
-                            <p class="mb-2"><i class="bi bi-geo-alt me-2"></i>Mountain View, CA</p>
-                            <p class="mb-2"><i class="bi bi-clock me-2"></i>Full Time</p>
-                            <p class="mb-2"><i class="bi bi-cash me-2"></i>$120K - $180K</p>
+                            <p class="mb-2"><i class="bi bi-geo-alt me-2"></i>{{ $job->job_location }}</p>
+                            <p class="mb-2"><i class="bi bi-clock me-2"></i>{{ $job->job_type_label }}</p>
+                            @if($job->salary_type == \App\Models\JobPost::SALARY_NEGOTIABLE)
+                                <p class="mb-2"><i class="bi bi-cash me-2"></i>{{ $job->salary_type_label }}</p>
+                            @else
+                                <p class="mb-2"><i class="bi bi-cash me-2"></i>{{ $job->salary }} ({{ $job->salary_type_label }})</p>
+                            @endif
                         </div>
                         <div class="d-grid">
-                            <a href="#" class="btn btn-outline-primary">Apply Now</a>
+                            <a href="{{ route('frontend.jobs.show', $job->id) }}" class="btn btn-outline-primary">Apply Now</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Job Card 2 -->
-                <div class="mb-4 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="p-4 bg-white rounded shadow-sm job-card h-100">
-                        <div class="mb-3 d-flex align-items-center">
-                            <div class="company-logo me-3 d-flex align-items-center justify-content-center bg-light">
-                                <span class="h4 mb-0">F</span>
-                            </div>
-                            <div>
-                                <h5 class="mb-1">Product Designer</h5>
-                                <p class="mb-0 text-muted">Facebook</p>
-                            </div>
-                        </div>
-                        <div class="mb-3 job-details">
-                            <p class="mb-2"><i class="bi bi-geo-alt me-2"></i>Menlo Park, CA</p>
-                            <p class="mb-2"><i class="bi bi-clock me-2"></i>Full Time</p>
-                            <p class="mb-2"><i class="bi bi-cash me-2"></i>$100K - $160K</p>
-                        </div>
-                        <div class="d-grid">
-                            <a href="#" class="btn btn-outline-primary">Apply Now</a>
-                        </div>
-                    </div>
+                @empty
+                <div class="text-center col-12">
+                    <p>No featured jobs available at the moment.</p>
                 </div>
-
-                <!-- Job Card 3 -->
-                <div class="mb-4 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="p-4 bg-white rounded shadow-sm job-card h-100">
-                        <div class="mb-3 d-flex align-items-center">
-                            <div class="company-logo me-3 d-flex align-items-center justify-content-center bg-light">
-                                <span class="h4 mb-0">A</span>
-                            </div>
-                            <div>
-                                <h5 class="mb-1">Data Scientist</h5>
-                                <p class="mb-0 text-muted">Amazon</p>
-                            </div>
-                        </div>
-                        <div class="mb-3 job-details">
-                            <p class="mb-2"><i class="bi bi-geo-alt me-2"></i>Seattle, WA</p>
-                            <p class="mb-2"><i class="bi bi-clock me-2"></i>Full Time</p>
-                            <p class="mb-2"><i class="bi bi-cash me-2"></i>$130K - $190K</p>
-                        </div>
-                        <div class="d-grid">
-                            <a href="#" class="btn btn-outline-primary">Apply Now</a>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
-            <div class="text-center mt-4">
-                <a href="#" class="btn btn-primary">View All Jobs</a>
+            <div class="mt-4 text-center">
+                <a href="{{ route('frontend.jobs') }}" class="btn btn-primary">View All Jobs</a>
             </div>
         </div>
     </section>
@@ -224,8 +186,8 @@
             <h2 class="mb-5 text-center section-title" data-aos="fade-up">How InstHire Works</h2>
             <div class="row">
                 <div class="mb-4 col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="step-card text-center">
-                        <div class="step-icon mx-auto">
+                    <div class="text-center step-card">
+                        <div class="mx-auto step-icon">
                             <i class="bi bi-person-plus"></i>
                         </div>
                         <h4>Create Profile</h4>
@@ -233,8 +195,8 @@
                     </div>
                 </div>
                 <div class="mb-4 col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="step-card text-center">
-                        <div class="step-icon mx-auto">
+                    <div class="text-center step-card">
+                        <div class="mx-auto step-icon">
                             <i class="bi bi-search"></i>
                         </div>
                         <h4>Search Jobs</h4>
@@ -242,8 +204,8 @@
                     </div>
                 </div>
                 <div class="mb-4 col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="step-card text-center">
-                        <div class="step-icon mx-auto">
+                    <div class="text-center step-card">
+                        <div class="mx-auto step-icon">
                             <i class="bi bi-check2-circle"></i>
                         </div>
                         <h4>Get Hired</h4>
@@ -259,9 +221,9 @@
         <div class="container position-relative">
             <div class="cta-box">
                 <div class="row align-items-center">
-                    <div class="col-lg-7 mb-4 mb-lg-0">
-                        <h2 class="display-5 fw-bold mb-3" data-aos="fade-right">Ready to Take the Next Step in Your Career?</h2>
-                        <p class="lead mb-4" data-aos="fade-right" data-aos-delay="100">
+                    <div class="mb-4 col-lg-7 mb-lg-0">
+                        <h2 class="mb-3 display-5 fw-bold" data-aos="fade-right">Ready to Take the Next Step in Your Career?</h2>
+                        <p class="mb-4 lead" data-aos="fade-right" data-aos-delay="100">
                             Join thousands of professionals who trust InstHire for their career growth. Get access to:
                         </p>
                         <div class="row g-4" data-aos="fade-up" data-aos-delay="200">
@@ -291,9 +253,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5 text-center text-lg-end" data-aos="fade-left">
+                    <div class="text-center col-lg-5 text-lg-end" data-aos="fade-left">
                         <div class="cta-buttons">
-                            <a href="{{ route('student.login') }}" class="btn btn-light btn-lg mb-2 mb-sm-0">
+                            <a href="{{ route('student.login') }}" class="mb-2 btn btn-light btn-lg mb-sm-0">
                                 <i class="bi bi-person-plus me-2"></i>Sign Up Now
                             </a>
                             <a href="#" class="btn btn-outline-light btn-lg ms-sm-2">Learn More</a>
@@ -314,7 +276,7 @@
         margin-bottom: 3rem;
         position: relative;
     }
-    
+
     .section-title::after {
         content: '';
         position: absolute;
