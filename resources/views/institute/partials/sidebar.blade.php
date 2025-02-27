@@ -53,9 +53,14 @@
                 </li>
             </ul>
 
-
-
-
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a href="{{ route('institute.jf.index') }}" class="nav-link {{ request()->routeIs('institute.jf.*') ? 'active' : '' }}">
+                        <i class="bi bi-calendar2-event me-2"></i>
+                        <span>{{ __('Job Fair') }}</span>
+                    </a>
+                </li>
+            </ul>
 
             <a class="nav-link {{ request()->routeIs('institute.setup.*') ? 'active' : '' }}" data-bs-toggle="collapse"
                 href="#setup-nav" role="button"
@@ -105,6 +110,8 @@
                     </a>
                 </li>
             </ul>
+
+
 
 
         </div>
