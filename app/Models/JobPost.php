@@ -60,7 +60,17 @@ class JobPost extends BaseModel
         'status',
         'notify',
         'email_subject',
-        'email_body'
+        'email_body',
+
+        'creater_id',
+        'creater_type',
+        'updater_id',
+        'updater_type',
+        'deleter_id',
+        'deleter_type',
+        'deleted_at',
+        'created_at',
+        'updated_at',
     ];
 
     protected $appends = [

@@ -5,7 +5,8 @@ use App\Http\Controllers\Admin\Auth\AdminForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminResetPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\JobCategoryController;
+use App\Http\Controllers\Admin\JobManagement\JobCategoryController;
+use App\Http\Controllers\Admin\JobManagement\JobPostController as AdminJobPostController;
 use App\Http\Controllers\Admin\PaymentManagement\PaymentController;
 use App\Http\Controllers\Admin\SubscriptionManagement\SubscriptionController;
 use App\Http\Controllers\Admin\SubscriptionManagement\InstituteSubscriptionController;
@@ -84,9 +85,10 @@ Route::group(['middleware' => 'auth:admin'], function () {
         Route::resource('payment', PaymentController::class)->only(['index']);
     });
 
-    Route::group(['as' => 'jc.', 'prefix' => 'job-category'], function () {
+    Route::group(['as' => 'jm.', 'prefix' => 'job-management'], function () {
         Route::resource('job-category', JobCategoryController::class);
         Route::get('job-category/status/{jobCategory}', [JobCategoryController::class, 'status'])->name('job-category.status');
+        Route::resource('job-post', AdminJobPostController::class);
     });
 });
 
