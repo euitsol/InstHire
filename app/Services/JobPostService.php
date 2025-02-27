@@ -13,19 +13,19 @@ class JobPostService
      */
     public function getJobPosts(): Collection
     {
-        return JobPost::with(['institute', 'category', 'employee'])->latest()->get();
+        return JobPost::with(['institute', 'category'])->latest()->get();
     }
 
     public function getInstituteJobPosts($institute_id): Collection
     {
-        return JobPost::with(['institute', 'category', 'employee'])
-        ->where(function ($query) use ($institute_id) {
-            $query->where('creater_id', $institute_id)
-                  ->where('creater_type', 'App\Models\Institute');
-        })
-        ->orWhere('institute_id', $institute_id)
-        ->latest()
-        ->get();
+        return JobPost::with(['institute', 'category'])
+            ->where(function ($query) use ($institute_id) {
+                $query->where('creater_id', $institute_id)
+                      ->where('creater_type', 'App\Models\Institute');
+            })
+            ->orWhere('institute_id', $institute_id)
+            ->latest()
+            ->get();
     }
 
     public function statusChange(JobPost $jobPost, int $status): bool
@@ -36,7 +36,7 @@ class JobPostService
 
     public function getDetails(JobPost $jobPost): JobPost
     {
-        $jobPost->load(['institute', 'category', 'employee']);
+        $jobPost->load(['institute', 'category']);
         return $jobPost;
     }
 
@@ -62,5 +62,43 @@ class JobPostService
     public function deleteJobPost(JobPost $jobPost): bool
     {
         return $jobPost->delete();
+    }
+
+    /**
+     * Get recent job posts
+     */
+    public function getRecentJobs(): Collection
+    {
+        return JobPost::with(['institute', 'category'])
+            ->where('status', JobPost::STATUS_ACCEPTED)
+            ->where('deadline', '>=', now())
+            ->latest()
+            ->take(5)
+            ->get();
+    }
+
+    /**
+     * Get employee's applied jobs
+     */
+    public function getEmployeeAppliedJobs($employee_id): Collection
+    {
+        return JobPost::with(['institute', 'category'])
+            ->whereHas('applications', function ($query) use ($employee_id) {
+                $query->where('employee_id', $employee_id);
+            })
+            ->latest()
+            ->get();
+    }
+
+    /**
+     * Get active job posts
+     */
+    public function getActiveJobs(): Collection
+    {
+        return JobPost::with(['institute', 'category'])
+            ->where('status', JobPost::STATUS_ACCEPTED)
+            ->where('deadline', '>=', now())
+            ->latest()
+            ->get();
     }
 }

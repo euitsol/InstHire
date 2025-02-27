@@ -253,7 +253,7 @@
 
             <!-- Employee Card -->
             <div class="col-xl-3 col-6">
-                <a href="{{ route('login') }}" class="text-decoration-none">
+                <a href="{{ route('employee.login') }}" class="text-decoration-none">
                     <div class="user-type-card">
                         <div class="card-body">
                             <div class="icon-wrapper">
