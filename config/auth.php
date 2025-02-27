@@ -44,10 +44,14 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
-    'institute' => [
-        'driver' => 'session',
-        'provider' => 'institutes',
-    ],
+        'institute' => [
+            'driver' => 'session',
+            'provider' => 'institutes',
+        ],
+        'student' => [
+            'driver' => 'session',
+            'provider' => 'students',
+        ],
     ],
 
     /*
@@ -79,6 +83,10 @@ return [
         'institutes' => [
             'driver' => 'eloquent',
             'model' => App\Models\Institute::class,
+        ],
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Student::class,
         ],
 
         // 'users' => [
@@ -121,6 +129,12 @@ return [
         ],
         'institutes' => [
             'provider' => 'institutes',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'students' => [
+            'provider' => 'students',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,

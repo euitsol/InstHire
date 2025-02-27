@@ -58,8 +58,8 @@ class JobFairController extends Controller
         try {
             $data = $request->validated();
             $data['slug'] = Str::slug($data['title']);
-            $data['creater_id'] = institute()->id;
-            $data['creater_type'] = 'App\Models\Institute';
+            $data['updater_id'] = institute()->id;
+            $data['updater_type'] = 'App\Models\Institute';
 
             $jobFair = $this->jobFairService->updateJobFair($jobFair, $data);
 

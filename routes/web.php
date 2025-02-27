@@ -25,6 +25,10 @@ use App\Http\Controllers\Institute\StudentManagement\StudentController as Instit
 use App\Http\Controllers\Institute\ThemeController;
 use App\Http\Controllers\Institute\Setup\JobFairStallOptionController as InstituteJobFairStallOptionController;
 use App\Http\Controllers\Institute\JobFair\JobFairController as InstituteJobFairController;
+use App\Http\Controllers\Student\Auth\LoginController as StudentLoginController;
+use App\Http\Controllers\Student\Auth\RegisterController as StudentRegisterController;
+use App\Http\Controllers\Student\Auth\ForgotPasswordController as StudentForgotPasswordController;
+use App\Http\Controllers\Student\StudentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -180,5 +184,24 @@ Route::prefix('institute')->name('institute.')->group(function () {
 
         // Theme routes
         Route::post('/theme/update', [ThemeController::class, 'update'])->name('theme.update');
+    });
+});
+
+// Student Auth Routes
+Route::prefix('student')->name('student.')->group(function () {
+    Route::middleware('guest:student')->group(function () {
+        Route::get('/login', [StudentLoginController::class, 'login'])->name('login');
+        Route::post('/login', [StudentLoginController::class, 'loginCheck'])->name('login');
+        Route::get('/register', [StudentRegisterController::class, 'register'])->name('register');
+        Route::post('/register', [StudentRegisterController::class, 'store'])->name('register');
+        Route::get('/password/forgot', [StudentForgotPasswordController::class, 'showLinkRequestForm'])->name('forgot');
+        Route::post('/password/forgot/request', [StudentForgotPasswordController::class, 'sendResetLinkEmail'])->name('forgot.request');
+        Route::get('department/{institute}', [StudentRegisterController::class, 'departments'])->name('departments');
+        Route::get('session/{institute}', [StudentRegisterController::class, 'sessions'])->name('sessions');
+    });
+
+    Route::middleware('auth:student')->group(function () {
+        Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
+        Route::post('/logout', [StudentLoginController::class, 'logout'])->name('logout');
     });
 });
