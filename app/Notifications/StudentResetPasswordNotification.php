@@ -39,7 +39,10 @@ class StudentResetPasswordNotification extends Notification
         return (new MailMessage)
             ->subject('Reset Student Password')
             ->line('You are receiving this email because we received a password reset request for your student account.')
-            ->action('Reset Password', url('student/password/reset', $this->token))
+            ->action('Reset Password', route('student.reset', [
+                'token' => $this->token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ]))
             ->line('This password reset link will expire in 60 minutes.')
             ->line('If you did not request a password reset, no further action is required.');
     }
