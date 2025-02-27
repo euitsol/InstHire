@@ -1,0 +1,42 @@
+Project Description:
+Developed in PHP Laravel, this comprehensive job portal streamlines recruitment by connecting job seekers, educational institutes, and employers on a unified platform. Designed to cater to diverse user roles, the system offers tailored workflows and features to enhance efficiency and collaboration in the hiring process.
+Key Features:
+
+1. For Job Seekers (Free Access):
+
+    Apply to jobs without logging in via a simplified form-based application process.
+
+    Access public job listings and exclusive private opportunities shared by their affiliated institutes.
+
+    Participate in institute-hosted virtual job fairs and track application statuses.
+
+    Utilize a personalized dashboard to manage applications, view interview updates (shortlisted, viva, accepted), and explore upcoming job fairs.
+
+2. For Educational Institutes (Package-Based Subscriptions):
+
+    Create and manage student profiles, verify alumni/employee credentials, and oversee institutional analytics.
+
+    Publish public/private job posts and host dedicated job fairs with customizable attendance approval workflows.
+
+    Monitor student career progression via dashboards displaying accepted jobs, application trends, and skill gaps.
+
+    Grant employers controlled access to student profiles and streamline recruitment partnerships.
+
+3. For Employers:
+
+    Post jobs, manage applications through a multi-stage pipeline (applied, shortlisted, viva, accepted), and filter candidates efficiently.
+
+    Request participation in institute-hosted job fairs and engage with pre-verified talent pools.
+
+    Access a dedicated dashboard to track job post performance, applicant demographics, and fair attendance metrics.
+
+Technical Highlights:
+
+    Role-based access control (RBAC) ensures secure data segregation for institutes, students, and employers.
+
+    Responsive UI/UX with intuitive dashboards, real-time analytics, and seamless form integrations.
+
+    Scalable architecture built on Laravel for robust performance, security, and future expansion.
+
+Value Proposition:
+This platform bridges the gap between academia and industry, empowering institutes to showcase their talent, employers to discover qualified candidates, and job seekers to access curated opportunities—all within a flexible, user-centric ecosystem. By offering tiered packages for institutes and free access for students/employers, it fosters equitable participation while driving institutional visibility and employer recruitment success.
