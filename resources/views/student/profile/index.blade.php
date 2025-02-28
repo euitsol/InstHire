@@ -3,10 +3,18 @@
 @section('title', 'Profile')
 
 @section('content')
-<div class="container-fluid">
+<div class="px-4 container-fluid">
     <!-- Header -->
-    <div class="mb-4 d-flex align-items-center justify-content-between">
-        <h1 class="mb-0 h3">My Profile</h1>
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="mb-0 text-gray-800 h3">My Profile</h1>
+            <p class="text-muted">Manage your personal and academic information</p>
+        </div>
+        <div>
+            <a href="{{ route('student.dashboard') }}" class="btn btn-primary">
+                <i class="bi bi-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
     </div>
 
     <!-- Profile Form -->
@@ -17,8 +25,8 @@
                 @csrf
                 @method('PUT')
 
-                <div class="mb-4 card">
-                    <div class="card-header border-bottom">
+                <div class="mb-4 rounded-xl shadow-sm card">
+                    <div class="py-3 bg-white card-header border-bottom">
                         <h4 class="mb-1 card-title">Profile Information</h4>
                         <p class="mb-0 text-muted">Update your personal information</p>
                     </div>
@@ -81,8 +89,8 @@
                     </div>
                 </div>
 
-                <div class="mb-4 card">
-                    <div class="card-header border-bottom">
+                <div class="mb-4 rounded-xl shadow-sm card">
+                    <div class="py-3 bg-white card-header border-bottom">
                         <h4 class="mb-1 card-title">Academic Information</h4>
                         <p class="mb-0 text-muted">Your academic details</p>
                     </div>
@@ -142,8 +150,8 @@
         <!-- Account Actions & Status -->
         <div class="col-lg-4">
             <!-- Account Status -->
-            <div class="mb-4 card">
-                <div class="card-header border-bottom">
+            <div class="mb-4 rounded-xl shadow-sm card">
+                <div class="py-3 bg-white card-header border-bottom">
                     <h4 class="mb-0 card-title">Account Status</h4>
                 </div>
                 <div class="card-body">
@@ -176,8 +184,8 @@
             </div>
 
             <!-- Change Password -->
-            <div class="mb-4 card">
-                <div class="card-header border-bottom">
+            <div class="mb-4 rounded-xl shadow-sm card">
+                <div class="py-3 bg-white card-header border-bottom">
                     <h4 class="mb-0 card-title">Change Password</h4>
                 </div>
                 <div class="card-body">
@@ -231,8 +239,8 @@
             </div>
 
             <!-- Account Actions -->
-            <div class="card">
-                <div class="card-header border-bottom">
+            <div class="rounded-xl shadow-sm card">
+                <div class="py-3 bg-white card-header border-bottom">
                     <h4 class="mb-0 card-title">Account Actions</h4>
                 </div>
                 <div class="card-body">
@@ -287,6 +295,12 @@
                     icon.classList.add('bi-eye');
                 }
             });
+        });
+        
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
         });
     });
 </script>
