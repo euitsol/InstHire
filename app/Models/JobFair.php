@@ -40,6 +40,8 @@ class JobFair extends Model
     protected $appends = [
         'registered_employees_count',
         'pending_registrations_count',
+        'status_label',
+        'status_color',
     ];
 
     public function institute()

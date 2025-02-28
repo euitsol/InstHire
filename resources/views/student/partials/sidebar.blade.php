@@ -29,8 +29,8 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{ request()->routeIs('student.job-fairs.*') ? 'active' : '' }}">
-                <a class="sidebar-link" href="">
+            <li class="sidebar-item {{ request()->routeIs('student.jf.*') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('student.jf.index') }}">
                     <i class="align-middle bi bi-calendar-event"></i>
                     <span class="align-middle">Job Fairs</span>
                 </a>
