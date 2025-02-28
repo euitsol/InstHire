@@ -5,10 +5,25 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\JobPost;
 use App\Models\JobCategory;
+use App\Models\JobApplication;
+use App\Services\JobApplicationService;
+use App\Services\UploadCVService;
+use App\Http\Requests\JobApplicationRequest;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller
 {
+    protected JobApplicationService $jobApplicationService;
+    protected UploadCVService $uploadCVService;
+
+    public function __construct(JobApplicationService $jobApplicationService, UploadCVService $uploadCVService)
+    {
+        $this->jobApplicationService = $jobApplicationService;
+        $this->uploadCVService = $uploadCVService;
+    }
 
     public function index(Request $request)
     {
@@ -49,19 +64,57 @@ class JobController extends Controller
 
     public function show($id)
     {
+        if(student()){
+            $student = Student::where('id', student()->id)->first();
+        }else{
+            $student = null;
+        }
         $job = JobPost::where('visibility', JobPost::VISIBLE_PUBLIC)
             ->where('status', JobPost::STATUS_ACCEPTED)
             ->findOrFail($id);
 
-        // Get related jobs (same category, excluding current job)
-        $relatedJobs = JobPost::where('visibility', JobPost::VISIBLE_PUBLIC)
-            ->where('status', JobPost::STATUS_ACCEPTED)
-            ->where('category_id', $job->category_id)
-            ->where('id', '!=', $job->id)
-            ->latest()
-            ->take(3)
-            ->get();
+        $hasApplied = $this->jobApplicationService->hasAlreadyApplied($job);
 
-        return view('frontend.pages.job-details', compact('job', 'relatedJobs'));
+        $relatedJobs = JobPost::where('visibility', JobPost::VISIBLE_PUBLIC)->where('status', JobPost::STATUS_ACCEPTED)->where('category_id', $job->category_id)->where('id', '!=', $job->id)->latest()->take(10)->get();
+
+        return view('frontend.pages.job-details', compact('job', 'hasApplied', 'relatedJobs', 'student'));
+    }
+
+    public function apply(JobApplicationRequest $request, $id)
+    {
+        $job = JobPost::where('visibility', JobPost::VISIBLE_PUBLIC)
+            ->where('status', JobPost::STATUS_ACCEPTED)
+            ->findOrFail($id);
+
+        // Check if already applied
+        if ($this->jobApplicationService->hasAlreadyApplied($job)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have already applied for this job.'
+            ], 422);
+        }
+
+
+
+        try {
+
+            if($request->has('cv_file')){
+                $cv = $this->uploadCVService->upload($request);
+                $request->merge(['cv_id' => $cv->id]);
+            }
+
+            $application = $this->jobApplicationService->createApplication($request->validated(), $job);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Your application has been submitted successfully.',
+                'data' => $application
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while submitting your application. Please try again.'
+            ], 500);
+        }
     }
 }

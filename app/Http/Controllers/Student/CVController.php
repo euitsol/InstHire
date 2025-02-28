@@ -7,6 +7,7 @@ use App\Http\Requests\Student\CVRequest;
 use App\Models\Cvs;
 use App\Models\Student;
 use App\Services\UploadCVService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,7 +25,7 @@ class CVController extends Controller
     {
         $student = auth()->guard('student')->user();
         $data['student'] = $student;
-        $data['cvs'] = Cvs::where('student_id', $student->id)
+        $data['cvs'] = Cvs::where('creater_id', $student->id)->where('creater_type', Student::class)
                           ->orderBy('created_at', 'desc')
                           ->paginate(10);
 
@@ -63,5 +64,15 @@ class CVController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function getCvs():JsonResponse
+    {
+        $student = auth()->guard('student')->user();
+        $cvs = Cvs::where('creater_id', $student->id)->where('creater_type', Student::class)
+                          ->orderBy('created_at', 'desc')
+                          ->get();
+
+        return response()->json($cvs);
     }
 }

@@ -182,17 +182,29 @@
                         <div class="p-4 card-body">
                             <h3 class="mb-4 h5">Apply for this Position</h3>
 
-                            @if($job->application_url)
-                            <a href="{{ $job->application_url }}" target="_blank" class="mb-3 btn btn-primary w-100">
-                                <i class="bi bi-box-arrow-up-right me-2"></i> Apply on Company Website
-                            </a>
-                            @endif
 
-                            @if($job->email)
+                                @if($job->type == \App\Models\JobPost::TYPE_EXTERNAL && $job->application_url)
+                                <a href="{{ $job->application_url }}" target="_blank" class="mb-3 btn btn-primary w-100">
+                                    <i class="bi bi-box-arrow-up-right me-2"></i> Apply on Company Website
+                                </a>
+                                @endif
+                                @if($job->type == \App\Models\JobPost::TYPE_SELF)
+                                    @if(!$hasApplied)
+                                        <button href="javascript:void(0);" type="button" class="mb-3 btn btn-primary w-100" id="applyJobBtn">
+                                            <i class="bi bi-box-arrow-up-right me-2"></i> Apply for This Position
+                                        </button>
+                                    @else
+                                        <button href="javascript:void(0);" class="mb-3 btn btn-danger w-100">
+                                            <i class="bi bi-check me-2"></i> Already Applied for this Position
+                                        </button>
+                                    @endif
+                                @endif
+
+                            {{-- @if($job->email)
                             <a href="mailto:{{ $job->email }}?subject=Application for {{ $job->title }}" class="mb-3 btn btn-outline-primary w-100">
                                 <i class="bi bi-envelope me-2"></i> Apply via Email
                             </a>
-                            @endif
+                            @endif --}}
 
                             <div class="mt-3 text-center">
                                 <p class="mb-0 text-muted small">Application Deadline</p>
@@ -206,7 +218,7 @@
                                 @else
                                 <div class="mt-3 mb-0 alert alert-info">
                                     <i class="bi bi-clock me-2"></i>
-                                    {{ \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($job->deadline)) }} days remaining
+                                    {{ round(\Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($job->deadline))) }} days remaining
                                 </div>
                                 @endif
                             </div>
@@ -283,55 +295,41 @@
             </div>
         </div>
     </section>
+    @include('frontend.pages.includes.apply-modal')
 @endsection
 
 @push('styles')
-<style>
-    .job-details-hero {
-        padding-top: 120px;
-    }
-
-    .breadcrumb-item + .breadcrumb-item::before {
-        color: var(--gray-400);
-    }
-
-    .company-logo {
-        width: 80px;
-        height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .job-meta {
-        font-size: 0.95rem;
-        color: var(--dark-color);
-    }
-
-    .job-description {
-        white-space: pre-line;
-        color: var(--secondary-color);
-        line-height: 1.7;
-    }
-
-    .related-job-item {
-        transition: all 0.3s ease;
-    }
-
-    .related-job-item:hover {
-        transform: translateX(5px);
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('frontend/css/job-details.css') }}">
 @endpush
 
 @push('scripts')
 <script>
-    $(document).ready(function() {
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            once: true
-        });
+    // Define variables needed for the external JS file
+    const jobDetailsData = {
+        studentCvRoute: "{{ route('student.cv.get') }}"
+    };
+</script>
+<script src="{{ asset('frontend/js/job-details.js') }}"></script>
+<script>
+    // Handle user-specific AJAX for previous CVs
+    @auth('student')
+    $.ajax({
+        url: "{{ route('student.cv.get') }}",
+        type: 'GET',
+        success: function(response) {
+            const select = $('#previousCvs');
+            select.empty();
+            select.append('<option value="" selected>Choose a previously uploaded CV</option>');
+
+            response.forEach(cv => {
+                select.append(`<option value="${cv.id}">${cv.title} (Uploaded: ${new Date(cv.created_at).toLocaleDateString()})</option>`);
+            });
+        },
+        error: function(xhr) {
+            console.error('Error loading CVs:', xhr);
+            toastr.error('Failed to load your previous CVs');
+        }
     });
+    @endauth
 </script>
 @endpush

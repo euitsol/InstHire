@@ -10,24 +10,26 @@ use Illuminate\Support\Str;
 
 class UploadCVService
 {
-    /**
-     * Create a new class instance.
-     */
+
     public function __construct()
     {
-        // Constructor is now empty
+
     }
 
-    /**
-     * Upload a CV file and save the record
-     *
-     * @param CVRequest $request
-     * @return bool
-     */
-    public function upload(CVRequest $request): bool
+    public function upload($request)
     {
         try {
-            $student = auth()->guard('student')->user();
+            $type = null;
+            $id = null;
+            $path = null;
+            $title = null;
+            if(student()){
+                $type = 'App\\Models\\Student';
+                $id = student()->id;
+                $path = 'cvs/student/' . $id;
+            }else{
+                $path = 'cvs/anonymous';
+            }
 
             // Handle file upload
             $file = $request->file('cv_file');
@@ -35,24 +37,26 @@ class UploadCVService
             $extension = $file->getClientOriginalExtension();
 
             // Generate a unique filename
-            $filename = Str::slug($request->title) . '-' . time() . '.' . $extension;
+            if($request->title){
+                $title = $request->title;
+                $filename = Str::slug($title) . '-' . time() . '.' . $extension;
+            }else{
+                $filename = time().Str::random(10) . '.' . $extension;
+                $title = $originalName;
+            }
 
-            // Store the file
-            $path = 'cvs/' . $student->id;
             $filePath = $file->storeAs($path, $filename, 'public');
 
             // Create CV record
-            Cvs::create([
-                'student_id' => $student->id,
-                'title' => $request->title,
+            $cv = Cvs::create([
+                'title' => $title,
                 'file_path' => $filePath,
-                'creater_id' => $student->id,
-                'creater_type' => 'App\\Models\\Student',
+                'creater_id' => $id,
+                'creater_type' => $type,
             ]);
 
-            return true;
+            return $cv;
         } catch (\Exception $e) {
-            // Log the error
             Log::error('CV Upload Error: ' . $e->getMessage());
             return false;
         }

@@ -32,6 +32,8 @@ use App\Http\Controllers\Student\Auth\ForgotPasswordController as StudentForgotP
 use App\Http\Controllers\Student\Auth\ResetPasswordController as StudentResetPasswordController;
 use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 use App\Http\Controllers\Student\CVController as StudentCVController;
+use App\Http\Controllers\Student\Job\JobFairController as StudentJobFairController;
+use App\Http\Controllers\Student\Job\JobController as StudentJobController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\JobController as FrontendJobController;
 use App\Http\Controllers\Student\StudentController;
@@ -53,6 +55,7 @@ Route::controller(FrontendHomeController::class)->group(function () {
 Route::controller(FrontendJobController::class)->group(function () {
     Route::get('/jobs', 'index')->name('frontend.jobs');
     Route::get('/jobs/{id}', 'show')->name('frontend.jobs.show');
+    Route::post('/jobs/{id}/apply', 'apply')->name('frontend.jobs.apply');
 });
 
 // Admin Login Routes
@@ -240,5 +243,16 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::put('/upload', 'update')->name('upload');
         Route::delete('/delete/{id}', 'delete')->name('delete');
+        Route::get('get-cvs', 'getCvs')->name('get'); //ajax route to get all cvs of a student
+    });
+
+    Route::controller(StudentJobController::class)->middleware('auth:student')->prefix('job')->as('job.')->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{id}', 'show')->name('show');
+    });
+
+    Route::controller(StudentJobFairController::class)->middleware('auth:student')->prefix('job-fair')->as('jf.')->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{slug}', 'show')->name('show');
     });
 });

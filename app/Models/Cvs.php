@@ -12,7 +12,6 @@ class Cvs extends BaseModel
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'student_id',
         'title',
         'file_path',
         'creater_id',

@@ -30,7 +30,7 @@
 <body>
     <div class="main_section">
         <div class="container position-relative">
-            <a href="{{ route('login_stater') }}" class="btn btn-back">
+            <a href="{{ route('home') }}" class="btn btn-back">
                 <i class="fas fa-arrow-left"></i>
                 <span>{{ __('Back to Home') }}</span>
             </a>
@@ -44,19 +44,19 @@
                         <form action="{{ route('admin.reset.request') }}" method="POST">
                             @csrf
                             <input type="hidden" name="token" value="{{ $token }}">
-                            <div class="form-floating mb-3">
+                            <div class="mb-3 form-floating">
                                 <input type="email" value="{{ $email ?? old('email') }}" name="email"
                                     class="form-control" id="email" placeholder="Email" required>
                                 <label for="email">{{ __('Email address') }}</label>
                                 @include('alerts.feedback', ['field' => 'email'])
                             </div>
-                            <div class="form-floating mb-3">
+                            <div class="mb-3 form-floating">
                                 <input type="password" value="{{ old('password') }}" name="password"
                                     class="form-control" id="password" placeholder="New Password" required>
                                 <label for="email">{{ __('New Password') }}</label>
                                 @include('alerts.feedback', ['field' => 'password'])
                             </div>
-                            <div class="form-floating mb-3">
+                            <div class="mb-3 form-floating">
                                 <input type="password" value="{{ old('password_confirmation') }}"
                                     name="password_confirmation" class="form-control" id="con_password"
                                     placeholder="Confirm Password" required>

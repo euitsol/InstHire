@@ -30,7 +30,7 @@
 <body>
     <div class="main_section">
         <div class="container position-relative">
-            <a href="{{ route('login_stater') }}" class="btn btn-back">
+            <a href="{{ route('home') }}" class="btn btn-back">
                 <i class="fas fa-arrow-left"></i>
                 <span>{{ __('Back to Home') }}</span>
             </a>
@@ -43,7 +43,7 @@
                         </div>
                         <form action="{{ route('admin.forgot.request') }}" method="POST">
                             @csrf
-                            <div class="form-floating mb-3">
+                            <div class="mb-3 form-floating">
                                 <input type="email" name="email" class="form-control" id="email"
                                     placeholder="Email" required>
                                 <label for="email">{{ __('Email address') }}</label>
