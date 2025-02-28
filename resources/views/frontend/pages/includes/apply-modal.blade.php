@@ -88,7 +88,7 @@
                         <div id="previousCvsSection" class="mb-3">
                             <label class="form-label">Select from Previous CVs</label>
                             <select class="form-select form-select-lg" id="previousCvs">
-                                <option selected>Choose a previously uploaded CV</option>
+                                <option value="" selected>Choose a previously uploaded CV</option>
                             </select>
                         </div>
                         @endauth
@@ -100,7 +100,7 @@
                                 <h6>Drag & Drop your CV here</h6>
                                 <p class="mb-3 text-muted small">or</p>
                                 <div class="position-relative">
-                                    <input type="file" class="form-control" name="cv_file" id="cvUpload" accept=".pdf,.doc,.docx" required>
+                                    <input type="file" class="form-control" name="cv_file" id="cvUpload" accept=".pdf,.doc,.docx">
                                     <label for="cvUpload" class="btn btn-outline-primary">
                                         Choose File
                                     </label>
