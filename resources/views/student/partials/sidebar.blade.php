@@ -22,20 +22,11 @@
                 Jobs
             </li>
 
-            <li class="sidebar-item {{ request()->routeIs('student.jobs.*') ? 'active' : '' }}">
-                <a data-bs-target="#jobs" data-bs-toggle="collapse" class="sidebar-link collapsed"
-                   aria-expanded="{{ request()->routeIs('student.jobs.*') ? 'true' : 'false' }}">
+            <li class="sidebar-item {{ request()->routeIs('student.job.*') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('student.job.index') }}">
                     <i class="align-middle bi bi-briefcase"></i>
-                    <span class="align-middle">Jobs</span>
+                    <span class="align-middle">My Jobs</span>
                 </a>
-                <ul id="jobs" class="sidebar-dropdown list-unstyled collapse {{ request()->routeIs('student.jobs.*') ? 'show' : '' }}" data-bs-parent="#sidebar">
-                    <li class="sidebar-item {{ request()->routeIs('student.jobs.available') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="">Available Jobs</a>
-                    </li>
-                    <li class="sidebar-item {{ request()->routeIs('student.jobs.applied') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="">Applied Jobs</a>
-                    </li>
-                </ul>
             </li>
 
             <li class="sidebar-item {{ request()->routeIs('student.job-fairs.*') ? 'active' : '' }}">

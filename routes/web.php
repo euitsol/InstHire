@@ -32,6 +32,7 @@ use App\Http\Controllers\Student\Auth\ForgotPasswordController as StudentForgotP
 use App\Http\Controllers\Student\Auth\ResetPasswordController as StudentResetPasswordController;
 use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 use App\Http\Controllers\Student\CVController as StudentCVController;
+use App\Http\Controllers\Student\Job\JobController as StudentJobController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\JobController as FrontendJobController;
 use App\Http\Controllers\Student\StudentController;
@@ -242,5 +243,10 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::put('/upload', 'update')->name('upload');
         Route::delete('/delete/{id}', 'delete')->name('delete');
         Route::get('get-cvs', 'getCvs')->name('get'); //ajax route to get all cvs of a student
+    });
+
+    Route::controller(StudentJobController::class)->middleware('auth:student')->prefix('job')->as('job.')->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{id}', 'show')->name('show');
     });
 });
