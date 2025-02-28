@@ -31,6 +31,7 @@ use App\Http\Controllers\Student\Auth\RegisterController as StudentRegisterContr
 use App\Http\Controllers\Student\Auth\ForgotPasswordController as StudentForgotPasswordController;
 use App\Http\Controllers\Student\Auth\ResetPasswordController as StudentResetPasswordController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
+use App\Http\Controllers\Frontend\JobController as FrontendJobController;
 use App\Http\Controllers\Student\StudentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,11 @@ Auth::routes();
 
 Route::controller(FrontendHomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');
+});
+
+Route::controller(FrontendJobController::class)->group(function () {
+    Route::get('/jobs', 'index')->name('frontend.jobs');
+    Route::get('/jobs/{id}', 'show')->name('frontend.jobs.show');
 });
 
 // Admin Login Routes

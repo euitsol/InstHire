@@ -105,7 +105,7 @@ class JobPost extends BaseModel
         return $this->getVisibilityLabels() ?? [];
     }
 
-    public function getTypeLabels()
+    public static function getTypeLabels()
     {
         return [
             self::TYPE_SELF => 'Self',

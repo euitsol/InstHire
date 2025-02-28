@@ -20,7 +20,7 @@ function animateCounter() {
     $('.counter').each(function() {
         const $this = $(this);
         const countTo = parseInt($this.text());
-        
+
         $({ Counter: 0 }).animate({
             Counter: countTo
         }, {
@@ -44,7 +44,7 @@ if (statsSection) {
             }
         });
     }, { threshold: 0.5 });
-    
+
     observer.observe(statsSection);
 }
 
@@ -62,31 +62,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Form Validation
-const searchForm = document.querySelector('.search-box form');
-if (searchForm) {
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const keyword = this.querySelector('input[type="text"]').value;
-        const category = this.querySelector('select').value;
-        
-        if (!keyword.trim()) {
-            showToast('Please enter a keyword');
-            return;
-        }
-        
-        // Submit form or handle search
-        console.log('Searching for:', { keyword, category });
-    });
-}
-
 // Toast Notification
 function showToast(message) {
     const toast = document.createElement('div');
     toast.className = 'toast-notification';
     toast.textContent = message;
     document.body.appendChild(toast);
-    
+
     setTimeout(() => {
         toast.classList.add('show');
         setTimeout(() => {
@@ -106,7 +88,7 @@ if (menuToggle && navbarCollapse) {
     menuToggle.addEventListener('click', () => {
         navbarCollapse.classList.toggle('show');
     });
-    
+
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!navbarCollapse.contains(e.target) && !menuToggle.contains(e.target)) {
@@ -118,7 +100,7 @@ if (menuToggle && navbarCollapse) {
 // Lazy Loading Images
 document.addEventListener('DOMContentLoaded', () => {
     const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-    
+
     if ('loading' in HTMLImageElement.prototype) {
         lazyImages.forEach(img => {
             img.src = img.dataset.src;
@@ -133,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
-        
+
         lazyImages.forEach(img => imageObserver.observe(img));
     }
 });
