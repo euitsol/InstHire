@@ -27,7 +27,11 @@ class UploadCVService
     public function upload(CVRequest $request): bool
     {
         try {
-            $student = auth()->guard('student')->user();
+            if(student()){
+                $type = 'App\\Models\\Student';
+                $id = student()->id;
+                $path = 'cvs/student/' . $id;
+            }
 
             // Handle file upload
             $file = $request->file('cv_file');
@@ -37,22 +41,18 @@ class UploadCVService
             // Generate a unique filename
             $filename = Str::slug($request->title) . '-' . time() . '.' . $extension;
 
-            // Store the file
-            $path = 'cvs/' . $student->id;
             $filePath = $file->storeAs($path, $filename, 'public');
 
             // Create CV record
             Cvs::create([
-                'student_id' => $student->id,
                 'title' => $request->title,
                 'file_path' => $filePath,
-                'creater_id' => $student->id,
-                'creater_type' => 'App\\Models\\Student',
+                'creater_id' => $id,
+                'creater_type' => $type,
             ]);
 
             return true;
         } catch (\Exception $e) {
-            // Log the error
             Log::error('CV Upload Error: ' . $e->getMessage());
             return false;
         }

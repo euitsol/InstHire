@@ -15,9 +15,6 @@ return new class extends Migration
         Schema::create('cvs', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('student_id');
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade')->onUpdate('cascade');
-
             $table->string('title');
             $table->string('file_path');
 

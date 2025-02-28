@@ -24,7 +24,7 @@ class CVController extends Controller
     {
         $student = auth()->guard('student')->user();
         $data['student'] = $student;
-        $data['cvs'] = Cvs::where('student_id', $student->id)
+        $data['cvs'] = Cvs::where('creater_id', $student->id)->where('creater_type', Student::class)
                           ->orderBy('created_at', 'desc')
                           ->paginate(10);
 
