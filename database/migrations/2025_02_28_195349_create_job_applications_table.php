@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('student_id')->nullable();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
 
-            $table->unsignedBigInteger('cv_id');
+            $table->unsignedBigInteger('cv_id')->nullable();
             $table->foreign('cv_id')->references('id')->on('cvs')->onDelete('cascade');
 
             $table->tinyInteger('status')->default(0)->comment('0 = Applied, 1 = Shortlisted, -1 = Rejected, 2=Called for interview, 3=Interviewed, 4=Accepted');

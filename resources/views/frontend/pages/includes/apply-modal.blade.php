@@ -26,19 +26,19 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="applicantName" placeholder="Your Name" required>
+                                    <input type="text" class="form-control" id="applicantName" name="applicant_name" placeholder="Your Name" required value="{{ $student->name ?? '' }}">
                                     <label for="applicantName">Full Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="applicantEmail" placeholder="name@example.com" required>
+                                    <input type="email" class="form-control" id="applicantEmail" name="applicant_email" placeholder="name@example.com" required value="{{ $student->email ?? '' }}">
                                     <label for="applicantEmail">Email Address</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="tel" class="form-control" id="applicantPhone" placeholder="Phone Number" required>
+                                    <input type="tel" class="form-control" id="applicantPhone" name="applicant_phone" placeholder="Phone Number" required value="{{ $student->phone ?? '' }}">
                                     <label for="applicantPhone">Phone Number</label>
                                 </div>
                             </div>
@@ -51,19 +51,19 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="degree" placeholder="Your Degree" required>
+                                    <input type="text" class="form-control" id="degree" name="degree" placeholder="Your Degree" required value="{{ $student->latest_degree ?? '' }}">
                                     <label for="degree">Last Degree</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="institute" placeholder="Your Institute" required>
+                                    <input type="text" class="form-control" id="institute" name="institute" placeholder="Your Institute" required value="{{ $student->latest_institute_name ?? '' }}">
                                     <label for="institute">Institute Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="result" placeholder="Your Result" required>
+                                    <input type="text" class="form-control" id="result" name="result" placeholder="Your Result" required value="{{ $student->latest_degree_cgpa ?? '' }}">
                                     <label for="result">Result (CGPA/Grade)</label>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                     <div class="mb-4 section-group">
                         <h6 class="mb-3 text-primary"><i class="bi bi-file-text-fill me-2"></i>Cover Letter</h6>
                         <div class="form-floating">
-                            <textarea class="form-control" id="coverLetter" style="height: 150px" placeholder="Write your cover letter" required></textarea>
+                            <textarea class="form-control" id="coverLetter" name="cover_letter" style="height: 150px" placeholder="Write your cover letter" required></textarea>
                             <label for="coverLetter">Tell us why you're perfect for this role</label>
                         </div>
                     </div>

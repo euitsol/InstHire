@@ -16,12 +16,13 @@ class UploadCVService
 
     }
 
-    public function upload($request): bool
+    public function upload($request)
     {
         try {
             $type = null;
             $id = null;
             $path = null;
+            $title = null;
             if(student()){
                 $type = 'App\\Models\\Student';
                 $id = student()->id;
@@ -37,16 +38,18 @@ class UploadCVService
 
             // Generate a unique filename
             if($request->title){
-                $filename = Str::slug($request->title) . '-' . time() . '.' . $extension;
+                $title = $request->title;
+                $filename = Str::slug($title) . '-' . time() . '.' . $extension;
             }else{
                 $filename = time().Str::random(10) . '.' . $extension;
+                $title = $originalName;
             }
 
             $filePath = $file->storeAs($path, $filename, 'public');
 
             // Create CV record
             $cv = Cvs::create([
-                'title' => $request->title,
+                'title' => $title,
                 'file_path' => $filePath,
                 'creater_id' => $id,
                 'creater_type' => $type,

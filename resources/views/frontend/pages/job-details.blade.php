@@ -182,16 +182,23 @@
                         <div class="p-4 card-body">
                             <h3 class="mb-4 h5">Apply for this Position</h3>
 
-                            @if($job->type == \App\Models\JobPost::TYPE_EXTERNAL && $job->application_url)
-                            <a href="{{ $job->application_url }}" target="_blank" class="mb-3 btn btn-primary w-100">
-                                <i class="bi bi-box-arrow-up-right me-2"></i> Apply on Company Website
-                            </a>
-                            @endif
-                            @if($job->type == \App\Models\JobPost::TYPE_SELF)
-                            <button href="javascript:void(0);" type="button" class="mb-3 btn btn-primary w-100" id="applyJobBtn">
-                                <i class="bi bi-box-arrow-up-right me-2"></i> Apply for This Position
-                            </button>
-                            @endif
+
+                                @if($job->type == \App\Models\JobPost::TYPE_EXTERNAL && $job->application_url)
+                                <a href="{{ $job->application_url }}" target="_blank" class="mb-3 btn btn-primary w-100">
+                                    <i class="bi bi-box-arrow-up-right me-2"></i> Apply on Company Website
+                                </a>
+                                @endif
+                                @if($job->type == \App\Models\JobPost::TYPE_SELF)
+                                    @if(!$hasApplied)
+                                        <button href="javascript:void(0);" type="button" class="mb-3 btn btn-primary w-100" id="applyJobBtn">
+                                            <i class="bi bi-box-arrow-up-right me-2"></i> Apply for This Position
+                                        </button>
+                                    @else
+                                        <button href="javascript:void(0);" class="mb-3 btn btn-danger w-100">
+                                            <i class="bi bi-check me-2"></i> Already Applied for this Position
+                                        </button>
+                                    @endif
+                                @endif
 
                             {{-- @if($job->email)
                             <a href="mailto:{{ $job->email }}?subject=Application for {{ $job->title }}" class="mb-3 btn btn-outline-primary w-100">
@@ -463,6 +470,9 @@
         $('#applyJobForm').on('submit', function(e) {
             e.preventDefault();
 
+            console.log('clicked');
+
+
             // Bootstrap validation
             if (!this.checkValidity()) {
                 e.stopPropagation();
@@ -479,23 +489,75 @@
                 return;
             }
 
-            // Show progress
-            $('.progress-bar').css('width', '100%');
-
-            // TODO: Add AJAX form submission
-
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: new FormData(this),
                 processData: false,
                 contentType: false,
+                beforeSend: function() {
+                    console.log('sending');
+
+                    // Show loading state
+                    $('.progress-bar').css({
+                        'width': '100%',
+                        'transition': 'width 1s ease-in-out'
+                    });
+                    $('#applyJobForm button[type="submit"]').prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Submitting...');
+                },
                 success: function(response) {
                     console.log(response);
 
+                    // Reset form and show success message
+                    $('#applyJobForm')[0].reset();
+                    $('.progress-bar').css('width', '0');
+
+                    // Show success alert with fade
+
+                    $('<div class="alert alert-success alert-dismissible fade show" role="alert">')
+                        .html('Your application has been submitted successfully! We will contact you soon.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+                        .insertBefore('#applyJobForm')
+                        .hide()
+                        .fadeIn();
+
+                    // Close modal after 2 seconds
+                    setTimeout(function() {
+                        $('#applyJobModal').modal('hide');
+                    }, 1000);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: "Your application has been submitted successfully! We will contact you soon.",
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
                 },
                 error: function(xhr) {
                     console.log(xhr);
+
+                    // Reset progress
+                    $('.progress-bar').css('width', '0');
+
+                    // Show error messages
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        let errorHtml = '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                        errorHtml += '<ul class="mb-0">';
+                        Object.values(xhr.responseJSON.errors).forEach(function(error) {
+                            errorHtml += '<li>' + error[0] + '</li>';
+                        });
+                        errorHtml += '</ul>';
+                        errorHtml += '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+
+                        $(errorHtml)
+                            .insertBefore('#applyJobForm')
+                            .hide()
+                            .fadeIn();
+                    }
+                },
+                complete: function() {
+                    // Reset button state
+                    $('#applyJobForm button[type="submit"]').prop('disabled', false).html('Submit Application');
                 }
             });
         });

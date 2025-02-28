@@ -9,6 +9,7 @@ use App\Models\JobApplication;
 use App\Services\JobApplicationService;
 use App\Services\UploadCVService;
 use App\Http\Requests\JobApplicationRequest;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -63,6 +64,11 @@ class JobController extends Controller
 
     public function show($id)
     {
+        if(student()){
+            $student = Student::where('id', student()->id)->first();
+        }else{
+            $student = null;
+        }
         $job = JobPost::where('visibility', JobPost::VISIBLE_PUBLIC)
             ->where('status', JobPost::STATUS_ACCEPTED)
             ->findOrFail($id);
@@ -71,7 +77,7 @@ class JobController extends Controller
 
         $relatedJobs = JobPost::where('visibility', JobPost::VISIBLE_PUBLIC)->where('status', JobPost::STATUS_ACCEPTED)->where('category_id', $job->category_id)->where('id', '!=', $job->id)->latest()->take(10)->get();
 
-        return view('frontend.pages.job-details', compact('job', 'hasApplied', 'relatedJobs'));
+        return view('frontend.pages.job-details', compact('job', 'hasApplied', 'relatedJobs', 'student'));
     }
 
     public function apply(JobApplicationRequest $request, $id)
@@ -93,7 +99,8 @@ class JobController extends Controller
         try {
 
             if($request->has('cv_file')){
-                $this->uploadCVService->upload($request);
+                $cv = $this->uploadCVService->upload($request);
+                $request->merge(['cv_id' => $cv->id]);
             }
 
             $application = $this->jobApplicationService->createApplication($request->validated(), $job);
