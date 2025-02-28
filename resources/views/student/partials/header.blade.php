@@ -23,7 +23,7 @@
                 </a>
                 <ul class="shadow-sm dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li>
-                        <a class="dropdown-item" href="javascript:void(0)">
+                        <a class="dropdown-item" href="{{ route('student.profile.index') }}">
                             <i class="bi bi-person me-2"></i>Profile
                         </a>
                     </li>
