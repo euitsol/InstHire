@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\StudentResetPasswordNotification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Student extends AuthBaseModel
 {
@@ -126,5 +127,10 @@ class Student extends AuthBaseModel
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new StudentResetPasswordNotification($token));
+    }
+
+    public function cvs(): HasMany
+    {
+        return $this->hasMany(Cvs::class);
     }
 }
