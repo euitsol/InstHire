@@ -369,6 +369,30 @@
         color: #0d6efd;
     }
 </style>
+<style>
+.upload-zone {
+    transition: all 0.3s ease;
+    border: 2px dashed #dee2e6;
+}
+
+.upload-zone.highlight {
+    border-color: #0d6efd;
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.upload-zone input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+#previousCvsSection {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+</style>
 @endpush
 
 @push('scripts')
@@ -379,7 +403,7 @@
             duration: 800,
             once: true
         });
-        
+
         // Initialize apply job button
         $('#applyJobBtn').on('click', function() {
             $('#applyJobModal').modal('show');
@@ -404,13 +428,13 @@
         $uploadZone.on('drop', function(e) {
             e.preventDefault();
             $(this).removeClass('bg-light');
-            
+
             if ($cvUpload.length) {
                 $cvUpload[0].files = e.originalEvent.dataTransfer.files;
-                
+
                 if ($cvUpload[0].files.length > 0) {
                     $selectedFileName.text($cvUpload[0].files[0].name);
-                    
+
                     // If a file is selected, clear the previous CV dropdown
                     $('#previousCvs').val('');
                 }
@@ -421,12 +445,12 @@
         $cvUpload.on('change', function() {
             if (this.files.length > 0) {
                 $selectedFileName.text(this.files[0].name);
-                
+
                 // If a file is selected, clear the previous CV dropdown
                 $('#previousCvs').val('');
             }
         });
-        
+
         // Previous CV selection
         $('#previousCvs').on('change', function() {
             if ($(this).val()) {
@@ -434,30 +458,30 @@
                 $selectedFileName.text('');
             }
         });
-        
+
         // Form validation and submission
         $('#applyJobForm').on('submit', function(e) {
             e.preventDefault();
-            
+
             // Bootstrap validation
             if (!this.checkValidity()) {
                 e.stopPropagation();
                 $(this).addClass('was-validated');
                 return;
             }
-            
+
             // Check if at least one CV option is selected
             const previousCvSelected = $('#previousCvs').val();
             const newCvSelected = $cvUpload[0] && $cvUpload[0].files.length > 0;
-            
+
             if (!previousCvSelected && !newCvSelected) {
                 alert('Please select a previous CV or upload a new one');
                 return;
             }
-            
+
             // Show progress
             $('.progress-bar').css('width', '100%');
-            
+
             // TODO: Add AJAX form submission
             // $.ajax({
             //     url: '/apply-job',
@@ -474,5 +498,107 @@
             // });
         });
     });
+</script>
+<script>
+$(document).ready(function() {
+    // Initialize the CV tabs
+    const cvTabs = {
+        upload: document.querySelector('.cv-upload-container'),
+        select: document.querySelector('#previousCvsSection')
+    };
+
+    // Load previous CVs for logged-in students
+    @auth('student')
+    $.ajax({
+        url: "{{ route('student.cv.get') }}",
+        type: 'GET',
+        success: function(response) {
+            const select = $('#previousCvs');
+            select.empty();
+            select.append('<option value="" selected>Choose a previously uploaded CV</option>');
+
+            response.forEach(cv => {
+                select.append(`<option value="${cv.id}">${cv.title} (Uploaded: ${new Date(cv.created_at).toLocaleDateString()})</option>`);
+            });
+        },
+        error: function(xhr) {
+            console.error('Error loading CVs:', xhr);
+            toastr.error('Failed to load your previous CVs');
+        }
+    });
+    @endauth
+
+    // Handle file upload
+    const uploadInput = document.getElementById('cvUpload');
+    const uploadZone = document.querySelector('.upload-zone');
+
+    // Drag and drop functionality
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, () => {
+            uploadZone.classList.add('highlight');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadZone.addEventListener(eventName, () => {
+            uploadZone.classList.remove('highlight');
+        });
+    });
+
+    uploadZone.addEventListener('drop', handleDrop);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const file = dt.files[0];
+        uploadInput.files = dt.files;
+        validateAndPreviewFile(file);
+    }
+
+    uploadInput.addEventListener('change', function(e) {
+        validateAndPreviewFile(this.files[0]);
+    });
+
+    function validateAndPreviewFile(file) {
+        if (!file) return;
+
+        // Validate file type
+        const validTypes = ['.pdf', '.doc', '.docx'];
+        const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+        if (!validTypes.includes(fileExtension)) {
+            toastr.error('Please upload a PDF, DOC, or DOCX file');
+            uploadInput.value = '';
+            return;
+        }
+
+        // Validate file size (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            toastr.error('File size must be less than 5MB');
+            uploadInput.value = '';
+            return;
+        }
+
+        // Show file name
+        const fileName = document.createElement('p');
+        fileName.classList.add('mt-2', 'text-success');
+        fileName.textContent = `Selected: ${file.name}`;
+
+        // Remove any existing file name display
+        const existingFileName = uploadZone.querySelector('.text-success');
+        if (existingFileName) {
+            existingFileName.remove();
+        }
+
+        uploadZone.appendChild(fileName);
+    }
+});
 </script>
 @endpush
