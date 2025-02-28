@@ -106,6 +106,7 @@ body {
 }
 
 .sidebar-link:hover,
+.sidebar-item.active,
 .sidebar-link.active {
     color: white;
     background: var(--neutral-700);

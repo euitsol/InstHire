@@ -19,18 +19,6 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @include('student.partials.styles')
     @stack('styles')
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @if (session('success'))
-                showAlert('success', '{{ session('success') }}');
-            @endif
-
-            @if (session('error'))
-                showAlert('error', '{{ session('error') }}');
-            @endif
-        });
-    </script>
 </head>
 
 <body>

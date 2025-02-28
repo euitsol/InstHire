@@ -12,7 +12,7 @@
         <div class="auth-logo">
             <img src="{{ asset('assets/images/logo-full.png') }}" alt="Logo">
         </div>
-        
+
         <h1 class="auth-title">Create Account</h1>
         <p class="auth-subtitle">Join our student community today</p>
 
@@ -84,6 +84,19 @@
             </div>
 
             <div class="form-group">
+                <label class="form-label">Select Session</label>
+                <select class="form-control @error('session_id') is-invalid @enderror"
+                        name="session_id" id="session_id" required>
+                    <option value="">Select your session</option>
+                </select>
+                @error('session_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+            <div class="form-group">
                 <label class="form-label">Password</label>
                 <div class="password-field-wrapper">
                     <input type="password" class="form-control @error('password') is-invalid @enderror"
@@ -115,7 +128,7 @@
 
         <div class="auth-links">
             <p>
-                Already have an account? 
+                Already have an account?
                 <a href="{{ route('student.login') }}">Sign in</a>
             </p>
         </div>

@@ -45,12 +45,19 @@
                 </a>
             </li>
 
+            <li class="sidebar-item {{ request()->routeIs('student.cv.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('student.cv.index') }}">
+                    <i class="align-middle bi bi-file-earmark-text"></i>
+                    <span class="align-middle">My CVs</span>
+                </a>
+            </li>
+
             <li class="sidebar-header">
                 Settings
             </li>
 
-            <li class="sidebar-item {{ request()->routeIs('student.profile') ? 'active' : '' }}">
-                <a class="sidebar-link" href="">
+            <li class="sidebar-item {{ request()->routeIs('student.profile.index') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('student.profile.index') }}">
                     <i class="align-middle bi bi-person"></i>
                     <span class="align-middle">Profile</span>
                 </a>

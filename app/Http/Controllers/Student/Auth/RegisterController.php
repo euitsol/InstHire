@@ -37,7 +37,7 @@ class RegisterController extends Controller
             'department_id' => $request->department_id,
             'session_id' => $request->session_id,
             'password' => Hash::make($request->password),
-            'status' => 1,
+            'status' => Student::STATUS_PENDING,
         ]);
 
         Auth::guard('student')->login($student);
