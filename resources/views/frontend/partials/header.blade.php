@@ -32,9 +32,15 @@
                         </a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <a class="btn btn-primary" href="{{ route('student.login') }}">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+                        @if(student())
+                        <a class="btn btn-primary" href="{{ route('student.dashboard') }}">
+                            <i class="bi bi-person me-1"></i>Dashboard
                         </a>
+                        @else
+                        <a class="btn btn-primary" href="{{ route('student.register') }}">
+                            <i class="bi bi-person-plus me-1"></i>Sign Up
+                        </a>
+                        @endIf
                     </li>
                 </ul>
             </div>

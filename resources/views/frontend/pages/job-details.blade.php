@@ -182,17 +182,22 @@
                         <div class="p-4 card-body">
                             <h3 class="mb-4 h5">Apply for this Position</h3>
 
-                            @if($job->application_url)
+                            @if($job->type == \App\Models\JobPost::TYPE_EXTERNAL && $job->application_url)
                             <a href="{{ $job->application_url }}" target="_blank" class="mb-3 btn btn-primary w-100">
                                 <i class="bi bi-box-arrow-up-right me-2"></i> Apply on Company Website
                             </a>
                             @endif
+                            @if($job->type == \App\Models\JobPost::TYPE_SELF)
+                            <button href="javascript:void(0);" type="button" class="mb-3 btn btn-primary w-100" id="applyJobBtn">
+                                <i class="bi bi-box-arrow-up-right me-2"></i> Apply for This Position
+                            </button>
+                            @endif
 
-                            @if($job->email)
+                            {{-- @if($job->email)
                             <a href="mailto:{{ $job->email }}?subject=Application for {{ $job->title }}" class="mb-3 btn btn-outline-primary w-100">
                                 <i class="bi bi-envelope me-2"></i> Apply via Email
                             </a>
-                            @endif
+                            @endif --}}
 
                             <div class="mt-3 text-center">
                                 <p class="mb-0 text-muted small">Application Deadline</p>
@@ -206,7 +211,7 @@
                                 @else
                                 <div class="mt-3 mb-0 alert alert-info">
                                     <i class="bi bi-clock me-2"></i>
-                                    {{ \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($job->deadline)) }} days remaining
+                                    {{ round(\Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($job->deadline))) }} days remaining
                                 </div>
                                 @endif
                             </div>
@@ -283,6 +288,7 @@
             </div>
         </div>
     </section>
+    @include('frontend.pages.includes.apply-modal')
 @endsection
 
 @push('styles')
@@ -322,6 +328,47 @@
         transform: translateX(5px);
     }
 </style>
+<style>
+    .modal-content {
+        border-radius: 15px;
+    }
+    .modal-header {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 1.5px solid #dee2e6;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+    .border-dashed {
+        border-style: dashed !important;
+    }
+    .cv-upload-container input[type="file"] {
+        opacity: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+    .section-group {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+    .progress {
+        border-radius: 10px;
+        background-color: #e9ecef;
+    }
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label {
+        color: #0d6efd;
+    }
+</style>
 @endpush
 
 @push('scripts')
@@ -331,6 +378,100 @@
         AOS.init({
             duration: 800,
             once: true
+        });
+        
+        // Initialize apply job button
+        $('#applyJobBtn').on('click', function() {
+            $('#applyJobModal').modal('show');
+        });
+
+        // File upload preview
+        const $cvUpload = $('#cvUpload');
+        const $uploadZone = $('.upload-zone');
+        const $selectedFileName = $('#selectedFileName');
+
+        // Drag and drop functionality
+        $uploadZone.on('dragover', function(e) {
+            e.preventDefault();
+            $(this).addClass('bg-light');
+        });
+
+        $uploadZone.on('dragleave', function(e) {
+            e.preventDefault();
+            $(this).removeClass('bg-light');
+        });
+
+        $uploadZone.on('drop', function(e) {
+            e.preventDefault();
+            $(this).removeClass('bg-light');
+            
+            if ($cvUpload.length) {
+                $cvUpload[0].files = e.originalEvent.dataTransfer.files;
+                
+                if ($cvUpload[0].files.length > 0) {
+                    $selectedFileName.text($cvUpload[0].files[0].name);
+                    
+                    // If a file is selected, clear the previous CV dropdown
+                    $('#previousCvs').val('');
+                }
+            }
+        });
+
+        // File input change event
+        $cvUpload.on('change', function() {
+            if (this.files.length > 0) {
+                $selectedFileName.text(this.files[0].name);
+                
+                // If a file is selected, clear the previous CV dropdown
+                $('#previousCvs').val('');
+            }
+        });
+        
+        // Previous CV selection
+        $('#previousCvs').on('change', function() {
+            if ($(this).val()) {
+                $cvUpload.val('');
+                $selectedFileName.text('');
+            }
+        });
+        
+        // Form validation and submission
+        $('#applyJobForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            // Bootstrap validation
+            if (!this.checkValidity()) {
+                e.stopPropagation();
+                $(this).addClass('was-validated');
+                return;
+            }
+            
+            // Check if at least one CV option is selected
+            const previousCvSelected = $('#previousCvs').val();
+            const newCvSelected = $cvUpload[0] && $cvUpload[0].files.length > 0;
+            
+            if (!previousCvSelected && !newCvSelected) {
+                alert('Please select a previous CV or upload a new one');
+                return;
+            }
+            
+            // Show progress
+            $('.progress-bar').css('width', '100%');
+            
+            // TODO: Add AJAX form submission
+            // $.ajax({
+            //     url: '/apply-job',
+            //     type: 'POST',
+            //     data: new FormData(this),
+            //     processData: false,
+            //     contentType: false,
+            //     success: function(response) {
+            //         // Handle success
+            //     },
+            //     error: function(xhr) {
+            //         // Handle error
+            //     }
+            // });
         });
     });
 </script>

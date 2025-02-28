@@ -240,5 +240,6 @@ Route::prefix('student')->name('student.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::put('/upload', 'update')->name('upload');
         Route::delete('/delete/{id}', 'delete')->name('delete');
+        Route::get('get-cvs', 'getCvs')->name('get'); //ajax route to get all cvs of a student
     });
 });
