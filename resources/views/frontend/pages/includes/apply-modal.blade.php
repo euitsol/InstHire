@@ -18,7 +18,8 @@
                     </div>
                 </div>
 
-                <form id="applyJobForm" class="needs-validation" novalidate>
+                <form id="applyJobForm" class="needs-validation" novalidate action="{{ route('frontend.jobs.apply', ['id' => $job->id]) }}">
+                    @csrf
                     <!-- Personal Information Section -->
                     <div class="mb-4 section-group">
                         <h6 class="mb-3 text-primary"><i class="bi bi-person-circle me-2"></i>Personal Information</h6>
@@ -99,7 +100,7 @@
                                 <h6>Drag & Drop your CV here</h6>
                                 <p class="mb-3 text-muted small">or</p>
                                 <div class="position-relative">
-                                    <input type="file" class="form-control" id="cvUpload" accept=".pdf,.doc,.docx" required>
+                                    <input type="file" class="form-control" name="cv_file" id="cvUpload" accept=".pdf,.doc,.docx" required>
                                     <label for="cvUpload" class="btn btn-outline-primary">
                                         Choose File
                                     </label>

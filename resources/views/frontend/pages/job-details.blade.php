@@ -483,19 +483,21 @@
             $('.progress-bar').css('width', '100%');
 
             // TODO: Add AJAX form submission
-            // $.ajax({
-            //     url: '/apply-job',
-            //     type: 'POST',
-            //     data: new FormData(this),
-            //     processData: false,
-            //     contentType: false,
-            //     success: function(response) {
-            //         // Handle success
-            //     },
-            //     error: function(xhr) {
-            //         // Handle error
-            //     }
-            // });
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log(response);
+
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
         });
     });
 </script>

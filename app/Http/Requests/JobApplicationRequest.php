@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class JobApplicationRequest extends FormRequest
 {
@@ -14,14 +16,9 @@ class JobApplicationRequest extends FormRequest
         return true; // Anyone can apply for a job
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
-        return [
+        $rules = [
             'applicant_name' => 'required|string|max:255',
             'applicant_email' => 'required|email|max:255',
             'applicant_phone' => 'required|string|max:20',
@@ -31,6 +28,12 @@ class JobApplicationRequest extends FormRequest
             'cover_letter' => 'required|string',
             'cv_id' => 'nullable|exists:cvs,id'
         ];
+
+        if($this->filled('cv_file')) {
+            $rules['cv_file'] = 'required|file|mimes:pdf,doc,docx|max:5120';
+        }
+
+        return $rules;
     }
 
     public function messages(): array
@@ -48,5 +51,16 @@ class JobApplicationRequest extends FormRequest
         ];
     }
 
-    
+    public function failedValidation(Validator $validator)
+    {
+        $errors = $validator->errors();
+        $response = response()->json([
+            'success' => false,
+            'message' => implode(' ', $errors->all()),
+            'token' => null,
+        ], 422);
+        throw new HttpResponseException($response);
+    }
+
+
 }

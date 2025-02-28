@@ -7,6 +7,7 @@ use App\Models\JobPost;
 use App\Models\JobCategory;
 use App\Models\JobApplication;
 use App\Services\JobApplicationService;
+use App\Services\UploadCVService;
 use App\Http\Requests\JobApplicationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,11 +15,13 @@ use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller
 {
-    protected $jobApplicationService;
+    protected JobApplicationService $jobApplicationService;
+    protected UploadCVService $uploadCVService;
 
-    public function __construct(JobApplicationService $jobApplicationService)
+    public function __construct(JobApplicationService $jobApplicationService, UploadCVService $uploadCVService)
     {
         $this->jobApplicationService = $jobApplicationService;
+        $this->uploadCVService = $uploadCVService;
     }
 
     public function index(Request $request)
@@ -85,7 +88,14 @@ class JobController extends Controller
             ], 422);
         }
 
+
+
         try {
+
+            if($request->has('cv_file')){
+                $this->uploadCVService->upload($request);
+            }
+
             $application = $this->jobApplicationService->createApplication($request->validated(), $job);
 
             return response()->json([
