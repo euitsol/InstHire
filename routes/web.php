@@ -53,6 +53,7 @@ Route::controller(FrontendHomeController::class)->group(function () {
 Route::controller(FrontendJobController::class)->group(function () {
     Route::get('/jobs', 'index')->name('frontend.jobs');
     Route::get('/jobs/{id}', 'show')->name('frontend.jobs.show');
+    Route::post('/jobs/{id}/apply', 'apply')->name('frontend.jobs.apply');
 });
 
 // Admin Login Routes
