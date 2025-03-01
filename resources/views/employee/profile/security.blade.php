@@ -5,26 +5,31 @@
 @section('content')
 <div class="container-fluid">
     <!-- Page Header -->
-    <div class="d-flex align-items-center justify-content-between mb-4">
-        <div>
-            <h4 class="mb-1">Security Settings</h4>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="{{ route('employee.dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('employee.profile') }}">Profile</a></li>
-                    <li class="breadcrumb-item active">Security</li>
-                </ol>
-            </nav>
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <h1 class="h3 mb-0">Security Settings</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="{{ route('employee.dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('employee.profile') }}">Profile</a></li>
+                            <li class="breadcrumb-item active">Security</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
+
 
     <div class="row">
         <div class="col-12 col-lg-8">
             <!-- Change Password -->
-            <div class="card mb-4">
+            <div class="profile-card mb-4">
                 <div class="card-header border-bottom p-4">
                     <div class="d-flex align-items-center">
-                        <div class="icon-box bg-primary bg-opacity-10 text-primary me-3">
+                        <div class="profile-info-icon bg-primary bg-opacity-10 text-primary">
                             <i class="bi bi-key"></i>
                         </div>
                         <div>
@@ -34,59 +39,78 @@
                     </div>
                 </div>
                 <div class="card-body p-4">
-                    <form action="{{ route('employee.profile.update-password') }}" method="POST" class="password-form">
+                    <form action="{{ route('employee.profile.update-password') }}" method="POST" class="security-form">
                         @csrf
                         @method('PUT')
 
-                        <div class="row g-4">
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Current Password</label>
-                                    <div class="input-group">
-                                        <input type="password" name="current_password" class="form-control" required>
-                                        <button type="button" class="btn btn-light password-toggle">
-                                            <i class="bi bi-eye-slash"></i>
-                                        </button>
-                                    </div>
+                        <div class="mb-4">
+                            <label class="form-label">Current Password</label>
+                            <div class="input-group input-group-lg">
+                                <input type="password"
+                                    name="current_password"
+                                    class="form-control @error('current_password') is-invalid @enderror"
+                                    required>
+                                <button type="button" class="btn btn-light password-toggle">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
+                            @error('current_password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">New Password</label>
+                            <div class="input-group input-group-lg">
+                                <input type="password"
+                                    name="password"
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    required>
+                                <button type="button" class="btn btn-light password-toggle">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+
+                            </div>
+                            @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            <div class="form-text mt-2">
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="bi bi-shield-check text-success me-2"></i>
+                                    Password must be at least 8 characters
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="bi bi-shield-check text-success me-2"></i>
+                                    Include at least one uppercase & lowercase letter
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="bi bi-shield-check text-success me-2"></i>
+                                    Include at least one number
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-shield-check text-success me-2"></i>
+                                    Include at least one special character
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="form-label">New Password</label>
-                                    <div class="input-group">
-                                        <input type="password" name="password" class="form-control" required>
-                                        <button type="button" class="btn btn-light password-toggle">
-                                            <i class="bi bi-eye-slash"></i>
-                                        </button>
-                                    </div>
-                                    <div class="form-text">
-                                        Password must be at least 8 characters long and contain:
-                                        <ul class="mb-0 ps-3">
-                                            <li>At least one uppercase letter</li>
-                                            <li>At least one lowercase letter</li>
-                                            <li>At least one number</li>
-                                            <li>At least one special character</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-4">
-                                    <label class="form-label">Confirm New Password</label>
-                                    <div class="input-group">
-                                        <input type="password" name="password_confirmation" class="form-control" required>
-                                        <button type="button" class="btn btn-light password-toggle">
-                                            <i class="bi bi-eye-slash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary">
-                                    Update Password
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Confirm New Password</label>
+                            <div class="input-group input-group-lg">
+                                <input type="password"
+                                    name="password_confirmation"
+                                    class="form-control"
+                                    required>
+                                <button type="button" class="btn btn-light password-toggle">
+                                    <i class="bi bi-eye-slash"></i>
                                 </button>
                             </div>
                         </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-shield-lock me-2"></i>
+                            Update Password
+                        </button>
                     </form>
                 </div>
             </div>
@@ -152,46 +176,51 @@
             </div> --}}
         </div>
 
-        <!-- Security Tips -->
-        <div class="col-12 col-lg-4">
-            <div class="card">
-                <div class="card-header border-bottom p-4">
-                    <h5 class="mb-0">Security Tips</h5>
-                </div>
-                <div class="card-body p-4">
-                    <div class="mb-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="icon-box bg-warning bg-opacity-10 text-warning me-3">
-                                <i class="bi bi-shield-exclamation"></i>
-                            </div>
-                            <h6 class="mb-0">Use a Strong Password</h6>
-                        </div>
-                        <p class="text-muted mb-0">Create a unique password that's hard to guess but easy to remember.</p>
-                    </div>
 
-                    {{-- <div class="mb-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="icon-box bg-info bg-opacity-10 text-info me-3">
-                                <i class="bi bi-phone-vibrate"></i>
-                            </div>
-                            <h6 class="mb-0">Enable Two-Factor Auth</h6>
-                        </div>
-                        <p class="text-muted mb-0">Add an extra layer of security to your account with 2FA.</p>
-                    </div> --}}
-
-                    <div>
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="icon-box bg-danger bg-opacity-10 text-danger me-3">
-                                <i class="bi bi-share"></i>
-                            </div>
-                            <h6 class="mb-0">Never Share Credentials</h6>
-                        </div>
-                        <p class="text-muted mb-0">Keep your login information private and never share it with others.</p>
-                    </div>
-                </div>
+       <!-- Security Tips -->
+       <div class="col-12 col-lg-4">
+        <div class="profile-card">
+            <div class="card-header border-bottom p-4">
+                <h5 class="mb-0">Security Tips</h5>
             </div>
+            <ul class="security-tips-list">
+                <li class="security-tip-item">
+                    <div class="d-flex align-items-start">
+                        <div class="security-tip-icon bg-warning bg-opacity-10 text-warning">
+                            <i class="bi bi-shield-exclamation"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-2">Use a Strong Password</h6>
+                            <p class="text-muted mb-0">Create a unique password that's hard to guess but easy to remember. Avoid using common words or personal information.</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="security-tip-item">
+                    <div class="d-flex align-items-start">
+                        <div class="security-tip-icon bg-info bg-opacity-10 text-info">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-2">Regular Updates</h6>
+                            <p class="text-muted mb-0">Change your password periodically and never use the same password for multiple accounts.</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="security-tip-item">
+                    <div class="d-flex align-items-start">
+                        <div class="security-tip-icon bg-danger bg-opacity-10 text-danger">
+                            <i class="bi bi-share"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-2">Never Share Credentials</h6>
+                            <p class="text-muted mb-0">Keep your login information private and never share it with others, even if they claim to be from our team.</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
+</div>
 </div>
 @endsection
 

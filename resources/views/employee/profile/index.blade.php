@@ -5,129 +5,128 @@
 @section('content')
 <div class="container-fluid">
     <!-- Page Header -->
-    <div class="d-flex align-items-center justify-content-between mb-4">
-        <div>
-            <h4 class="mb-1">Profile Settings</h4>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="{{ route('employee.dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Profile</li>
-                </ol>
-            </nav>
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <h1 class="h3 mb-0">Profile Settings</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="{{ route('employee.dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="container-fluid">
+        <div class="row g-4">
+            <!-- Profile Info -->
+            <div class="col-12 col-lg-4">
+                <div class="profile-card">
+                    <div class="card-body text-center p-4">
+                        <div class="profile-photo mb-4">
+                            @if(employee()->image)
+                                <img src="{{ auth_storage_url(employee()->image) }}"
+                                    alt="{{ employee()->name }}"
+                                    class="profile-image">
+                            @else
+                                <div class="avatar-placeholder bg-primary text-white">
+                                    {{ substr(employee()->name, 0, 1) }}
+                                </div>
+                            @endif
+                            <button type="button" class="edit-photo-btn" data-bs-toggle="modal" data-bs-target="#updatePhotoModal">
+                                <i class="bi bi-camera-fill"></i>
+                            </button>
+                        </div>
 
-    <div class="row g-4">
-        <!-- Profile Info -->
-        <div class="col-12 col-lg-4">
-            <div class="card">
-                <div class="card-body text-center p-4">
-                    <div class="position-relative d-inline-block mb-4">
-                        @if(employee()->image)
-                            <img src="{{ auth_storage_url(employee()->image) }}"
-                                alt="{{ employee()->name }}"
-                                class="rounded-circle"
-                                width="120" height="120"
-                                style="object-fit: cover;">
-                        @else
-                            <div class="avatar-placeholder rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto"
-                                style="width: 120px; height: 120px; font-size: 2.5rem;">
-                                {{ substr(employee()->name, 0, 1) }}
-                            </div>
-                        @endif
-                        <button type="button" class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#updatePhotoModal">
-                            <i class="bi bi-camera-fill"></i>
-                        </button>
-                    </div>
+                        <h4 class="mb-1">{{ employee()->name }}</h4>
+                        <p class="text-muted mb-3">{{ employee()->designation }}</p>
 
-                    <h5 class="mb-1">{{ employee()->name }}</h5>
-                    <p class="text-muted mb-3">{{ employee()->designation }}</p>
-
-                    <div class="d-flex justify-content-center gap-2">
-                        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#updateProfileModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateProfileModal">
                             <i class="bi bi-pencil me-2"></i>
                             Edit Profile
                         </button>
                     </div>
-                </div>
-                <div class="card-footer p-4">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-envelope text-muted me-3"></i>
-                                <div>
-                                    <small class="text-muted d-block">Email</small>
-                                    <span>{{ employee()->email }}</span>
-                                </div>
+
+                    <ul class="profile-info-list">
+                        <li class="profile-info-item">
+                            <div class="profile-info-icon bg-primary bg-opacity-10 text-primary">
+                                <i class="bi bi-envelope"></i>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-telephone text-muted me-3"></i>
-                                <div>
-                                    <small class="text-muted d-block">Phone</small>
-                                    <span>{{ employee()->phone ?? 'Not set' }}</span>
-                                </div>
+                            <div>
+                                <small class="text-muted d-block">Email Address</small>
+                                <span>{{ employee()->email }}</span>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-geo-alt text-muted me-3"></i>
-                                <div>
-                                    <small class="text-muted d-block">Gender</small>
-                                    <span>{{ employee()->gender_label ?? 'Not set' }}</span>
-                                </div>
+                        </li>
+                        <li class="profile-info-item">
+                            <div class="profile-info-icon bg-success bg-opacity-10 text-success">
+                                <i class="bi bi-telephone"></i>
                             </div>
-                        </div>
-                    </div>
+                            <div>
+                                <small class="text-muted d-block">Phone Number</small>
+                                <span>{{ employee()->phone ?? 'Not set' }}</span>
+                            </div>
+                        </li>
+                        <li class="profile-info-item">
+                            <div class="profile-info-icon bg-info bg-opacity-10 text-info">
+                                <i class="bi bi-person"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Gender</small>
+                                <span>{{ employee()->gender_label ?? 'Not set' }}</span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
 
-        <!-- Account Activity -->
-        <div class="col-12 col-lg-8">
-            <div class="card mb-4">
-                <div class="card-header border-bottom p-4">
-                    <h5 class="mb-0">Account Activity</h5>
-                </div>
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center p-3 border rounded mb-3">
-                        <div class="icon-box bg-primary bg-opacity-10 text-primary me-3">
-                            <i class="bi bi-shield-check"></i>
-                        </div>
-                        <div>
-                            <h6 class="mb-1">Security</h6>
-                            <p class="text-muted mb-0">Manage your password and security preferences.</p>
-                        </div>
-                        <a href="{{ route('employee.profile.security') }}" class="btn btn-light ms-auto">
-                            Manage
-                        </a>
+            <!-- Account Activity -->
+            <div class="col-12 col-lg-8">
+                <div class="card profile-card mb-4">
+                    <div class="card-header border-bottom p-4">
+                        <h5 class="mb-0">Account Activity</h5>
                     </div>
+                    <div class="card-body p-4">
+                        <div class="activity-card">
+                            <div class="activity-icon bg-primary bg-opacity-10 text-primary">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h6 class="activity-title">Security Settings</h6>
+                                <p class="activity-subtitle">Manage your password and security preferences</p>
+                            </div>
+                            <a href="{{ route('employee.profile.security') }}" class="btn btn-primary">
+                                Manage
+                            </a>
+                        </div>
 
-                    <div class="d-flex align-items-center p-3 border rounded mb-3">
-                        <div class="icon-box bg-warning bg-opacity-10 text-warning me-3">
-                            <i class="bi bi-bell"></i>
+                        <div class="activity-card">
+                            <div class="activity-icon bg-warning bg-opacity-10 text-warning">
+                                <i class="bi bi-bell"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h6 class="activity-title">Notifications</h6>
+                                <p class="activity-subtitle">Choose what notifications you want to receive</p>
+                            </div>
+                            <button type="button" class="btn btn-primary">
+                                Manage
+                            </button>
                         </div>
-                        <div>
-                            <h6 class="mb-1">Notifications</h6>
-                            <p class="text-muted mb-0">Choose what notifications you want to receive.</p>
-                        </div>
-                        <button type="button" class="btn btn-light ms-auto">
-                            Manage
-                        </button>
-                    </div>
 
-                    <div class="d-flex align-items-center p-3 border rounded">
-                        <div class="icon-box bg-danger bg-opacity-10 text-danger me-3">
-                            <i class="bi bi-trash"></i>
+                        <div class="activity-card">
+                            <div class="activity-icon bg-danger bg-opacity-10 text-danger">
+                                <i class="bi bi-trash"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h6 class="activity-title">Delete Account</h6>
+                                <p class="activity-subtitle">Permanently delete your account and all data</p>
+                            </div>
+                            <button type="button" class="btn btn-outline-danger">
+                                Delete
+                            </button>
                         </div>
-                        <div>
-                            <h6 class="mb-1">Delete Account</h6>
-                            <p class="text-muted mb-0">Permanently delete your account and all data.</p>
-                        </div>
-                        <button type="button" class="btn btn-outline-danger ms-auto">
-                            Delete
-                        </button>
                     </div>
                 </div>
             </div>
