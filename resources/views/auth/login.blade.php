@@ -214,7 +214,7 @@
 <body>
     <div class="container main-container">
         <div class="header-section">
-            <h1>Welcome to InstHire</h1>
+            <h1>Welcome to {{ config('app.name') }}</h1>
             <p>Select your role to get started with our platform</p>
         </div>
 
@@ -253,7 +253,7 @@
 
             <!-- Employee Card -->
             <div class="col-xl-3 col-6">
-                <a href="{{ route('login') }}" class="text-decoration-none">
+                <a href="{{ route('employee.login') }}" class="text-decoration-none">
                     <div class="user-type-card">
                         <div class="card-body">
                             <div class="icon-wrapper">

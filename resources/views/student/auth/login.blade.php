@@ -9,10 +9,10 @@
 @section('content')
 <div class="auth-container">
     <div class="auth-card">
-        <div class="auth-logo">
+        {{-- <div class="auth-logo">
             <img src="{{ asset('assets/images/logo-full.png') }}" alt="Logo">
         </div>
-        
+         --}}
         <h1 class="auth-title">Welcome back!</h1>
         <p class="auth-subtitle">Sign in to your student account to continue</p>
 
@@ -20,8 +20,8 @@
             @csrf
             <div class="form-group">
                 <label class="form-label">Email</label>
-                <input class="form-control @error('email') is-invalid @enderror" 
-                       type="email" name="email" placeholder="Enter your email" 
+                <input class="form-control @error('email') is-invalid @enderror"
+                       type="email" name="email" placeholder="Enter your email"
                        value="{{ old('email') }}" required autofocus />
                 @error('email')
                     <span class="invalid-feedback" role="alert">
@@ -33,8 +33,8 @@
             <div class="form-group">
                 <label class="form-label">Password</label>
                 <div class="password-field-wrapper">
-                    <input class="form-control @error('password') is-invalid @enderror" 
-                           type="password" name="password" id="password" 
+                    <input class="form-control @error('password') is-invalid @enderror"
+                           type="password" name="password" id="password"
                            placeholder="Enter your password" required />
                     <button type="button" class="password-toggle-btn">
                         <i class="bi bi-eye"></i>
@@ -49,7 +49,7 @@
 
             <div class="form-group">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" 
+                    <input class="form-check-input" type="checkbox" name="remember"
                            id="remember" {{ old('remember') ? 'checked' : '' }}>
                     <label class="form-check-label" for="remember">
                         Remember me
@@ -66,7 +66,7 @@
 
         <div class="auth-links">
             <p>
-                Don't have an account? 
+                Don't have an account?
                 <a href="{{ route('student.register') }}">Sign up</a>
             </p>
         </div>

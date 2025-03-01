@@ -21,6 +21,10 @@ function institute()
 {
     return auth()->guard('institute')->user();
 }
+function employee()
+{
+    return auth()->guard('employee')->user();
+}
 
 function student()
 {
@@ -68,7 +72,6 @@ function storage_url($urlOrArray)
             return $urlOrArray;
         }
         return $urlOrArray ? asset('storage/' . $urlOrArray) : $image;
-
     }
 }
 

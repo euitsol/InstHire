@@ -1,0 +1,131 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Login Page Styles */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #0061f2 0%, #6e00ff 100%);
+}
+
+.auth-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15);
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-card .card-header {
+    background: transparent;
+    padding: 2rem 2rem 1rem;
+    text-align: center;
+    border: none;
+}
+
+.auth-card .card-body {
+    padding: 2rem;
+}
+
+.auth-card .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #363d47;
+    margin-bottom: 0.5rem;
+}
+
+.auth-card .card-subtitle {
+    color: #6c757d;
+    margin-bottom: 2rem;
+}
+
+/* Form Styles */
+.form-label {
+    font-weight: 500;
+    color: #363d47;
+}
+
+.form-control {
+    border: 1px solid #e0e5ec;
+    border-radius: 0.35rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #6e00ff;
+    box-shadow: 0 0 0 0.2rem rgba(110, 0, 255, 0.25);
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e5ec;
+    color: #6c757d;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #6e00ff;
+    border-color: #6e00ff;
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: #5900cc;
+    border-color: #5900cc;
+}
+
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #e0e5ec;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    border-color: #e0e5ec;
+    color: #6c757d;
+}
+
+/* Checkbox Styles */
+.form-check-input:checked {
+    background-color: #6e00ff;
+    border-color: #6e00ff;
+}
+
+/* Error States */
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
+/* Stats Card */
+.stats-card {
+    background: #ffffff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+    .auth-wrapper {
+        padding: 1rem;
+    }
+    
+    .auth-card .card-body {
+        padding: 1.5rem;
+    }
+}

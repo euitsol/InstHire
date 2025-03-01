@@ -26,6 +26,10 @@ use App\Http\Controllers\Institute\StudentManagement\StudentController as Instit
 use App\Http\Controllers\Institute\ThemeController;
 use App\Http\Controllers\Institute\Setup\JobFairStallOptionController as InstituteJobFairStallOptionController;
 use App\Http\Controllers\Institute\JobFair\JobFairController as InstituteJobFairController;
+use App\Http\Controllers\Employee\Auth\LoginController as EmployeeLoginController;
+use App\Http\Controllers\Employee\EmployeeController as EmployeeDashboardController;
+use App\Http\Controllers\Employee\ThemeController as EmployeeThemeController;
+use App\Http\Controllers\Employee\ProfileController;
 use App\Http\Controllers\Student\Auth\LoginController as StudentLoginController;
 use App\Http\Controllers\Student\Auth\RegisterController as StudentRegisterController;
 use App\Http\Controllers\Student\Auth\ForgotPasswordController as StudentForgotPasswordController;
@@ -117,16 +121,16 @@ Route::group(['middleware' => 'auth:admin'], function () {
 // Institute Auth Routes
 Route::prefix('institute')->name('institute.')->group(function () {
 
-        Route::get('login', [InstituteLoginController::class, 'login'])->name('login');
-        Route::post('login', [InstituteLoginController::class, 'loginCheck'])->name('login.submit');
-        Route::get('register', [InstituteRegisterController::class, 'showRegistrationForm'])->name('register');
-        Route::post('register', [InstituteRegisterController::class, 'register'])->name('register.submit');
+    Route::get('login', [InstituteLoginController::class, 'login'])->name('login');
+    Route::post('login', [InstituteLoginController::class, 'loginCheck'])->name('login.submit');
+    Route::get('register', [InstituteRegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [InstituteRegisterController::class, 'register'])->name('register.submit');
 
-        // Password Reset Routes
-        Route::get('password/reset', [InstituteForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-        Route::post('password/email', [InstituteForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-        Route::get('password/reset/{token}', [InstituteResetPasswordController::class, 'showResetForm'])->name('password.reset');
-        Route::post('password/reset', [InstituteResetPasswordController::class, 'reset'])->name('password.update');
+    // Password Reset Routes
+    Route::get('password/reset', [InstituteForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('password/email', [InstituteForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('password/reset/{token}', [InstituteResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('password/reset', [InstituteResetPasswordController::class, 'reset'])->name('password.update');
 
 
     Route::middleware('auth:institute')->group(function () {
@@ -186,7 +190,6 @@ Route::prefix('institute')->name('institute.')->group(function () {
                 Route::get('toggle-status/{stallOption}', 'toggleStatus')->name('toggle-status');
                 Route::delete('delete/{stallOption}', 'delete')->name('delete');
             });
-
         });
 
         Route::controller(InstituteJobFairController::class)->prefix('job-fair')->name('jf.')->group(function () {
@@ -205,53 +208,69 @@ Route::prefix('institute')->name('institute.')->group(function () {
     });
 });
 
+// Employee Auth Routes
+Route::prefix('employee')->name('employee.')->group(function () {
+    Route::get('login', [EmployeeLoginController::class, 'login'])->name('login');
+    Route::post('login', [EmployeeLoginController::class, 'loginCheck'])->name('login.submit');
+
+    Route::middleware('auth:employee')->group(function () {
+        Route::get('dashboard', [EmployeeDashboardController::class, 'dashboard'])->name('dashboard');
+        Route::post('logout', [EmployeeLoginController::class, 'logout'])->name('logout');
+        Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+        Route::get('profile/security', [ProfileController::class, 'security'])->name('profile.security');
+        Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::put('profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update-photo');
+        Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+        Route::post('/theme/update', [EmployeeThemeController::class, 'update'])->name('theme.update');
+    });
+});
 // Student Auth Routes
 Route::prefix('student')->name('student.')->group(function () {
-    Route::controller(StudentLoginController::class)->group(function() {
+    Route::controller(StudentLoginController::class)->group(function () {
         Route::get('/login', 'login')->name('login');
         Route::post('/login', 'loginCheck')->name('login');
         Route::post('/logout', 'logout')->name('logout')->middleware('auth:student');
     });
 
-    Route::controller(StudentRegisterController::class)->group(function() {
+    Route::controller(StudentRegisterController::class)->group(function () {
         Route::get('/register', 'register')->name('register');
         Route::post('/register', 'store')->name('register');
         Route::get('department/{institute}', 'departments')->name('departments');
         Route::get('session/{institute}', 'sessions')->name('sessions');
     });
 
-    Route::controller(StudentForgotPasswordController::class)->group(function() {
+    Route::controller(StudentForgotPasswordController::class)->group(function () {
         Route::get('/password/forgot', 'showLinkRequestForm')->name('forgot');
         Route::post('/password/forgot/request', 'sendResetLinkEmail')->name('forgot.request');
     });
 
-    Route::controller(StudentResetPasswordController::class)->group(function() {
+    Route::controller(StudentResetPasswordController::class)->group(function () {
         Route::get('/password/reset/{token}', 'showResetForm')->name('reset');
         Route::post('/password/reset', 'reset')->name('password.update');
     });
 
-    Route::controller(StudentController::class)->middleware('auth:student')->group(function() {
+    Route::controller(StudentController::class)->middleware('auth:student')->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
     });
 
-    Route::controller(StudentProfileController::class)->middleware('auth:student')->prefix('profile')->as('profile.')->group(function() {
+    Route::controller(StudentProfileController::class)->middleware('auth:student')->prefix('profile')->as('profile.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::put('/update', 'update')->name('update');
     });
 
-    Route::controller(StudentCVController::class)->middleware('auth:student')->prefix('cv')->as('cv.')->group(function() {
+    Route::controller(StudentCVController::class)->middleware('auth:student')->prefix('cv')->as('cv.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::put('/upload', 'update')->name('upload');
         Route::delete('/delete/{id}', 'delete')->name('delete');
         Route::get('get-cvs', 'getCvs')->name('get'); //ajax route to get all cvs of a student
     });
 
-    Route::controller(StudentJobController::class)->middleware('auth:student')->prefix('job')->as('job.')->group(function() {
+    Route::controller(StudentJobController::class)->middleware('auth:student')->prefix('job')->as('job.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/show/{id}', 'show')->name('show');
     });
 
-    Route::controller(StudentJobFairController::class)->middleware('auth:student')->prefix('job-fair')->as('jf.')->group(function() {
+    Route::controller(StudentJobFairController::class)->middleware('auth:student')->prefix('job-fair')->as('jf.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/show/{slug}', 'show')->name('show');
     });
