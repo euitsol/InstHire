@@ -25,6 +25,12 @@ function employee()
 {
     return auth()->guard('employee')->user();
 }
+
+function student()
+{
+    return auth()->guard('student')->user();
+}
+
 function creater_name($user)
 {
     return $user->name ?? 'System';
@@ -66,7 +72,6 @@ function storage_url($urlOrArray)
             return $urlOrArray;
         }
         return $urlOrArray ? asset('storage/' . $urlOrArray) : $image;
-
     }
 }
 

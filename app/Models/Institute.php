@@ -60,4 +60,14 @@ class Institute extends AuthBaseModel
     {
         return $this->hasMany(InstituteSubscription::class);
     }
+
+    public function activeDepartments()
+    {
+        return $this->hasMany(Department::class)->active();
+    }
+
+    public function activeSessions()
+    {
+        return $this->hasMany(InstituteSession::class)->active();
+    }
 }
