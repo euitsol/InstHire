@@ -11,14 +11,14 @@
                 <div class="card-body p-4">
                     <div class="d-flex align-items-center">
                         <div class="avatar me-4" style="width: 64px; height: 64px;">
-                            @if(auth()->guard('employee')->user()->image)
-                                <img src="{{ asset('storage/'.auth()->guard('employee')->user()->image) }}" 
-                                    alt="{{ auth()->guard('employee')->user()->name }}"
+                            @if(employee()->image)
+                                <img src="{{ auth_storage_url(employee()->image) }}"
+                                    alt="{{ employee()->name }}"
                                     class="rounded-circle">
                             @else
                                 <div class="avatar-placeholder rounded-circle bg-white text-primary d-flex align-items-center justify-content-center"
                                     style="width: 64px; height: 64px; font-size: 24px;">
-                                    {{ substr(auth()->guard('employee')->user()->name, 0, 1) }}
+                                    {{ substr(employee()->name, 0, 1) }}
                                 </div>
                             @endif
                         </div>

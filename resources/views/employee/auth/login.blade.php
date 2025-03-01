@@ -10,7 +10,6 @@
                 <div class="card-body p-4">
                     <!-- Logo -->
                     <div class="text-center mb-4">
-                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="img-fluid mb-4" style="height: 48px;">
                         <h4 class="mb-1">Welcome back!</h4>
                         <p class="text-muted small">Please sign in to continue.</p>
                     </div>
@@ -21,12 +20,12 @@
                         <!-- Email -->
                         <div class="mb-3">
                             <label for="email" class="form-label small">Email Address</label>
-                            <input type="email" 
-                                class="form-control form-control-lg @error('email') is-invalid @enderror" 
-                                id="email" 
-                                name="email" 
-                                value="{{ old('email') }}" 
-                                required 
+                            <input type="email"
+                                class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                id="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                required
                                 autofocus>
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -37,10 +36,10 @@
                         <div class="mb-3">
                             <label for="password" class="form-label small">Password</label>
                             <div class="input-group">
-                                <input type="password" 
-                                    class="form-control form-control-lg @error('password') is-invalid @enderror" 
-                                    id="password" 
-                                    name="password" 
+                                <input type="password"
+                                    class="form-control form-control-lg @error('password') is-invalid @enderror"
+                                    id="password"
+                                    name="password"
                                     required>
                                 <button type="button" class="btn btn-lg btn-outline-secondary" onclick="togglePassword()">
                                     <i class="bi bi-eye"></i>
@@ -75,7 +74,7 @@
 function togglePassword() {
     const password = document.getElementById('password');
     const icon = document.querySelector('#password + button i');
-    
+
     if (password.type === 'password') {
         password.type = 'text';
         icon.classList.remove('bi-eye');

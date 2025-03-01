@@ -28,6 +28,7 @@ use App\Http\Controllers\Institute\JobFair\JobFairController as InstituteJobFair
 use App\Http\Controllers\Employee\Auth\LoginController as EmployeeLoginController;
 use App\Http\Controllers\Employee\EmployeeController as EmployeeDashboardController;
 use App\Http\Controllers\Employee\ThemeController as EmployeeThemeController;
+use App\Http\Controllers\Employee\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -194,6 +195,11 @@ Route::prefix('employee')->name('employee.')->group(function () {
     Route::middleware('auth:employee')->group(function () {
         Route::get('dashboard', [EmployeeDashboardController::class, 'dashboard'])->name('dashboard');
         Route::post('logout', [EmployeeLoginController::class, 'logout'])->name('logout');
+        Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+        Route::get('profile/security', [ProfileController::class, 'security'])->name('profile.security');
+        Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::put('profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update-photo');
+        Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
         Route::post('/theme/update', [EmployeeThemeController::class, 'update'])->name('theme.update');
     });
 });

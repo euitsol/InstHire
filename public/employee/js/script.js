@@ -1,40 +1,68 @@
 // Initialize tooltips and popovers
 document.addEventListener('DOMContentLoaded', function() {
-    // Theme Toggler
+    // Theme Management
     const themeToggler = document.getElementById('themeToggler');
     if (themeToggler) {
-        themeToggler.addEventListener('click', function() {
+        // Get system theme preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Function to update theme
+        function updateTheme(theme) {
             const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-bs-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-bs-theme', theme);
             
-            html.setAttribute('data-bs-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-
             // Update icon
-            const icon = this.querySelector('i');
-            icon.classList.toggle('bi-sun');
-            icon.classList.toggle('bi-moon');
+            const icon = themeToggler.querySelector('i');
+            icon.classList.remove('bi-sun', 'bi-moon');
+            icon.classList.add(theme === 'dark' ? 'bi-sun' : 'bi-moon');
+            
+            // Store theme preference
+            localStorage.setItem('theme', theme);
+        }
 
-            // Send theme preference to server
+        // Function to sync theme with server
+        function syncThemeWithServer(theme) {
             fetch('/employee/theme', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 },
-                body: JSON.stringify({ theme: newTheme })
+                body: JSON.stringify({ theme: theme })
             });
+        }
+
+        // Initialize theme
+        const storedTheme = localStorage.getItem('theme');
+        const initialTheme = storedTheme || (prefersDarkScheme.matches ? 'dark' : 'light');
+        updateTheme(initialTheme);
+        syncThemeWithServer(initialTheme);
+
+        // Listen for system theme changes
+        prefersDarkScheme.addEventListener('change', (e) => {
+            const newTheme = e.matches ? 'dark' : 'light';
+            updateTheme(newTheme);
+            syncThemeWithServer(newTheme);
+        });
+
+        // Handle manual theme toggle
+        themeToggler.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            updateTheme(newTheme);
+            syncThemeWithServer(newTheme);
         });
     }
 
     // Mobile Sidebar Toggle
     const sidebarToggler = document.getElementById('sidebarToggler');
+    const sidebarClose = document.getElementById('sidebarClose');
     const sidebar = document.querySelector('.sidebar');
     const backdrop = document.getElementById('sidebarBackdrop');
 
     if (sidebarToggler && sidebar && backdrop) {
         sidebarToggler.addEventListener('click', toggleSidebar);
+        sidebarClose.addEventListener('click', toggleSidebar);
         backdrop.addEventListener('click', toggleSidebar);
     }
 
@@ -42,6 +70,13 @@ document.addEventListener('DOMContentLoaded', function() {
         sidebar.classList.toggle('show');
         backdrop.classList.toggle('d-none');
         document.body.classList.toggle('sidebar-open');
+
+        // Prevent scrolling when sidebar is open on mobile
+        if (sidebar.classList.contains('show')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
     }
 
     // Initialize Bootstrap Tooltips
@@ -51,6 +86,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Bootstrap Dropdowns
     const dropdowns = document.querySelectorAll('.dropdown-toggle');
     dropdowns.forEach(dropdown => new bootstrap.Dropdown(dropdown));
+
+    // Initialize Bootstrap Collapse for Submenus
+    const submenus = document.querySelectorAll('.submenu');
+    submenus.forEach(submenu => new bootstrap.Collapse(submenu, { toggle: false }));
+
+    // Keep parent submenu open if child is active
+    const activeSubmenuItems = document.querySelectorAll('.submenu .nav-link.active');
+    activeSubmenuItems.forEach(item => {
+        const parentSubmenu = item.closest('.submenu');
+        if (parentSubmenu) {
+            parentSubmenu.classList.add('show');
+            const parentToggle = document.querySelector(`[data-bs-toggle="collapse"][href="#${parentSubmenu.id}"]`);
+            if (parentToggle) {
+                parentToggle.classList.remove('collapsed');
+                parentToggle.setAttribute('aria-expanded', 'true');
+            }
+        }
+    });
 
     // Initialize Bootstrap Popovers
     const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -88,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alertDiv.className = `alert alert-${type} alert-dismissible fade show d-flex align-items-center`;
         alertDiv.setAttribute('role', 'alert');
         alertDiv.setAttribute('data-auto-dismiss', '');
-        
+
         // Add appropriate icon based on alert type
         let icon;
         switch (type) {
@@ -108,13 +161,13 @@ document.addEventListener('DOMContentLoaded', function() {
             default:
                 icon = 'bi-info-circle-fill';
         }
-        
+
         alertDiv.innerHTML = `
             <i class="bi ${icon} me-2 fs-5"></i>
             <div>${message}</div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `;
-        
+
         // Find or create alerts container
         let alertsContainer = document.querySelector('.alerts-container');
         if (!alertsContainer) {
@@ -123,9 +176,9 @@ document.addEventListener('DOMContentLoaded', function() {
             alertsContainer.style.zIndex = '1080';
             document.body.appendChild(alertsContainer);
         }
-        
+
         alertsContainer.appendChild(alertDiv);
-        
+
         // Auto dismiss after 5 seconds
         setTimeout(() => {
             alertDiv.classList.add('fade');
