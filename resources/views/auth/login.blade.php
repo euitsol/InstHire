@@ -214,7 +214,7 @@
 <body>
     <div class="container main-container">
         <div class="header-section">
-            <h1>Welcome to InstHire</h1>
+            <h1>Welcome to {{ config('app.name') }}</h1>
             <p>Select your role to get started with our platform</p>
         </div>
 

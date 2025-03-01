@@ -33,10 +33,10 @@
         @auth('employee')
             @include('employee.partials.sidebar')
         @endauth
-        
+
         <div class="main-content {{ !auth()->guard('employee')->check() ? 'ms-0' : '' }}">
             @include('employee.partials.header')
-            
+
             <main class="py-4">
                 @include('employee.partials.alerts')
                 @yield('content')
