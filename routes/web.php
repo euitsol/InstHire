@@ -30,6 +30,7 @@ use App\Http\Controllers\Employee\Auth\LoginController as EmployeeLoginControlle
 use App\Http\Controllers\Employee\EmployeeController as EmployeeDashboardController;
 use App\Http\Controllers\Employee\ThemeController as EmployeeThemeController;
 use App\Http\Controllers\Employee\ProfileController;
+use App\Http\Controllers\Employee\JobPostController as EmployeeJobPostController;
 use App\Http\Controllers\Student\Auth\LoginController as StudentLoginController;
 use App\Http\Controllers\Student\Auth\RegisterController as StudentRegisterController;
 use App\Http\Controllers\Student\Auth\ForgotPasswordController as StudentForgotPasswordController;
@@ -216,12 +217,26 @@ Route::prefix('employee')->name('employee.')->group(function () {
     Route::middleware('auth:employee')->group(function () {
         Route::get('dashboard', [EmployeeDashboardController::class, 'dashboard'])->name('dashboard');
         Route::post('logout', [EmployeeLoginController::class, 'logout'])->name('logout');
+
+        // Profile Routes
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::get('profile/security', [ProfileController::class, 'security'])->name('profile.security');
         Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::put('profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update-photo');
         Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+
+        // Theme Routes
         Route::post('/theme/update', [EmployeeThemeController::class, 'update'])->name('theme.update');
+
+        // Job Post Management Routes
+        Route::group(['prefix' => 'job-post-management'], function () {
+            Route::resource('job-posts', EmployeeJobPostController::class);
+            Route::get('job-posts/data', [EmployeeJobPostController::class, 'getData'])->name('job-post.data');
+            Route::get('job-posts/status/{jobPost}/{status}', [EmployeeJobPostController::class, 'status'])->name('job-posts.status');
+            Route::get('job-posts/archive', [EmployeeJobPostController::class, 'archive'])->name('job-posts.archive');
+            Route::get('job-posts/archive/data', [EmployeeJobPostController::class, 'getArchivedData'])->name('job-posts.archive.data');
+            Route::get('job-posts/profile/{jobPost}', [EmployeeJobPostController::class, 'profile'])->name('job-posts.profile');
+        });
     });
 });
 // Student Auth Routes

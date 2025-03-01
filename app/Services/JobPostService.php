@@ -27,6 +27,13 @@ class JobPostService
             ->latest()
             ->get();
     }
+    public function getEmployeeJobPosts($employee_id): Collection
+    {
+        return JobPost::with(['institute', 'category'])
+            ->orWhere('employee_id', $employee_id)
+            ->latest()
+            ->get();
+    }
 
     public function statusChange(JobPost $jobPost, int $status): bool
     {

@@ -35,19 +35,19 @@
                 <div class="collapse submenu" id="jobMenu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('employee.job-posts.create') }}" class="nav-link {{ request()->routeIs('employee.job-posts.create') ? 'active' : '' }}">
                                 <i class="bi bi-plus-circle"></i>
                                 <span>Post New Job</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('employee.job-posts.index') }}" class="nav-link {{ request()->routeIs('employee.job-posts.index') ? 'active' : '' }}">
                                 <i class="bi bi-list-ul"></i>
                                 <span>Active Jobs</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('employee.job-posts.archive') }}" class="nav-link {{ request()->routeIs('employee.job-posts.archive') ? 'active' : '' }}">
                                 <i class="bi bi-archive"></i>
                                 <span>Archived Jobs</span>
                             </a>
