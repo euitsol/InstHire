@@ -15,77 +15,72 @@
                     <i class="bi bi-plus"></i> {{ __('Create New Job Post') }}
                 </a>
             </div>
-
-            <div class="table-responsive">
-                <table class="table table-striped" id="jobPostTable">
-                    <thead>
+            <table class="table table-striped" id="jobPostTable">
+                <thead>
+                    <tr>
+                        <th>{{ __('SL') }}</th>
+                        <th>{{ __('Title') }}</th>
+                        <th>{{ __('Category') }}</th>
+                        <th>{{ __('Type') }}</th>
+                        <th>{{ __('Deadline') }}</th>
+                        <th>{{ __('Status') }}</th>
+                        <th>{{ __('Created At') }}</th>
+                        <th>{{ __('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($jobs as $job)
                         <tr>
-                            <th>{{ __('SL') }}</th>
-                            <th>{{ __('Title') }}</th>
-                            <th>{{ __('Category') }}</th>
-                            <th>{{ __('Type') }}</th>
-                            <th>{{ __('Deadline') }}</th>
-                            <th>{{ __('Status') }}</th>
-                            <th>{{ __('Created At') }}</th>
-                            <th>{{ __('Actions') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($jobs as $job)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $job->title }}</td>
-                                <td>{{ optional($job->category)->title }}</td>
-                                <td>
-                                    <span class="badge bg-info">{{ $job->job_type_label }}</span>
-                                </td>
-                                <td>{{ date('d M, Y', strtotime($job->deadline)) }}</td>
-                                <td>
-                                    <span class="{{ $job->status_badge_color }}">
-                                        {{ $job->job_status_label }}
-                                    </span>
-                                </td>
-                                <td>{{ $job->created_at->format('d M, Y') }}</td>
-                                <td>
-                                    @include('employee.includes.action_buttons', [
-                                        'menuItems' => [
-                                            [
-                                                'routeName' => 'employee.job-posts.show',
-                                                'params' => [$job->id],
-                                                'icon' => 'bi-eye',
-                                                'label' => 'View Details',
-                                                'className' => 'btn-info'
-                                            ],
-                                            [
-                                                'routeName' => 'employee.job-posts.edit',
-                                                'params' => [$job->id],
-                                                'icon' => 'bi-pencil',
-                                                'label' => 'Edit',
-                                                'className' => 'btn-primary'
-                                            ],
-                                            [
-                                                'routeName' => 'employee.job-posts.destroy',
-                                                'params' => [$job->id],
-                                                'icon' => 'bi-trash',
-                                                'label' => 'Delete',
-                                                'className' => 'btn-danger',
-                                                'delete' => true
-                                            ],
-                                            // [
-                                            //     'routeName' => 'employee.job-posts.status-change',
-                                            //     'params' => [$job->id],
-                                            //     'icon' => 'bi-arrow-clockwise',
-                                            //     'label' => $job->status == 1 ? 'Mark as Inactive' : 'Mark as Active',
-                                            //     'className' => $job->status == 1 ? 'btn-warning' : 'btn-success'
-                                            // ]
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $job->title }}</td>
+                            <td>{{ optional($job->category)->title }}</td>
+                            <td>
+                                <span class="badge bg-info">{{ $job->job_type_label }}</span>
+                            </td>
+                            <td>{{ date('d M, Y', strtotime($job->deadline)) }}</td>
+                            <td>
+                                <span class="{{ $job->status_badge_color }}">
+                                    {{ $job->job_status_label }}
+                                </span>
+                            </td>
+                            <td>{{ $job->created_at->format('d M, Y') }}</td>
+                            <td>
+                                @php
+                                    $menuItems = [
+                                        [
+                                            'routeName' => 'employee.job-posts.show',
+                                            'params' => [$job->id],
+                                            'icon' => 'bi-eye',
+                                            'label' => 'View Details',
+                                            'className' => 'btn-info'
                                         ]
-                                    ])
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                                    ];
+                                    if($job->employee_id == employee()->id){
+                                        $menuItems[] = [
+                                            'routeName' => 'employee.job-posts.edit',
+                                            'params' => [$job->id],
+                                            'icon' => 'bi-pencil',
+                                            'label' => 'Edit',
+                                            'className' => 'btn-primary'
+                                        ];
+                                        $menuItems[] = [
+                                            'routeName' => 'employee.job-posts.destroy',
+                                            'params' => [$job->id],
+                                            'icon' => 'bi-trash',
+                                            'label' => 'Delete',
+                                            'className' => 'btn-danger',
+                                            'delete' => true
+                                        ];
+                                    }
+                                @endphp
+                                @include('employee.includes.action_buttons', [
+                                    'menuItems' => $menuItems,
+                                ])
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 @endsection

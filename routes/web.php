@@ -233,9 +233,6 @@ Route::prefix('employee')->name('employee.')->group(function () {
             Route::resource('job-posts', EmployeeJobPostController::class);
             Route::get('job-posts/data', [EmployeeJobPostController::class, 'getData'])->name('job-post.data');
             Route::get('job-posts/status/{jobPost}/{status}', [EmployeeJobPostController::class, 'status'])->name('job-posts.status');
-            Route::get('job-posts/archive', [EmployeeJobPostController::class, 'archive'])->name('job-posts.archive');
-            Route::get('job-posts/archive/data', [EmployeeJobPostController::class, 'getArchivedData'])->name('job-posts.archive.data');
-            Route::get('job-posts/profile/{jobPost}', [EmployeeJobPostController::class, 'profile'])->name('job-posts.profile');
         });
     });
 });

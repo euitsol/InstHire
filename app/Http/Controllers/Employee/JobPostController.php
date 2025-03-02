@@ -25,7 +25,8 @@ class JobPostController extends Controller
      */
     public function index()
     {
-        $jobs = $this->jobPostService->getEmployeeJobPosts(employee()->id);
+
+        $jobs = $this->jobPostService->getActiveJobPosts();
         return view('employee.job-post-management.job-post.index', compact('jobs'));
     }
 
@@ -43,14 +44,25 @@ class JobPostController extends Controller
      */
     public function store(JobPostRequest $request)
     {
-        $data = $request->validated();
-        $data['employee_id'] = employee()->id;
-        $data['type'] = JobPost::TYPE_SELF;
-        $data['creater_id'] = employee()->id;
-        $data['creater_type'] = get_class(employee());
+        try {
 
-        $this->jobPostService->createJobPost($data);
-        return redirect()->route('employee.job-posts.index')->with('success', 'Job posted successfully');
+
+            $data['institute_id'] = $request->visibility == JobPost::VISIBLE_INSTITUTE ? employee()->institute_id : null;
+            $data['creater_id'] = employee()->id;
+            $data['creater_type'] = get_class(employee());
+            $data['employee_id'] = employee()->id;
+
+            $this->jobPostService->createJobPost(array_merge($request->validated(), $data));
+
+            return redirect()
+                ->route('employee.job-posts.index')
+                ->with('success', 'Job Post created successfully');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Something went wrong! ')
+                ->withInput();
+        }
     }
 
     /**
@@ -58,7 +70,6 @@ class JobPostController extends Controller
      */
     public function show(JobPost $jobPost)
     {
-        abort_if($jobPost->employee_id !== employee()->id, 403);
         $jobPost = $this->jobPostService->getDetails($jobPost);
         return view('employee.job-post-management.job-post.show', compact('jobPost'));
     }
@@ -69,10 +80,10 @@ class JobPostController extends Controller
     public function edit(JobPost $jobPost)
     {
         abort_if($jobPost->employee_id !== employee()->id, 403);
-        abort_if($jobPost->status !== JobPost::STATUS_PENDING, 403);
+        // abort_if($jobPost->status !== JobPost::STATUS_PENDING, 403);
 
         $categories = $this->jobCategoryService->getJobCategories();
-        return view('employee.job-post-management.job-post.edit', compact('jobPost', 'categories'));
+        return view('employee.job-post-management.job-post.edit', compact('categories' , 'jobPost'));
     }
 
     /**
@@ -81,10 +92,21 @@ class JobPostController extends Controller
     public function update(JobPostRequest $request, JobPost $jobPost)
     {
         abort_if($jobPost->employee_id !== employee()->id, 403);
-        abort_if($jobPost->status !== JobPost::STATUS_PENDING, 403);
 
-        $this->jobPostService->updateJobPost($jobPost, $request->validated());
-        return redirect()->route('employee.job-posts.index')->with('success', 'Job updated successfully');
+        try {
+            $data = $request->validated();
+
+            $this->jobPostService->updateJobPost($jobPost, $data);
+
+            return redirect()
+                ->route('employee.job-posts.index')
+                ->with('success', 'Job Post updated successfully');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Something went wrong!')
+                ->withInput();
+        }
     }
 
     /**
@@ -93,96 +115,8 @@ class JobPostController extends Controller
     public function destroy(JobPost $jobPost)
     {
         abort_if($jobPost->employee_id !== employee()->id, 403);
-        abort_if($jobPost->status !== JobPost::STATUS_PENDING, 403);
 
         $jobPost->delete();
         return redirect()->route('employee.job-posts.index')->with('success', 'Job deleted successfully');
-    }
-
-    /**
-     * Get job posts data for DataTables.
-     */
-    public function getData(Request $request)
-    {
-        $jobPosts = JobPost::with(['institute', 'category'])
-            ->where('employee_id', employee()->id)
-            ->where('status', '!=', JobPost::STATUS_CLOSED)
-            ->latest();
-
-        return DataTables::of($jobPosts)
-            ->addColumn('action', function ($jobPost) {
-                return view('employee.job-post-management.job-post.includes.actions', compact('jobPost'));
-            })
-            ->addColumn('status_badge', function ($jobPost) {
-                return view('employee.job-post-management.job-post.includes.status', compact('jobPost'));
-            })
-            ->editColumn('deadline', function ($jobPost) {
-                return $jobPost->deadline->format('d M, Y');
-            })
-            ->editColumn('created_at', function ($jobPost) {
-                return $jobPost->created_at->format('d M, Y');
-            })
-            ->rawColumns(['action', 'status_badge'])
-            ->make(true);
-    }
-
-    /**
-     * Get archived job posts data for DataTables.
-     */
-    public function getArchivedData(Request $request)
-    {
-        $jobPosts = JobPost::with(['institute', 'category'])
-            ->where('employee_id', employee()->id)
-            ->where('status', JobPost::STATUS_CLOSED)
-            ->latest();
-
-        return DataTables::of($jobPosts)
-            ->addColumn('action', function ($jobPost) {
-                return view('employee.job-post-management.job-post.includes.archive-actions', compact('jobPost'));
-            })
-            ->addColumn('status_badge', function ($jobPost) {
-                return view('employee.job-post-management.job-post.includes.status', compact('jobPost'));
-            })
-            ->editColumn('deadline', function ($jobPost) {
-                return $jobPost->deadline->format('d M, Y');
-            })
-            ->editColumn('created_at', function ($jobPost) {
-                return $jobPost->created_at->format('d M, Y');
-            })
-            ->rawColumns(['action', 'status_badge'])
-            ->make(true);
-    }
-
-    /**
-     * Show archived jobs.
-     */
-    public function archive()
-    {
-        return view('employee.job-post-management.job-post.archive');
-    }
-
-    /**
-     * Change job post status.
-     */
-    public function status(JobPost $jobPost, $status)
-    {
-        abort_if($jobPost->employee_id !== employee()->id, 403);
-
-        if (!in_array($status, [JobPost::STATUS_CLOSED])) {
-            abort(404);
-        }
-
-        $this->jobPostService->statusChange($jobPost, $status);
-        return redirect()->back()->with('success', 'Job status updated successfully');
-    }
-
-    /**
-     * Show job post profile.
-     */
-    public function profile(JobPost $jobPost)
-    {
-        abort_if($jobPost->employee_id !== employee()->id, 403);
-        $jobPost = $this->jobPostService->getDetails($jobPost);
-        return view('employee.job-post-management.job-post.profile', compact('jobPost'));
     }
 }

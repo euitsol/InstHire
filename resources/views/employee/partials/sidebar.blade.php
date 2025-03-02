@@ -25,14 +25,14 @@
 
             <!-- Job Management -->
             <li class="nav-item">
-                <a href="#jobMenu" class="nav-link submenu-toggle collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="jobMenu">
+                <a href="#jobMenu" class="nav-link submenu-toggle collapsed {{ request()->routeIs('employee.job-posts.*') ? 'active' : '' }}" data-bs-toggle="collapse" role="button" aria-expanded="{{ request()->routeIs('employee.job-posts.*') ? 'true' : 'false' }}" aria-controls="jobMenu">
                     <div class="menu_text">
                         <i class="bi bi-briefcase"></i>
                         <span>Job Management</span>
                     </div>
                     <i class="bi bi-chevron-down ms-auto submenu-arrow"></i>
                 </a>
-                <div class="collapse submenu" id="jobMenu">
+                <div class="collapse submenu {{ request()->routeIs('employee.job-posts.*') ? 'show' : '' }}" id="jobMenu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a href="{{ route('employee.job-posts.create') }}" class="nav-link {{ request()->routeIs('employee.job-posts.create') ? 'active' : '' }}">
@@ -41,15 +41,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('employee.job-posts.index') }}" class="nav-link {{ request()->routeIs('employee.job-posts.index') ? 'active' : '' }}">
+                            <a href="{{ route('employee.job-posts.index') }}" class="nav-link {{ request()->routeIs('employee.job-posts.index') || request()->routeIs('employee.job-posts.show') ? 'active' : '' }}">
                                 <i class="bi bi-list-ul"></i>
                                 <span>Active Jobs</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employee.job-posts.archive') }}" class="nav-link {{ request()->routeIs('employee.job-posts.archive') ? 'active' : '' }}">
-                                <i class="bi bi-archive"></i>
-                                <span>Archived Jobs</span>
                             </a>
                         </li>
                     </ul>
@@ -57,7 +51,7 @@
             </li>
 
             <!-- Applications -->
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="#applicationMenu" class="nav-link submenu-toggle collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="applicationMenu">
                     <div class="menu_text">
                         <i class="bi bi-file-earmark-text"></i>
@@ -93,18 +87,18 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
 
             <!-- Settings -->
             <li class="nav-item">
-                <a href="#settingsMenu" class="nav-link submenu-toggle collapsed" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="settingsMenu">
+                <a href="#settingsMenu" class="nav-link submenu-toggle collapsed {{ request()->routeIs('employee.profile.*') || request()->routeIs('employee.profile')  ? 'active' : '' }}" data-bs-toggle="collapse" role="button" aria-expanded="{{ request()->routeIs('employee.profile.*') || request()->routeIs('employee.profile')  ? 'true' : 'false' }}" aria-controls="settingsMenu">
                     <div class="menu_text">
                         <i class="bi bi-gear"></i>
                     <span>Settings</span>
                     </div>
                     <i class="bi bi-chevron-down ms-auto submenu-arrow"></i>
                 </a>
-                <div class="collapse submenu" id="settingsMenu">
+                <div class="collapse submenu {{ request()->routeIs('employee.profile.*') || request()->routeIs('employee.profile')  ? 'show' : '' }}" id="settingsMenu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a href="{{ route('employee.profile') }}" class="nav-link {{ request()->routeIs('employee.profile') ? 'active' : '' }}">

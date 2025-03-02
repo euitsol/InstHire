@@ -4,6 +4,7 @@ namespace App\Http\Requests\Employee;
 
 use App\Models\JobPost;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class JobPostRequest extends FormRequest
 {

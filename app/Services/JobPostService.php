@@ -15,6 +15,10 @@ class JobPostService
     {
         return JobPost::with(['institute', 'category'])->latest()->get();
     }
+    public function getActiveJobPosts(): Collection
+    {
+        return JobPost::active()->with(['institute', 'category'])->latest()->get();
+    }
 
     public function getInstituteJobPosts($institute_id): Collection
     {
