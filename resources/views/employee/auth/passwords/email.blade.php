@@ -1,6 +1,6 @@
 @extends('employee.layouts.master')
 
-@section('title', 'Employee Login')
+@section('title', 'Employee Forgot Password')
 
 @section('content')
 <div class="auth-wrapper">
@@ -14,11 +14,11 @@
                 <!-- Logo -->
                 <div class="text-center mb-4">
                     {{-- <img src="{{ asset('employee/images/logo.png') }}" alt="{{ config('app.name') }}" class="mb-4" height="48"> --}}
-                    <h1 class="auth-title">Welcome Back!</h1>
-                    <p class="auth-subtitle mb-0">Please sign in to continue</p>
+                    <h1 class="auth-title">{{ config('app.name') }}</h1>
+                    <p class="auth-subtitle mb-0">{{ __('Enter your email address to reset your password') }}</p>
                 </div>
 
-                <form action="{{ route('employee.login.submit') }}" method="POST">
+                <form action="{{ route('employee.forgot.request') }}" method="POST">
                     @csrf
 
                     <!-- Email -->
@@ -34,33 +34,11 @@
                         @include('alerts.feedback', ['field' => 'email'])
                     </div>
 
-                    <!-- Password -->
-                    <div class="form-floating mb-3">
-                        <input type="password"
-                            class="form-control @error('password') is-invalid @enderror"
-                            id="password"
-                            name="password"
-                            placeholder="Enter password"
-                            required>
-                        <label for="password">Password</label>
-                        <button type="button" class="password-toggle" onclick="togglePassword()">
-                            <i class="bi bi-eye"></i>
-                        </button>
-                        @include('alerts.feedback', ['field' => 'password'])
-                    </div>
 
-                    <!-- Remember & Forgot -->
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label class="form-check-label" for="remember">Remember me</label>
-                        </div>
-                        <a href="{{ route('employee.forgot') }}" class="text-decoration-none">Forgot Password?</a>
-                    </div>
 
                     <!-- Submit -->
                     <button type="submit" class="btn btn-primary w-100 py-3">
-                        Sign In <i class="bi bi-arrow-right ms-2"></i>
+                        {{ __('Send Password Reset Link') }} <i class="bi bi-arrow-right ms-2"></i>
                     </button>
                 </form>
             </div>

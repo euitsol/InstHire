@@ -42,6 +42,8 @@ use App\Http\Controllers\Student\Job\JobController as StudentJobController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\JobController as FrontendJobController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Employee\Auth\ResetPasswordController as EmployeeResetPasswordController;
+use App\Http\Controllers\Employee\Auth\ForgotPasswordController as EmployeeForgotPasswordController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -74,6 +76,15 @@ Route::controller(AdminForgotPasswordController::class)->prefix('admin')->name('
     Route::post('/password/forgot/request', 'sendResetLinkEmail')->name('forgot.request');
 });
 Route::controller(AdminResetPasswordController::class)->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/password/reset/{token}', 'showResetForm')->name('reset');
+    Route::post('/password/reset', 'reset')->name('reset.request');
+});
+
+Route::controller(EmployeeForgotPasswordController::class)->prefix('employee')->name('employee.')->group(function () {
+    Route::get('/password/forgot', 'showLinkRequestForm')->name('forgot');
+    Route::post('/password/forgot/request', 'sendResetLinkEmail')->name('forgot.request');
+});
+Route::controller(EmployeeResetPasswordController::class)->prefix('employee')->name('employee.')->group(function () {
     Route::get('/password/reset/{token}', 'showResetForm')->name('reset');
     Route::post('/password/reset', 'reset')->name('reset.request');
 });
