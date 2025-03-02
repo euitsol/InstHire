@@ -45,7 +45,7 @@
                             @csrf
                             <input type="hidden" name="token" value="{{ $token }}">
                             <div class="mb-3 form-floating">
-                                <input type="email" value="{{ $email ?? old('email') }}" name="email"
+                                <input type="email" value="{{ request('email') }}" name="email"
                                     class="form-control" id="email" placeholder="Email" required>
                                 <label for="email">{{ __('Email address') }}</label>
                                 @include('alerts.feedback', ['field' => 'email'])

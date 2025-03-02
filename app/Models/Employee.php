@@ -5,11 +5,16 @@ namespace App\Models;
 use App\Models\AuthBaseModel;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Notifications\AdminResetPasswordNotification;
+use App\Notifications\EmployeeResetPasswordNotification;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 class Employee extends AuthBaseModel
 {
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new EmployeeResetPasswordNotification($token));
+    }
     /**
      * The attributes that are mass assignable.
      *

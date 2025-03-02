@@ -9,10 +9,10 @@
 @section('content')
 <div class="auth-container">
     <div class="auth-card">
-        <div class="auth-logo">
+        {{-- <div class="auth-logo">
             <img src="{{ asset('assets/images/logo-full.png') }}" alt="Logo">
-        </div>
-        
+        </div> --}}
+
         <h1 class="auth-title">Set New Password</h1>
         <p class="auth-subtitle">Choose a strong password for your account</p>
 
@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label class="form-label">Email Address</label>
                 <input type="email" class="form-control @error('email') is-invalid @enderror"
-                       name="email" value="{{ $email ?? old('email') }}" 
+                       name="email" value="{{ $email ?? old('email') }}"
                        placeholder="Enter your email address" required readonly />
                 @error('email')
                     <span class="invalid-feedback" role="alert">

@@ -24,8 +24,10 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             DepartmentSeeder::class,
             JobFairStallOptionSeeder::class,
+            EmployeeSeeder::class,
             JobCategorySeeder::class,
             JobPostSeeder::class,
+            StudentSeeder::class,
         ]);
     }
 }

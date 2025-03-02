@@ -177,7 +177,7 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h5 class="mb-1">Account Created</h5>
-                            <p class="mb-0 text-muted">{{ $student->created_at->format('d M, Y') }}</p>
+                            <p class="mb-0 text-muted">{{ timeFormat($student->created_at) }}</p>
                         </div>
                     </div>
                 </div>
@@ -296,7 +296,7 @@
                 }
             });
         });
-        
+
         // Initialize tooltips
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

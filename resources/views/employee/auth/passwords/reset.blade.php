@@ -1,6 +1,6 @@
 @extends('employee.layouts.master')
 
-@section('title', 'Employee Login')
+@section('title', 'Employee Reset Password')
 
 @section('content')
 <div class="auth-wrapper">
@@ -13,13 +13,13 @@
             <div class="card-body">
                 <!-- Logo -->
                 <div class="text-center mb-4">
-                    {{-- <img src="{{ asset('employee/images/logo.png') }}" alt="{{ config('app.name') }}" class="mb-4" height="48"> --}}
-                    <h1 class="auth-title">Welcome Back!</h1>
-                    <p class="auth-subtitle mb-0">Please sign in to continue</p>
+                    <h1  class="auth-title">{{ config('app.name') }}</h1>
+                    <p class="auth-subtitle mb-0">{{ __('Enter your new password to reset your password') }}</p>
                 </div>
 
-                <form action="{{ route('employee.login.submit') }}" method="POST">
+                <form action="{{ route('employee.reset.request') }}" method="POST">
                     @csrf
+                    <input type="hidden" name="token" value="{{ $token }}">
 
                     <!-- Email -->
                     <div class="form-floating mb-3">
@@ -28,36 +28,41 @@
                             id="email"
                             name="email"
                             placeholder="name@example.com"
-                            value="{{ old('email') }}"
+                            value="{{ request('email') }}"
                             required>
                         <label for="email">Email Address</label>
                         @include('alerts.feedback', ['field' => 'email'])
                     </div>
 
-                    <!-- Password -->
+                    <!-- New Password -->
                     <div class="form-floating mb-3">
                         <input type="password"
-                            class="form-control @error('password') is-invalid @enderror"
+                            class="form-control password @error('password') is-invalid @enderror"
                             id="password"
                             name="password"
                             placeholder="Enter password"
                             required>
                         <label for="password">Password</label>
-                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                        <button type="button" class="password-toggle" onclick="togglePassword(event)">
                             <i class="bi bi-eye"></i>
                         </button>
                         @include('alerts.feedback', ['field' => 'password'])
                     </div>
 
-                    <!-- Remember & Forgot -->
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label class="form-check-label" for="remember">Remember me</label>
-                        </div>
-                        <a href="{{ route('employee.forgot') }}" class="text-decoration-none">Forgot Password?</a>
+                    <!-- Confirm Password -->
+                    <div class="form-floating mb-3">
+                        <input type="password"
+                            class="form-control password @error('password_confirmation') is-invalid @enderror"
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            placeholder="Confirm password"
+                            required>
+                        <label for="password_confirmation">Confirm Password</label>
+                        <button type="button" class="password-toggle" onclick="togglePassword(event)">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        @include('alerts.feedback', ['field' => 'password_confirmation'])
                     </div>
-
                     <!-- Submit -->
                     <button type="submit" class="btn btn-primary w-100 py-3">
                         Sign In <i class="bi bi-arrow-right ms-2"></i>
@@ -213,9 +218,9 @@
 
 @push('scripts')
 <script>
-function togglePassword() {
-    const password = document.getElementById('password');
-    const icon = document.querySelector('.password-toggle i');
+function togglePassword(event) {
+    const password = event.target.parentElement.querySelector('.password');
+    const icon = event.target.parentElement.querySelector('.password-toggle i');
 
     if (password.type === 'password') {
         password.type = 'text';

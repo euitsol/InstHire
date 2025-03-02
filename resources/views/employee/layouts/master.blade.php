@@ -13,11 +13,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Styles -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Styles -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link href="{{ asset('employee/css/style.css') }}" rel="stylesheet">
+
     @stack('styles')
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                showAlert('success', '{{ session('success') }}');
+            @endif
+
+            @if (session('error'))
+                showAlert('error', '{{ session('error') }}');
+            @endif
+
+            @if (session('warning'))
+                showAlert('warning', '{{ session('warning') }}');
+            @endif
+        });
+    </script>
 
     <!-- Theme Script (Early) -->
     <script>
@@ -38,7 +57,6 @@
             @include('employee.partials.header')
 
             <main class="py-4">
-                @include('employee.partials.alerts')
                 @yield('content')
             </main>
         </div>
@@ -50,7 +68,10 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('employee/js/script.js') }}"></script>
     @stack('scripts')
 </body>
