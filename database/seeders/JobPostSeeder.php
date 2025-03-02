@@ -307,8 +307,8 @@ class JobPostSeeder extends Seeder
         for ($i = 0; $i < 50; $i++) {
             // Random visibility logic
             $visibility = rand(0, 1);
-            $instituteId = $visibility === JobPost::VISIBLE_INSTITUTE 
-                ? $instituteIds[array_rand($instituteIds)] 
+            $instituteId = $visibility === JobPost::VISIBLE_INSTITUTE
+                ? $instituteIds[array_rand($instituteIds)]
                 : null;
 
             // Random job type logic
@@ -316,15 +316,15 @@ class JobPostSeeder extends Seeder
             $employeeId = $type === JobPost::TYPE_SELF
                 ? $employeeIds[array_rand($employeeIds)]
                 : null;
-            
+
             $applicationUrl = $type === JobPost::TYPE_EXTERNAL
                 ? 'https://careerportal.com/jobs/'.Str::random(10)
                 : null;
 
             // Salary logic
             $salaryType = rand(1, 3);
-            $salary = $salaryType === JobPost::SALARY_NEGOTIABLE 
-                ? null 
+            $salary = $salaryType === JobPost::SALARY_NEGOTIABLE
+                ? null
                 : rand(30000, 150000) * ($salaryType === 2 ? 12 : 1);
 
             $jobPosts[] = [

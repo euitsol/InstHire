@@ -37,6 +37,8 @@ class EmployeeSeeder extends Seeder
                     'email' => "employee{$i}_institute{$instituteId}@example.com",
                     'password' => Hash::make('password123'),
                     'phone' => "01712345" . str_pad($instituteId * 10 + $i, 3, '0', STR_PAD_LEFT),
+                    'verified_by_id' => $instituteId,
+                    'verified_by_type' => 'App\\Models\\Institute',
                     'gender' => rand(1, 2), // 1 for male, 2 for female
                     'status' => 1, // Active
                     'verifier_type' => 'App\\Models\\Institute',

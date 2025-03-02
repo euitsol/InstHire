@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('job_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255)->unique();
-            $table->string('slug', 255)->unique();
+            $table->string('title', 191)->unique();
+            $table->string('slug', 191)->unique();
             $table->tinyInteger('status')->default(JobCategory::STATUS_ACTIVE)->comment(JobCategory::STATUS_ACTIVE.' = active, '.JobCategory::STATUS_DEACTIVE.' = inactive');
             $table->timestamps();
             $table->softDeletes();
