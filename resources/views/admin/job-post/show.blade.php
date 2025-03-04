@@ -35,7 +35,9 @@
                                         </tr>
                                         <tr>
                                             <th>{{ __('Job Type') }}</th>
-                                            <td><span class="{{ $jobPost->job_type_color }}">{{ $jobPost->job_type_label }}</span></td>
+                                            <td><span
+                                                    class="{{ $jobPost->job_type_color }}">{{ $jobPost->job_type_label }}</span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>{{ __('Visibility') }}</th>{{ $jobPost->visibility_label }}</td>
@@ -64,7 +66,7 @@
                                         <tr>
                                             <th width="35%">{{ __('Salary') }}</th>
                                             <td>
-                                                {{ $jobPost->salary.' '. ($jobPost->salary_type_label) }}
+                                                {{ $jobPost->salary . ' ' . $jobPost->salary_type_label }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -78,8 +80,9 @@
                                         <tr>
                                             <th>{{ __('Application URL') }}</th>
                                             <td>
-                                                @if($jobPost->application_url)
-                                                    <a href="{{ $jobPost->application_url }}" target="_blank">{{ $jobPost->application_url }}</a>
+                                                @if ($jobPost->application_url)
+                                                    <a href="{{ $jobPost->application_url }}"
+                                                        target="_blank">{{ $jobPost->application_url }}</a>
                                                 @else
                                                     <span class="text-muted">Not Available</span>
                                                 @endif
@@ -101,27 +104,27 @@
                                     <h5 class="card-title mb-0">{{ __('Job Requirements') }}</h5>
                                 </div>
                                 <div class="card-body">
-                                    @if($jobPost->educational_requirement)
+                                    @if ($jobPost->educational_requirement)
                                         <h6 class="fw-bold">{{ __('Educational Requirements') }}</h6>
                                         <p class="mb-3">{!! $jobPost->educational_requirement !!}</p>
                                     @endif
 
-                                    @if($jobPost->professional_requirement)
+                                    @if ($jobPost->professional_requirement)
                                         <h6 class="fw-bold">{{ __('Professional Requirements') }}</h6>
                                         <p class="mb-3">{!! $jobPost->professional_requirement !!}</p>
                                     @endif
 
-                                    @if($jobPost->experience_requirement)
+                                    @if ($jobPost->experience_requirement)
                                         <h6 class="fw-bold">{{ __('Experience Requirements') }}</h6>
                                         <p class="mb-3">{!! $jobPost->experience_requirement !!}</p>
                                     @endif
 
-                                    @if($jobPost->age_requirement)
+                                    @if ($jobPost->age_requirement)
                                         <h6 class="fw-bold">{{ __('Age Requirements') }}</h6>
                                         <p class="mb-3">{!! $jobPost->age_requirement !!}</p>
                                     @endif
 
-                                    @if($jobPost->additional_requirement)
+                                    @if ($jobPost->additional_requirement)
                                         <h6 class="fw-bold">{{ __('Additional Requirements') }}</h6>
                                         <p class="mb-0">{!! $jobPost->additional_requirement !!}</p>
                                     @endif
@@ -142,12 +145,12 @@
                                     <h6 class="fw-bold">{{ __('Job Location') }}</h6>
                                     <p class="mb-4">{!! $jobPost->job_location !!}</p>
 
-                                    @if($jobPost->other_benefits)
+                                    @if ($jobPost->other_benefits)
                                         <h6 class="fw-bold">{{ __('Other Benefits') }}</h6>
                                         <p class="mb-4">{!! $jobPost->other_benefits !!}</p>
                                     @endif
 
-                                    @if($jobPost->special_instractions)
+                                    @if ($jobPost->special_instractions)
                                         <h6 class="fw-bold">{{ __('Special Instructions') }}</h6>
                                         <p class="mb-0">{!! $jobPost->special_instractions !!}</p>
                                     @endif
@@ -172,7 +175,7 @@
                                                 <tr>
                                                     <th width="35%">{{ __('Posted By') }}</th>
                                                     <td>
-                                                        {{ $jobPost->creater->name }}
+                                                        {{ optional($jobPost->creater)->name }}
                                                     </td>
                                                 </tr>
                                                 <tr>
