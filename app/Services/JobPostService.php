@@ -15,6 +15,10 @@ class JobPostService
     {
         return JobPost::with(['institute', 'category'])->latest()->get();
     }
+    public function getActiveJobPosts(): Collection
+    {
+        return JobPost::active()->with(['institute', 'category'])->latest()->get();
+    }
 
     public function getInstituteJobPosts($institute_id): Collection
     {
@@ -24,6 +28,13 @@ class JobPostService
                       ->where('creater_type', 'App\Models\Institute');
             })
             ->orWhere('institute_id', $institute_id)
+            ->latest()
+            ->get();
+    }
+    public function getEmployeeJobPosts($employee_id): Collection
+    {
+        return JobPost::with(['institute', 'category'])
+            ->orWhere('employee_id', $employee_id)
             ->latest()
             ->get();
     }

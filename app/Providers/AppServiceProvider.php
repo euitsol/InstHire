@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        InstituteSubscription::observe(InstituteSubscriptionObserver::class);
         Schema::defaultStringLength(191);
+        InstituteSubscription::observe(InstituteSubscriptionObserver::class);
     }
 }

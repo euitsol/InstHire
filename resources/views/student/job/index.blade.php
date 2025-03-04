@@ -67,14 +67,14 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <!-- Pagination -->
                 <div class="d-flex justify-content-center mt-4">
                     {{ $applications->links('pagination::bootstrap-5') }}
                 </div>
             @else
                 <div class="py-5 text-center">
-                    <img src="{{ asset('frontend/images/no-data.svg') }}" alt="No Applications Found" class="mb-4 img-fluid" style="max-width: 200px;">
+                    {{-- <img src="{{ asset('frontend/images/no-data.svg') }}" alt="No Applications Found" class="mb-4 img-fluid" style="max-width: 200px;"> --}}
                     <h4>No Job Applications Found</h4>
                     <p class="text-muted">You haven't applied to any jobs yet.</p>
                     <a href="{{ route('frontend.jobs') }}" class="btn btn-primary mt-3">
@@ -92,7 +92,7 @@
     .company-logo {
         min-width: 36px;
     }
-    
+
     .table td, .table th {
         padding: 1rem;
     }

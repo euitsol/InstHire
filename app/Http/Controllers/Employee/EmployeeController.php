@@ -10,7 +10,7 @@ class EmployeeController extends Controller
 {
     public function dashboard()
     {
-        $totalJobs = JobPost::where('status', 'active')->count();
+        $totalJobs = JobPost::active()->count();
         return view('employee.dashboard', compact('totalJobs'));
     }
 }

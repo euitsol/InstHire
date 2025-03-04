@@ -65,9 +65,8 @@
                 </div>
             </form>
         </div>
-    </div>
 
-    @push('scripts')
-        <script src="{{ asset('student/js/auth.js') }}"></script>
-    @endpush
-@endsection
+        @push('scripts')
+            <script src="{{ asset('student/js/auth.js') }}"></script>
+        @endpush
+    @endsection

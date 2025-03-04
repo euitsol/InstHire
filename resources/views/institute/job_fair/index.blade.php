@@ -1,6 +1,9 @@
 @extends('institute.layouts.master')
 @section('title', 'Job Fairs')
-
+@push('style_links')
+    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+@endpush
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -12,10 +15,10 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-bordered table-hover">
+                <table class="table table-striped table-hover" id="jobFairTable">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">{{ __('SL') }}</th>
                             <th scope="col">{{ __('Title') }}</th>
                             <th scope="col">{{ __('Start Date') }}</th>
                             <th scope="col">{{ __('End Date') }}</th>
@@ -27,12 +30,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($jobFairs as $jobFair)
+                        @foreach($jobFairs as $jobFair)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $jobFair->title }}</td>
-                                <td>{{ $jobFair->start_date->format('d M Y, h:i A') }}</td>
-                                <td>{{ $jobFair->end_date->format('d M Y, h:i A') }}</td>
+                                <td>{{ timeFormat($jobFair->start_date) }}</td>
+                                <td>{{ timeFormat($jobFair->end_date) }}</td>
                                 <td>{{ $jobFair->maximum_companies }}</td>
                                 <td>{{ $jobFair->registered_employees_count }}</td>
                                 <td>
@@ -69,14 +72,41 @@
                                     </div>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="8" class="text-center">{{ __('No job fairs found.') }}</td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 @endsection
+@push('script_links')
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+@endpush
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            if (!$.fn.DataTable.isDataTable('#jobFairTable')) {
+                $('#jobFairTable').DataTable({
+                    responsive: true,
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "Search job fairs...",
+                    },
+                    order: [
+                        [9, 'desc']
+                    ], // Sort by created_at by default
+                    columnDefs: [{
+                            orderable: false,
+                            targets: [0, 10]
+                        } // Disable sorting for image and actions columns
+                    ],
+                });
+            }
+        });
+    </script>
+@endpush
+
